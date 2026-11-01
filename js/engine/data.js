@@ -84,7 +84,7 @@ export const CATEGORIES = {
       'Penat cari outfit yang {muat bajet|ngam dengan bajet}?',
     ],
     hashtags: ['#OOTDMalaysia', '#FesyenMurah', '#FesyenWanita', '#OutfitIdea', '#BajuMurah'],
-    defaultK: ['Selesa dipakai seharian', 'Nampak kemas & bergaya', 'Banyak pilihan warna'],
+    defaultK: ['Nampak kemas & bergaya', 'Sesuai untuk pakai harian', 'Harga berbaloi'],
   },
   kecantikan: {
     label: '💄 Kecantikan',
@@ -96,7 +96,7 @@ export const CATEGORIES = {
       'Kulit kering tak kira berapa banyak pakai pelembap?',
     ],
     hashtags: ['#SkincareMalaysia', '#BeautyFinds', '#MakeupMurah', '#GlowUp', '#RacunSkincare'],
-    defaultK: ['Senang guna setiap hari', 'Sesuai untuk rutin harian', 'Saiz praktikal, senang bawa'],
+    defaultK: ['Senang guna setiap hari', 'Sesuai untuk rutin harian', 'Harga berbaloi'],
   },
   rumah: {
     label: '🏠 Rumah & Dapur',
@@ -120,7 +120,7 @@ export const CATEGORIES = {
       'Gajet lama dah lembap dan buat stress?',
     ],
     hashtags: ['#GajetMurah', '#TechMalaysia', '#GadgetFinds', '#TechTips', '#GajetBerguna'],
-    defaultK: ['Senang guna, terus plug & play', 'Saiz kompak, senang bawa', 'Sesuai untuk harian'],
+    defaultK: ['Senang guna', 'Kemas & praktikal', 'Sesuai untuk kegunaan harian'],
   },
   bayi: {
     label: '👶 Bayi & Kanak-kanak',
@@ -132,7 +132,7 @@ export const CATEGORIES = {
       'Susah cari barang {baby|anak-anak} yang selamat dan berbaloi?',
     ],
     hashtags: ['#MakMakShopee', '#BarangBaby', '#ParentingMalaysia', '#IbuBapa', '#AnakAnak'],
-    defaultK: ['Memudahkan urusan mak ayah', 'Sesuai untuk kegunaan harian', 'Senang dibawa ke mana-mana'],
+    defaultK: ['Memudahkan urusan mak ayah', 'Sesuai untuk kegunaan harian', 'Harga berbaloi'],
   },
   kesihatan: {
     label: '💪 Kesihatan & Sukan',
