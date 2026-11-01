@@ -189,7 +189,7 @@ export const CATEGORIES = {
   makanan: {
     label: '😋 Makanan & Minuman',
     keywords: ['coklat', 'chocolate', 'cookie', 'cookies', 'mochi', 'kunafa', 'knafeh', 'pistachio', 'dubai chocolate', 'chewy', 'brownies', 'brownie', 'cake', 'cheesecake', 'tart', 'donut', 'doughnut', 'muffin', 'croissant', 'roti', 'bread', 'bun', 'kek', 'puding', 'pudding', 'jelly', 'agar', 'dessert', 'aiskrim', 'ice cream', 'gummy', 'gummies', 'candy', 'gula-gula', 'lollipop', 'marshmallow', 'wafer', 'crackers', 'chips', 'kacang', 'nuts', 'almond', 'kurma', 'dates', 'serunding', 'nugget', 'sosej', 'sausage', 'dim sum', 'dumpling', 'mee segera', 'ramen', 'tteokbokki', 'kimchi', 'laksa', 'nasi', 'sos', 'keju', 'cheese', 'salted egg', 'telur masin', 'matcha', 'boba', 'milo', 'nescafe', 'teh tarik', 'jus', 'juice', 'air', 'drink', 'granola', 'oat', 'oats', 'cereal', 'bijirin', 'popia', 'karipap', 'rempeyek', 'dodol', 'makanan ringan', 'food', 'sedap', 'halal food', 'cocoa', 'kerepek', 'snek', 'snack', 'biskut', 'kuih', 'sambal', 'rendang', 'kopi', 'teh', 'minuman', 'makanan', 'frozen', 'mee', 'maggi', 'sos', 'perencah', 'kek', 'cookies', 'popcorn', 'jajan', 'keropok'],
-    emoji: ['😋', '🍫', '🍪', '🔥', '🥤', '🌶️'],
+    emoji: ['😋', '🍫', '🍪', '🔥', '🤤', '🧁'],
     masalah: [
       'Lapar tengah malam tapi malas nak masak?',
       'Cari {snek|makanan ringan} sedap untuk minum petang?',
@@ -649,6 +649,175 @@ Harga {{harga}} je. {Simpan|Save} tips ni 📌`,
 {Dah|Terus} {terasa|nampak}: {{hasilI}} ✨`,
     ],
   },
+  // ================= ANGLE VIRAL (Mod Viral) =================
+  {
+    id: 'pov',
+    label: '🎬 POV / Trend',
+    viral: true,
+    templates: [
+      `POV: [korang] {akhirnya|finally} {cuba|try} {{namaPendek}} {yang semua orang cakap tu|yang tengah viral tu} 👀
+
+{Expectation|Jangkaan}: {biasa-biasa je|overrated je kot}
+{Reality|Realiti}: {{k1i}} {😭|🤯}
+
+{Okay|Fine}, [aku] {mengaku kalah|admit}. Memang [best].
+{{harga}} je pulak tu.`,
+      `[Aku]: {Takpe la|Tak payah la}, {membazir je|tak perlu pun}
+{Juga|Also} [aku] {2 minit lepas tu|5 minit kemudian}: *checkout {{namaPendek}}* 🛒
+
+{Sebab|Alasan} [aku]:
+{{senarai}}
+
+{Siapa|Sape} {sama|macam ni}? {Angkat tangan|🙋‍♀️}`,
+      `{Benda|Barang} yang {patutnya|sepatutnya} {biasa-biasa je|tak viral} tapi {sangat|memang} {viral|best}: {{nama}} 👇
+
+{{senarai}}
+
+{Macam mana|Kenapa} {barang {{harga}}|benda semurah ni} boleh {sampai tahap ni|jadi macam ni}? 😭`,
+    ],
+  },
+  {
+    id: 'hottake',
+    label: '🌶️ Unpopular Opinion / Debat',
+    viral: true,
+    noFormal: true,
+    templates: [
+      `Unpopular opinion: {{namaPendek}} {lagi berbaloi dari|lebih best dari} {yang mahal-mahal|brand mahal} 🔥
+
+{{senarai}}
+
+{Okay|So} {gaduh|debat} kat komen.
+[Korang] {setuju|team} ✅ atau tak ❌?`,
+      `{Ramai|Orang} {mesti|mungkin} {tak setuju|marah} [aku] {cakap|kata} {camni|benda ni}, tapi…
+{{hasilI}} {tak semestinya|tak perlu} {mahal|keluar duit banyak} 💅
+
+{Bukti|Contoh}: {{nama}}. {{harga}} je.
+{{senarai}}
+
+{Setuju|Agree} tak? 👇`,
+      `{Hot take|Pendapat jujur [aku]} 🌶️
+{Kalau|Jika} [korang] {masih|still} {{masalahP}}, {itu|tu} pilihan [korang] sendiri 🤷‍♀️
+
+{Sebab|Kerana} {{nama}} {dah wujud|dah ada}. {{harga}} je.
+{{senarai}}
+
+{Terasa|Tersentap}? {Komen|Drop} kat bawah 😂`,
+    ],
+  },
+  {
+    id: 'menyesal',
+    label: '😭 Menyesal Tak Beli Awal',
+    viral: true,
+    templates: [
+      `{Benda|Barang} {paling|yang paling} [aku] {menyesal|kesal}: {tak beli awal|lambat beli} 😭
+
+{{nama}}.
+
+{Bertahun|Lama} [aku] {hadap|tahan} benda ni: {{masalahP}}.
+{Rupanya|Padahal} {settle|selesai} dengan {{harga}} je.
+
+{{senarai}}
+
+{Jangan jadi macam [aku]|Belajar dari kesilapan [aku]} 🙏`,
+      `{Kalau|Andai} [aku] boleh {patah balik|undur} masa, [aku] {akan|nak} {beli|grab} ni {awal-awal|dari dulu}: {{nama}} {{emoji}}
+
+{Sebab|Kerana}:
+{{senaraiNombor}}
+
+{Sekarang|Hasilnya}: {{hasil}}`,
+      `{Plot twist|Fakta}: {barang|benda} {{harga}} ni {settle|selesaikan} masalah [aku] {bertahun-tahun|yang lama} 😭
+👉 {{nama}}
+
+{{senarai}}
+
+{Kenapa|Asal} {takde siapa|tak ada orang} {bagitahu|cakap} [aku] {awal-awal|dari dulu}?!`,
+    ],
+  },
+  {
+    id: 'rating',
+    label: '🧵 Rating Jujur / Thread',
+    viral: true,
+    templates: [
+      `{Rating|Review} jujur {{namaPendek}}. Baca sampai habis, {ada twist|ending dia lain} 👀
+
+✅ {{k1}}: 9/10
+✅ {{k2}}: 9/10
+✅ {{k3}}: 10/10
+💸 Harga {{harga}}: {10/10|11/10} 😂
+
+{Twist|Plot twist}: [aku] {dah order|beli} {kali kedua|lagi satu} {untuk {{untuk}}|minggu ni} 🤭`,
+      `🧵 {Kenapa|Sebab apa} [aku] {tak boleh lepas|tak boleh hidup tanpa} {{namaPendek}} {sekarang|lagi} 👇
+
+1/ {{masalah}}
+2/ {Lepas tu|Then} [aku] {jumpa|try} {{nama}}
+3/ {{k1}}
+4/ {{hasil}}
+5/ Harga? {{harga}}. {Ya|Yes}, {serius|betul}.
+
+{Save|Simpan} thread ni 📌`,
+      `{Dari 1 hingga 10|Rate 1-10}, {{namaPendek}} [aku] bagi… {🥁|🤔}
+
+{Kualiti|Rasa / fungsi}: {9|10}
+{Harga|Value for money}: {10|11} ({{harga}} je!)
+{Repeat order|Beli lagi}: {confirm|100%}
+
+{Kenapa|Sebab}:
+{{senarai}}
+
+[Korang] {bagi|rate} berapa? 👇`,
+    ],
+  },
+  {
+    id: 'tag',
+    label: '👯 Tag Kawan / Relatable',
+    viral: true,
+    noHook: true,
+    templates: [
+      `Tag {3 orang|seorang} {kawan|member} yang {selalu|asyik} {{masalahP}} 😂👇
+
+{Dia orang|Mereka} {perlukan|kena ada} {{nama}} {sekarang juga|ASAP}:
+{{senarai}}
+
+{Belanja|Hadiahkan} {dia orang|kawan} la. {{harga}} je {🎁|😌}`,
+      `{Siapa|Sape} {setuju|relate}: {{hasilI}} {tu|ialah} {sejenis|satu} {terapi|healing} 😌✨
+
+{{nama}} {buat|jadikan} {benda ni|semua ni} {real|jadi kenyataan}:
+{{senarai}}
+
+{Like|Tekan ❤️} kalau [korang] {setuju|relate} 👇`,
+      `{Ujian|Test} {kawan sejati|bestie sebenar}: {share|kongsi} post ni {kat|pada} {bestie|kawan} [korang], {tengok|then tengok} {apa dia balas|reaksi dia} 😂
+
+{{nama}}. {{harga}} je.
+{{senarai}}
+
+{Kalau|Jika} dia {balas|reply} "{NAK|nak} 🙋‍♀️", {tu|itu} {bestie betul|kawan sejati} ✨`,
+    ],
+  },
+  {
+    id: 'expect',
+    label: '🤯 Expectation vs Reality',
+    viral: true,
+    templates: [
+      `{Expectation vs Reality|Jangkaan vs Realiti}: {{namaPendek}} {{harga}} 👇
+
+🤔 {Expectation|Jangkaan}: "{Murah ni|Harga camni}, {mesti kualiti teruk|confirm cepat rosak}"
+😳 {Reality|Realiti}:
+{{senarai}}
+
+{Okay|Fine}, [aku] {salah|silap}. {Maaf|Sorry} {{namaPendek}} 🙏😂`,
+      `{Apa yang [aku] fikir|Apa [aku] expect} {masa|bila} order {{namaPendek}}: 😐
+{Apa yang [aku] dapat|Apa yang sampai}: 🤩
+
+{{senarai}}
+
+{Gambar|Video} {tak tipu|tak menipu} {kali ni|for once}. {{harga}} je!`,
+      `{Orang|Kawan} [aku]: "{Barang|Benda} {{harga}}? {Mesti|Confirm} {tak tahan|tak berbaloi} la" 🙄
+[Aku] {sebulan|seminggu} {kemudian|lepas tu}: {{hasilI}} 💅
+
+{Siapa yang menang sekarang|Sekarang siapa gelak}? 😂
+{{senarai}}`,
+    ],
+  },
   {
     id: 'lawak',
     label: '😂 Lawak / Relatable',
@@ -693,6 +862,32 @@ export const HOOKS = [
   '{Racun|RACUN} {hari ini|minggu ni} {🧪|☠️} — {jangan salahkan [aku]|tanggung sendiri} {😂|🤭}',
   '{Siapa|Sesiapa} yang {selalu|pernah} {{masalahP}}, {angkat tangan|sila baca ni} 🙋‍♀️',
   '{Ramai tak tahu|Tak ramai tahu} {barang|benda} ni {wujud|ada} — {padahal|walhal} {berguna gila|settle masalah besar} 👀',
+];
+
+// ---------- MOD VIRAL ----------
+// Hook "open loop": buat orang berhenti scroll & baca sampai habis.
+export const VIRAL_HOOKS = [
+  'Baca sampai habis 👀 {Berbaloi|Worth it}, janji.',
+  '{Tolong|Please} jangan scroll ✋ Ni untuk [korang] yang {selalu|pernah} {{masalahP}}',
+  '{Okay|Weh}, [aku] dah tak boleh simpan {rahsia|benda} ni {sorang-sorang|lagi} 😭',
+  '{99%|Ramai} orang tak tahu {benda|barang} ni wujud 👀',
+  '{Ni|Inilah} {tanda|sign} [korang] {perlu|kena} ada benda ni ✨',
+  'Kalau [korang] nampak post ni, {maknanya|tandanya} [korang] {memang|patut} {perlu|kena} tahu {pasal|benda} ni 👇',
+  '{Benda|Barang} {{harga}} yang buat [aku] {terharu|nak nangis} 😭 (in a good way)',
+  '{Jujur|Serius}, [aku] {tak sangka|tak expect} post ni {akan|boleh} {jadi panjang|sepanjang ni} 😅 Tapi {berbaloi baca|baca je}',
+  '{Ingat|Jangan ingat} ni {iklan|post biasa}… {sebab|tapi} {ni|benda ni} {lain|beza} 👀',
+  '{Saya|[Aku]} {dah lama|lama} {tunggu|nak} {share|kongsi} benda ni 🤫',
+];
+
+// Penutup yang ajak tindakan (komen, tag, save, share) → isyarat kuat untuk algoritma.
+export const VIRAL_ENGAGE = [
+  'Setuju tak? {Gaduh|Debat} kat komen 😂',
+  'Komen "{NAK|🙋‍♀️}". [Aku] {reply|balas} satu-satu 📩',
+  'Tag kawan yang {perlu|kena} tengok ni. {Jangan|Tak baik} simpan sorang 😂',
+  'Save dulu. {Nanti|Esok} [korang] {cari|terima kasih kat [aku]} 📌',
+  '{Share|Kongsi} kat group family. {Mak|Family} [korang] {pun mesti suka|confirm tanya} 😂',
+  'Rate {1-10|dari 1 hingga 10}: [korang] bagi berapa? 👇',
+  '{Komen|Drop} emoji {🔥|❤️} kalau [korang] nak {part 2|lagi banyak racun macam ni}!',
 ];
 
 // ---------- LINK DALAM KOMEN PERTAMA ----------

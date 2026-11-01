@@ -17,7 +17,7 @@ const DEFAULT_PRODUCT = {
 };
 const DEFAULT_OPTS = {
   platform: 'facebook', tone: 'santai', emoji: 'banyak', angles: [], count: 5,
-  hashtags: true, engage: true, disclosure: false, useCustom: true, hooks: true, linkComment: true,
+  hashtags: true, engage: true, disclosure: false, useCustom: true, hooks: true, linkComment: true, viral: true,
 };
 
 const draft = store.get('draft', {});
@@ -250,7 +250,7 @@ chips($('#c-angles'), ANGLES.map((a) => ({ value: a.id, label: a.label })), stat
 chips($('#c-count'), [3, 5, 8].map((n) => ({ value: n, label: `${n} caption` })), state.opts.count,
   { onChange: setOpt('count') });
 
-for (const [id, key] of [['t-hashtags', 'hashtags'], ['t-engage', 'engage'], ['t-disclosure', 'disclosure'], ['t-custom', 'useCustom'], ['t-hooks', 'hooks'], ['t-linkcomment', 'linkComment']]) {
+for (const [id, key] of [['t-hashtags', 'hashtags'], ['t-engage', 'engage'], ['t-disclosure', 'disclosure'], ['t-custom', 'useCustom'], ['t-hooks', 'hooks'], ['t-linkcomment', 'linkComment'], ['t-viral', 'viral']]) {
   const box = $(`#${id}`);
   box.checked = Boolean(state.opts[key]);
   box.addEventListener('change', () => { state.opts[key] = box.checked; saveDraft(); });
