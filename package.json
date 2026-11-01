@@ -1,0 +1,13 @@
+{
+  "name": "racunpost",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Tukar link affiliate Shopee & TikTok Shop kepada post yang menarik engagement — tanpa AI berbayar.",
+  "scripts": {
+    "dev": "node dev-server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

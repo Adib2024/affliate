@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>RacunPost</title>
+  <meta name="description" content="Tukar link affiliate Shopee & TikTok Shop kepada caption dan poster yang menarik engagement — percuma, tanpa AI berbayar." />
+  <meta name="theme-color" content="#ee4d2d" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="top-inner">
+      <div class="logo">
+        <div class="logo-mark" aria-hidden="true">🧪</div>
+        <div>RacunPost<small>Link affiliate → post viral</small></div>
+      </div>
+      <nav class="tabs" role="tablist" aria-label="Menu utama">
+        <button class="tab" role="tab" data-view="jana" aria-selected="true"><span class="ico">⚡</span>Jana</button>
+        <button class="tab" role="tab" data-view="poster" aria-selected="false"><span class="ico">🖼️</span>Poster</button>
+        <button class="tab" role="tab" data-view="planner" aria-selected="false"><span class="ico">📅</span>Planner</button>
+        <button class="tab" role="tab" data-view="sejarah" aria-selected="false"><span class="ico">🗂️</span>Sejarah</button>
+        <button class="tab" role="tab" data-view="template" aria-selected="false"><span class="ico">✍️</span>Template</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- =================== JANA =================== -->
+    <section class="view" id="view-jana">
+      <div class="grid-2">
+        <div class="sticky-col">
+          <div class="card">
+            <h2><span class="step">1</span> Produk</h2>
+            <div class="field">
+              <label for="f-link">Link affiliate</label>
+              <div class="input-group">
+                <input id="f-link" class="input" type="url" inputmode="url" placeholder="Paste link Shopee / TikTok Shop…" autocomplete="off" />
+                <button class="btn" id="btn-paste" type="button" title="Tampal dari clipboard">📋 Paste</button>
+              </div>
+              <div class="status" id="link-status"></div>
+            </div>
+            <div class="field">
+              <span class="label">Platform affiliate</span>
+              <div class="chips" id="c-source"></div>
+            </div>
+            <div class="field">
+              <label for="f-nama">Nama produk</label>
+              <input id="f-nama" class="input" placeholder="Contoh: Tudung Bawal Cotton Premium" />
+            </div>
+            <div class="row">
+              <div class="field">
+                <label for="f-harga">Harga promo</label>
+                <div class="prefix"><span>RM</span><input id="f-harga" class="input" inputmode="decimal" placeholder="19.90" /></div>
+              </div>
+              <div class="field">
+                <label for="f-hargaAsal">Harga asal <span class="opt">(pilihan)</span></label>
+                <div class="prefix"><span>RM</span><input id="f-hargaAsal" class="input" inputmode="decimal" placeholder="35" /></div>
+              </div>
+            </div>
+            <div class="field">
+              <span class="label">Kelebihan produk <span class="opt">(lagi banyak, lagi sedap caption)</span></span>
+              <div class="list">
+                <input id="f-k1" class="input" placeholder="1. Contoh: Kain lembut & tak panas" />
+                <input id="f-k2" class="input" placeholder="2. Contoh: Tak perlu gosok" />
+                <input id="f-k3" class="input" placeholder="3. Contoh: Banyak pilihan warna" />
+              </div>
+            </div>
+            <details class="more" id="more-product">
+              <summary>Lagi maklumat (kategori, sasaran, kempen)</summary>
+              <div class="field">
+                <label for="f-kategori">Kategori <span class="opt">(auto teka dari nama)</span></label>
+                <select id="f-kategori" class="input"></select>
+              </div>
+              <div class="field">
+                <label for="f-untuk">Sesuai untuk <span class="opt">(pilihan)</span></label>
+                <input id="f-untuk" class="input" placeholder="Contoh: mak-mak bekerja, pelajar, isteri" />
+              </div>
+              <div class="field">
+                <label for="f-musim">Musim / kempen</label>
+                <select id="f-musim" class="input"></select>
+              </div>
+            </details>
+            <div class="btn-row" style="margin-top:8px">
+              <button class="btn small ghost" id="btn-clear" type="button">🧹 Kosongkan</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2><span class="step">2</span> Gaya post</h2>
+            <div class="field">
+              <span class="label">Nak post kat mana?</span>
+              <div class="chips" id="c-platform"></div>
+            </div>
+            <div class="field">
+              <span class="label">Nada</span>
+              <div class="chips" id="c-tone"></div>
+            </div>
+            <div class="field">
+              <span class="label">Emoji</span>
+              <div class="chips" id="c-emoji"></div>
+            </div>
+            <details class="more">
+              <summary>Tetapan lanjut</summary>
+              <div class="field">
+                <span class="label">Angle jualan <span class="opt">(kosong = semua, dirawakkan)</span></span>
+                <div class="chips" id="c-angles"></div>
+              </div>
+              <div class="field">
+                <span class="label">Bilangan caption</span>
+                <div class="chips" id="c-count"></div>
+              </div>
+              <label class="toggle"><span>Hashtag<small>Ikut platform & kategori</small></span><input type="checkbox" class="switch" id="t-hashtags" /></label>
+              <label class="toggle"><span>Ajakan engagement<small>"Tag kawan", "Komen NAK", "Save"…</small></span><input type="checkbox" class="switch" id="t-engage" /></label>
+              <label class="toggle"><span>Penafian affiliate<small>Telus dengan follower — bina kepercayaan</small></span><input type="checkbox" class="switch" id="t-disclosure" /></label>
+              <label class="toggle"><span>Guna "Template Saya"<small>Campurkan template yang anda tulis sendiri</small></span><input type="checkbox" class="switch" id="t-custom" /></label>
+            </details>
+            <button class="btn primary big" id="btn-generate" type="button" style="margin-top:12px">⚡ Jana Post</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="results-head">
+            <h2 id="results-title">Caption anda</h2>
+            <div class="btn-row">
+              <button class="btn small" id="btn-shuffle" type="button" hidden>🔀 Shuffle semua</button>
+              <button class="btn small" id="btn-copyall" type="button" hidden>📋 Copy semua</button>
+            </div>
+          </div>
+          <div id="posts" class="posts">
+            <div class="empty card">
+              <div class="big-emoji">🧪</div>
+              <p><b>Paste link affiliate</b>, isi harga &amp; kelebihan, kemudian tekan <b>⚡ Jana Post</b>.</p>
+              <p class="hint">Setiap kali jana, caption keluar dengan angle, ayat, emoji &amp; hashtag yang berbeza.</p>
+            </div>
+          </div>
+
+          <div class="card ai-card" style="margin-top:16px">
+            <h2>🤖 Nak versi AI? Percuma juga</h2>
+            <p class="hint" style="margin-top:0">Web ni siapkan arahan (prompt) lengkap. Copy, kemudian paste dalam ChatGPT, Claude atau Gemini guna akaun percuma. Tak perlu API key.</p>
+            <div class="btn-row" style="margin-top:10px">
+              <button class="btn" id="btn-prompt" type="button">📋 Copy Prompt</button>
+              <button class="btn" data-ai="chatgpt" type="button">Buka ChatGPT ↗</button>
+              <button class="btn" data-ai="claude" type="button">Buka Claude ↗</button>
+              <button class="btn" data-ai="gemini" type="button">Buka Gemini ↗</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================== POSTER =================== -->
+    <section class="view" id="view-poster" hidden>
+      <div class="poster-wrap">
+        <div class="canvas-box"><canvas id="poster-canvas" width="1080" height="1080" aria-label="Pratonton poster"></canvas></div>
+        <div>
+          <div class="card">
+            <h2>🖼️ Poster produk</h2>
+            <div class="field">
+              <label class="drop" id="drop">
+                <input type="file" id="f-image" accept="image/*" class="sr" />
+                <span id="drop-text">📷 Tekan untuk pilih gambar produk<br /><small>atau seret gambar ke sini (screenshot dari Shopee/TikTok pun boleh)</small></span>
+              </label>
+              <div class="status" id="img-status"></div>
+            </div>
+            <div class="field">
+              <label for="p-hook">Teks hook</label>
+              <div class="input-group">
+                <input id="p-hook" class="input" maxlength="40" />
+                <button class="btn" id="p-hook-rand" type="button" title="Hook rawak">🎲</button>
+              </div>
+            </div>
+            <div class="field">
+              <label for="p-nama">Nama produk</label>
+              <input id="p-nama" class="input" maxlength="80" />
+            </div>
+            <div class="row">
+              <div class="field"><label for="p-harga">Harga</label><div class="prefix"><span>RM</span><input id="p-harga" class="input" inputmode="decimal" /></div></div>
+              <div class="field"><label for="p-hargaAsal">Harga asal</label><div class="prefix"><span>RM</span><input id="p-hargaAsal" class="input" inputmode="decimal" /></div></div>
+            </div>
+            <div class="field">
+              <span class="label">Saiz</span>
+              <div class="chips" id="c-size"></div>
+            </div>
+            <div class="field">
+              <span class="label">Susun atur</span>
+              <div class="chips" id="c-layout"></div>
+            </div>
+            <div class="field">
+              <span class="label">Warna</span>
+              <div class="swatches" id="c-color"></div>
+            </div>
+            <div class="btn-row">
+              <button class="btn" id="p-random" type="button">🎲 Rawak semua</button>
+              <button class="btn primary" id="p-download" type="button">⬇️ Muat turun PNG</button>
+              <button class="btn" id="p-share" type="button">📤 Share</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================== PLANNER =================== -->
+    <section class="view" id="view-planner" hidden>
+      <div class="grid-2">
+        <div class="sticky-col">
+          <div class="card">
+            <h2>📅 Planner 7 hari</h2>
+            <p class="hint" style="margin-top:0">Satu produk, 7 post berbeza angle untuk seminggu — supaya follower tak bosan. Guna maklumat produk dari tab <b>Jana</b>.</p>
+            <div class="field" style="margin-top:12px">
+              <span class="label">Platform (boleh pilih lebih dari satu, digilirkan)</span>
+              <div class="chips" id="c-plan-platforms"></div>
+            </div>
+            <div class="stat" id="plan-product"></div>
+            <button class="btn primary big" id="btn-plan" type="button" style="margin-top:12px">📅 Jana plan 7 hari</button>
+            <div class="btn-row" style="margin-top:10px">
+              <button class="btn small" id="btn-plan-copy" type="button" hidden>📋 Copy semua</button>
+              <button class="btn small" id="btn-plan-dl" type="button" hidden>⬇️ Muat turun .txt</button>
+            </div>
+          </div>
+        </div>
+        <div id="plan-list" class="posts">
+          <div class="empty card"><div class="big-emoji">📅</div><p>Tekan <b>Jana plan 7 hari</b> untuk dapat jadual post seminggu lengkap dengan waktu cadangan.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================== SEJARAH =================== -->
+    <section class="view" id="view-sejarah" hidden>
+      <div class="card">
+        <div class="results-head">
+          <h2 style="margin:0">🗂️ Sejarah</h2>
+          <button class="btn small" id="btn-history-clear" type="button">🗑️ Padam semua</button>
+        </div>
+        <p class="hint" style="margin-top:0">Disimpan dalam browser ni sahaja. Tekan satu produk untuk guna semula.</p>
+        <div id="history-list" class="list" style="margin-top:12px"></div>
+      </div>
+    </section>
+
+    <!-- =================== TEMPLATE =================== -->
+    <section class="view" id="view-template" hidden>
+      <div class="grid-2">
+        <div>
+          <div class="card">
+            <h2>✍️ Tambah template sendiri</h2>
+            <p class="hint" style="margin-top:0">Tulis gaya caption anda sendiri. Web akan isi maklumat produk &amp; rawakkan ayat secara automatik.</p>
+            <div class="field" style="margin-top:12px">
+              <label for="tpl-name">Nama template</label>
+              <input id="tpl-name" class="input" placeholder="Contoh: Gaya review santai saya" />
+            </div>
+            <div class="field">
+              <label for="tpl-text">Template</label>
+              <textarea id="tpl-text" class="input" rows="8" placeholder="{Weh|Geng} [korang]! {{nama}} ni [best] gila 😍&#10;{{senarai}}&#10;Harga {{harga}} {je|sahaja}!"></textarea>
+            </div>
+            <div class="btn-row">
+              <button class="btn" id="tpl-preview" type="button">👀 Pratonton</button>
+              <button class="btn primary" id="tpl-save" type="button">💾 Simpan</button>
+            </div>
+            <pre id="tpl-out" class="post-body card" style="margin-top:12px" hidden></pre>
+          </div>
+          <div class="card">
+            <h2>📚 Template saya</h2>
+            <div id="tpl-list" class="list"></div>
+          </div>
+        </div>
+        <div class="card">
+          <h2>💡 Cara tulis template</h2>
+          <p><b>Ayat rawak:</b> <span class="code">{Weh|Geng|Korang}</span> → web pilih satu secara rawak setiap kali jana.</p>
+          <p><b>Ikut nada:</b> <span class="code">[korang]</span> <span class="code">[aku]</span> <span class="code">[best]</span> <span class="code">[weh]</span> <span class="code">[beli]</span> <span class="code">[murah]</span> <span class="code">[cepat]</span> <span class="code">[serius]</span> → bertukar ikut nada (santai/formal/lawak…). Huruf besar di depan (<span class="code">[Korang]</span>) = mula dengan huruf besar.</p>
+          <p><b>Maklumat produk:</b></p>
+          <table class="help-table">
+            <tr><td><span class="code">{{nama}}</span></td><td>Nama produk (dibersihkan)</td></tr>
+            <tr><td><span class="code">{{namaPendek}}</span></td><td>4 perkataan pertama nama</td></tr>
+            <tr><td><span class="code">{{harga}}</span></td><td>Harga, contoh RM19.90</td></tr>
+            <tr><td><span class="code">{{hargaAsal}}</span> / <span class="code">{{hargaAsalCoret}}</span></td><td>Harga asal / dengan garis potong</td></tr>
+            <tr><td><span class="code">{{diskaun}}</span> / <span class="code">{{jimat}}</span></td><td>Contoh 43% / RM15.10</td></tr>
+            <tr><td><span class="code">{{k1}}</span> <span class="code">{{k2}}</span> <span class="code">{{k3}}</span></td><td>Kelebihan 1–3</td></tr>
+            <tr><td><span class="code">{{senarai}}</span> / <span class="code">{{senaraiNombor}}</span></td><td>Senarai kelebihan berbullet / bernombor</td></tr>
+            <tr><td><span class="code">{{untuk}}</span></td><td>Sasaran pembeli</td></tr>
+            <tr><td><span class="code">{{kedai}}</span></td><td>Shopee / TikTok Shop</td></tr>
+            <tr><td><span class="code">{{emoji}}</span></td><td>Emoji ikut kategori</td></tr>
+            <tr><td><span class="code">{{masalah}}</span></td><td>Ayat masalah ikut kategori</td></tr>
+          </table>
+          <p class="hint">Baris yang ada maklumat kosong (contoh tiada harga asal) akan dibuang automatik. Link, CTA &amp; hashtag ditambah sendiri ikut platform — tak perlu tulis dalam template.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>RacunPost · Percuma · Semua data disimpan dalam browser anda sahaja</footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
