@@ -65,7 +65,7 @@ export function initViral(d) {
   deps = d;
   emptyHtml = $('#v-posts').innerHTML;
   const nicheChips = chips($('#c-niche'), Object.entries(NICHES).map(([v, n]) => ({ value: v, label: n.label })), input.niche,
-    { onChange: (v) => { input.niche = v; save(); } });
+    { onChange: (v) => { input.niche = v; save(); if (v !== 'umum' || input.topik.trim()) run(); else $('#v-topik').closest('details').open = true; } });
   const topik = $('#v-topik');
   topik.value = input.topik;
   topik.addEventListener('input', () => {
