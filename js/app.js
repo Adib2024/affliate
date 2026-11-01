@@ -2,7 +2,7 @@ import { $, store, toast, copyText, el, chips, shareTo, downloadText } from './u
 import { initPoster, syncFromProduct, setHook, posterVisible } from './ui/poster.js';
 import { infoFromUrl, infoFromShareText, isShortLink } from './engine/linkinfo.js';
 import {
-  generatePosts, rerollPost, generatePlan, buildAIPrompt, guessCategory, detectSource, cleanProductName, parsePrice, fmtRM,
+  generatePosts, rerollPost, generatePlan, buildAIPrompt, guessCategory, detectSource, cleanProductName, smartName, parsePrice, fmtRM,
 } from './engine/generator.js';
 import { TONES, CATEGORIES, SEASONS, PLATFORMS, ANGLES, POSTER_HOOKS } from './engine/data.js';
 
@@ -57,7 +57,7 @@ document.querySelectorAll('.tab').forEach((t) => t.addEventListener('click', () 
 //  Borang produk
 // =====================================================================
 const f = {
-  link: $('#f-link'), nama: $('#f-nama'), harga: $('#f-harga'), hargaAsal: $('#f-hargaAsal'),
+  link: $('#f-link'), nama: $('#f-nama'), ringkas: $('#f-ringkas'), harga: $('#f-harga'), hargaAsal: $('#f-hargaAsal'),
   k1: $('#f-k1'), k2: $('#f-k2'), k3: $('#f-k3'), kategori: $('#f-kategori'), untuk: $('#f-untuk'), musim: $('#f-musim'),
 };
 f.kategori.replaceChildren(...Object.entries(CATEGORIES).map(([v, c]) => el('option', { value: v }, c.label)));
@@ -71,6 +71,8 @@ function fillForm() {
   const p = state.product;
   f.link.value = p.link;
   f.nama.value = p.nama;
+  if (!p.ringkasManual) p.namaRingkas = smartName(p.nama);
+  f.ringkas.value = p.namaRingkas || '';
   f.harga.value = p.harga;
   f.hargaAsal.value = p.hargaAsal;
   [f.k1, f.k2, f.k3].forEach((inp, i) => { inp.value = p.kelebihan[i] || ''; });
@@ -84,6 +86,10 @@ function readForm() {
   const p = state.product;
   p.link = f.link.value.trim();
   p.nama = f.nama.value;
+  if (!p.ringkasManual) {
+    p.namaRingkas = smartName(p.nama);
+    f.ringkas.value = p.namaRingkas;
+  }
   p.harga = f.harga.value;
   p.hargaAsal = f.hargaAsal.value;
   p.kelebihan = [f.k1.value, f.k2.value, f.k3.value];
@@ -103,6 +109,13 @@ for (const key of ['nama', 'harga', 'hargaAsal', 'k1', 'k2', 'k3', 'untuk']) {
     }
   });
 }
+f.ringkas.addEventListener('input', () => {
+  const v = f.ringkas.value.trim();
+  state.product.ringkasManual = Boolean(v);
+  state.product.namaRingkas = v;
+  if (!v) readForm();
+  saveDraft();
+});
 f.kategori.addEventListener('change', () => { state.product.kategoriManual = true; readForm(); });
 f.musim.addEventListener('change', readForm);
 

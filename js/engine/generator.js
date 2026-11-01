@@ -36,6 +36,23 @@ export function cleanProductName(raw) {
   return s.replace(/[-–,:;\s]+$/, '');
 }
 
+// Nama ringkas untuk caption: nama Shopee/TikTok biasanya disumbat keyword SEO.
+export function smartName(raw, maxWords = 6, maxChars = 45) {
+  let s = cleanProductName(raw);
+  if (!s) return '';
+  // Potong pada pemisah biasa ("Tudung Bawal - Cotton Premium", "Rak X for Y", "Serum, 30ml")
+  const cut = s.split(/\s[-–|/]\s|,|\s(?:with|for|untuk|dengan|utk|w\/)\s/i)[0].trim();
+  if (cut.split(' ').length >= 2) s = cut;
+  s = s.replace(/\s[-–|/]\s/g, ' ');
+  const out = [];
+  for (const w of s.split(' ')) {
+    if (out.length >= maxWords || [...out, w].join(' ').length > maxChars) break;
+    out.push(w);
+  }
+  while (out.length > 1 && /^(for|with|and|&|untuk|dan|dengan|the|of|in|-)$/i.test(out[out.length - 1])) out.pop();
+  return out.join(' ');
+}
+
 export function shortName(name) {
   const words = cleanProductName(name).split(' ').filter(Boolean);
   return words.slice(0, 4).join(' ');
@@ -93,10 +110,11 @@ function buildVars(product, opts, rand, tone) {
   const nums = noEmoji ? ['1.', '2.', '3.'] : ['1️⃣', '2️⃣', '3️⃣'];
   const toned = (t) => render(t, rand, tone);
 
-  const nama = cleanProductName(product.nama) || 'produk ni';
+  const nama = String(product.namaRingkas || '').trim() || smartName(product.nama) || 'produk ni';
+  const namaWords = nama.split(' ').length;
   const vars = {
     nama,
-    namaPendek: shortName(product.nama) || 'barang ni',
+    namaPendek: namaWords <= 4 ? nama : toned('{barang ni|benda ni|produk ni}'),
     harga: harga ? fmtRM(harga) : '',
     hargaNombor: harga ? fmtNum(harga) : '',
     hargaAsal: hargaAsal ? fmtRM(hargaAsal) : '',
@@ -132,7 +150,7 @@ function dropEmptyLines(text) {
 function tidy(text) {
   return text
     .split('\n')
-    .map((l) => l.replace(/[ \t]{2,}/g, ' ').replace(/ +([,.!?…)])/g, '$1').replace(/\( +/g, '(').trim())
+    .map((l) => l.replace(/\b(ni|ini)\s+\1\b/gi, '$1').replace(/^([a-z])/, (c) => c.toUpperCase()).replace(/[ \t]{2,}/g, ' ').replace(/ +([,.!?…)])/g, '$1').replace(/\( +/g, '(').trim())
     .join('\n')
     .replace(/\n{3,}/g, '\n\n')
     .trim();
@@ -355,6 +373,7 @@ export function buildAIPrompt(product, opts) {
     ``,
     `Tulis 5 caption ${plat.label} yang BERBEZA untuk produk affiliate ${src.label} ni:`,
     `- Nama produk: ${cleanProductName(product.nama) || '(isi sendiri)'}`,
+    `- Panggil produk ni dalam caption sebagai: "${String(product.namaRingkas || '').trim() || smartName(product.nama)}" (jangan tulis nama penuh)`,
     harga ? `- Harga: ${fmtRM(harga)}` : null,
     hargaAsal && harga && hargaAsal > harga ? `- Harga asal: ${fmtRM(hargaAsal)} (diskaun ${Math.round((1 - harga / hargaAsal) * 100)}%)` : null,
     ks.length ? `- Kelebihan: ${ks.join('; ')}` : null,

@@ -347,7 +347,7 @@ async function setFile(file) {
 // ---------- Sync dengan produk ----------
 export function syncFromProduct(product, { force = false } = {}) {
   if (!state) return;
-  if (force || !state.nama) state.nama = product.nama || '';
+  if (force || !state.nama) state.nama = product.namaRingkas || product.nama || '';
   if (force || !state.harga) state.harga = product.harga || '';
   if (force || !state.hargaAsal) state.hargaAsal = product.hargaAsal || '';
   ui.nama.value = state.nama;
@@ -384,7 +384,7 @@ export function initPoster(productGetter) {
     layout: LAYOUTS[saved.layout] ? saved.layout : 'klasik',
     color: Number.isInteger(saved.color) ? saved.color : (p.source === 'tiktok' ? 1 : 0),
     colorTouched: Number.isInteger(saved.color),
-    nama: p.nama || '', harga: p.harga || '', hargaAsal: p.hargaAsal || '',
+    nama: p.namaRingkas || p.nama || '', harga: p.harga || '', hargaAsal: p.hargaAsal || '',
   };
 
   ui = {

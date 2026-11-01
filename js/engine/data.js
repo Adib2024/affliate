@@ -354,7 +354,7 @@ B) {Beli sekali, guna lama|Terus settle dengan {{namaPendek}}}
     id: 'banding',
     label: '⚖️ Perbandingan / Before-After',
     templates: [
-      `{Sebelum|Before} vs {Selepas|After} 👇
+      `{Sebelum vs Selepas|Before vs After} 👇
 ❌ {Sebelum|Before}: {leceh & buang masa|stress, serabut|membazir duit}
 ✅ {Selepas|After}: {{k1}}
 ✅ {Bonus|Plus}: {{k2}}
