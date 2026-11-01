@@ -84,6 +84,7 @@ function fillForm() {
   f.musim.value = p.musim;
   sourceChips.set(p.source);
   updateBenefitHints();
+  updateCategoryHint();
 }
 
 // Tunjuk kelebihan yang web akan guna secara automatik bila ruang kosong.
@@ -99,6 +100,21 @@ function updateBenefitHints() {
   [f.k1, f.k2, f.k3].forEach((inp, i) => {
     inp.placeholder = !inp.value.trim() && auto[n] ? `💡 Auto: ${auto[n++]}` : K_PLACEHOLDERS[i];
   });
+}
+
+// Bila web tak pasti kategori, minta pengguna pilih (ayat caption bergantung pada kategori).
+function updateCategoryHint() {
+  const p = state.product;
+  const hint = $('#kategori-hint');
+  if (!hint) return;
+  if (!p.nama.trim()) { hint.textContent = ''; hint.className = 'status'; return; }
+  if (p.kategori === 'lain' && !p.kategoriManual) {
+    hint.textContent = '⚠️ Web tak pasti kategori produk ni — pilih yang paling dekat supaya ayat caption tepat.';
+    hint.className = 'status err';
+  } else {
+    hint.textContent = p.kategoriManual ? '✓ Kategori dipilih sendiri' : '✓ Kategori diteka dari nama produk';
+    hint.className = 'status ok';
+  }
 }
 
 function readForm() {
@@ -117,6 +133,7 @@ function readForm() {
   p.kategori = f.kategori.value;
   saveDraft();
   updateBenefitHints();
+  updateCategoryHint();
 }
 
 for (const key of ['nama', 'harga', 'hargaAsal', 'k1', 'k2', 'k3', 'untuk']) {
@@ -126,6 +143,8 @@ for (const key of ['nama', 'harga', 'hargaAsal', 'k1', 'k2', 'k3', 'untuk']) {
       state.product.kategori = guessCategory(state.product.nama);
       f.kategori.value = state.product.kategori;
       saveDraft();
+      updateBenefitHints();
+      updateCategoryHint();
     }
   });
 }

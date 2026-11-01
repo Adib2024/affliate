@@ -76,7 +76,17 @@ export const KEYWORD_BENEFITS = [
   { re: /baby|bayi|newborn/i, k: ['Lembut & selamat untuk si kecil'] },
   { re: /collagen|kolagen/i, k: ['Mudah diambil setiap hari'] },
   { re: /massage|urut/i, k: ['Lega lenguh badan tanpa perlu ke spa'], m: ['{Badan|Bahu|Belakang} {lenguh|sakit} lepas {kerja|seharian}, tapi {takde masa|mahal} nak pergi urut?'] },
-  { re: /snack|kerepek|keropok|biskut|coklat|chocolate/i, k: ['Sedap — sekali makan memang tak cukup'] },
+  { re: /kunafa|knafeh|pistachio|dubai/i, k: ['Rasa pistachio & kunafa yang tengah viral — tak perlu terbang ke Dubai 😋'], m: ['Teringin nak rasa {dessert|makanan} viral Dubai tapi {mahal|susah nak cari}?'] },
+  { re: /chewy|mochi/i, k: ['Tekstur chewy, lembut & kenyal — sekali gigit terus jatuh cinta'], m: ['Bosan dengan {snek|dessert} yang {keras|kering} & {biasa-biasa|sama je}?'] },
+  { re: /cookie|biskut|biscuit/i, k: ['Rangup di luar, lembut di dalam 🍪'], m: ['{Craving|Teringin} cookies {sedap|homemade} tapi malas nak bakar sendiri?'] },
+  { re: /coklat|chocolate|cocoa|brownie/i, k: ['Coklat pekat, manis cukup rasa — tak muak'], m: ['Mengidam coklat {tengah malam|time stress} tapi {takde stok|kedai dah tutup}?'] },
+  { re: /cake|kek|cheesecake|tart|dessert|puding|pudding/i, k: ['Lembut & moist — sesuai untuk dessert lepas makan'], m: ['Nak {dessert|pencuci mulut} sedap tapi {kedai jauh|malas keluar}?'] },
+  { re: /kerepek|keropok|chips|snack|snek|crackers|rempeyek/i, k: ['Rangup & berperisa — sekali buka susah nak berhenti'], m: ['Tengok movie tapi takde {snek|kunyah-kunyah} {best|sedap}?'] },
+  { re: /pedas|spicy|sambal|cili|chili/i, k: ['Pedas berapi tapi sedap sampai nak tambah 🌶️'], m: ['{Kaki pedas|Peminat pedas} tapi semua {snek|makanan} rasa {tak cukup pedas|biasa}?'] },
+  { re: /frozen|nugget|sosej|sausage|dim sum|dumpling/i, k: ['Senang masak — goreng atau air fryer, siap dalam beberapa minit'], m: ['Balik kerja penat, {tak larat|malas} nak masak {yang leceh|lama-lama}?'] },
+  { re: /kopi|coffee|nescafe|teh|tea|matcha|milo|drink|minuman|jus|juice/i, k: ['Bancuh senang, rasa macam beli kat kafe ☕'], m: ['Hari-hari beli {kopi|air} kat kafe sampai {duit habis|poket kering}?'] },
+  { re: /halal/i, k: ['Halal — makan dengan tenang'] },
+  { re: /homemade|buatan sendiri|air tangan/i, k: ['Homemade — rasa macam air tangan sendiri'] },
 ];
 
 export function benefitsFromName(name, max = 3) {

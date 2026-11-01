@@ -39,8 +39,16 @@ export function cleanProductName(raw) {
 }
 
 // Nama ringkas untuk caption: nama Shopee/TikTok biasanya disumbat keyword SEO.
+// "DUBAI CHEWY COOKIE" → "Dubai Chewy Cookie" (huruf besar semua nampak macam menjerit)
+function titleIfShouting(s) {
+  const letters = s.replace(/[^A-Za-z]/g, '');
+  if (letters.length < 6 || letters !== letters.toUpperCase()) return s;
+  return s.toLowerCase().replace(/(^|[\s\-/(])([a-z])/g, (m, a, b) => a + b.toUpperCase())
+    .replace(/\b(\d+)(ml|g|kg|pcs|cm|mm|w|l)\b/gi, (m, n, u) => n + u.toLowerCase());
+}
+
 export function smartName(raw, maxWords = 6, maxChars = 45) {
-  let s = cleanProductName(raw);
+  let s = titleIfShouting(cleanProductName(raw));
   if (!s) return '';
   // Potong pada pemisah biasa ("Tudung Bawal - Cotton Premium", "Rak X for Y", "Serum, 30ml")
   const cut = s.split(/\s[-–|/]\s|,|\s(?:with|for|untuk|dengan|utk|w\/)\s/i)[0].trim();
@@ -69,13 +77,31 @@ export function parsePrice(v) {
 export const fmtNum = (n) => (Number.isInteger(n) ? String(n) : n.toFixed(2));
 export const fmtRM = (n) => `RM${fmtNum(n)}`;
 
-export function guessCategory(name) {
-  const s = ` ${String(name || '').toLowerCase()} `;
-  let best = 'lain';
-  let bestScore = 0;
+const kwCache = new Map();
+// Padan ikut sempadan perkataan ("car" tak padan "scarf"), sokong jamak ("cookie" = "cookies").
+function kwRegex(k) {
+  if (!kwCache.has(k)) {
+    const esc = k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    kwCache.set(k, new RegExp(`(^|[^a-z0-9])${esc}(s|es)?(?=[^a-z0-9]|$)`, 'i'));
+  }
+  return kwCache.get(k);
+}
+
+export function categoryScores(name) {
+  const s = String(name || '').toLowerCase();
+  const scores = {};
   for (const [id, cat] of Object.entries(CATEGORIES)) {
     let score = 0;
-    for (const k of cat.keywords) if (s.includes(k)) score += k.length;
+    for (const k of cat.keywords) if (kwRegex(k).test(s)) score += k.length;
+    scores[id] = score;
+  }
+  return scores;
+}
+
+export function guessCategory(name) {
+  let best = 'lain';
+  let bestScore = 0;
+  for (const [id, score] of Object.entries(categoryScores(name))) {
     if (score > bestScore) { bestScore = score; best = id; }
   }
   return best;

@@ -76,7 +76,7 @@ export const TONES = {
 export const CATEGORIES = {
   fesyen: {
     label: '👗 Fesyen',
-    keywords: ['baju', 'tudung', 'shawl', 'kasut', 'seluar', 'dress', 'jubah', 'kurung', 'blouse', 'beg', 'bag', 'skirt', 'jaket', 'hoodie', 't-shirt', 'tshirt', 'kemeja', 'sandal', 'selipar', 'sneakers', 'jam', 'watch', 'cermin mata', 'pakaian', 'abaya', 'inner', 'stokin', 'topi', 'cap'],
+    keywords: ['baju', 'tudung', 'shawl', 'scarf', 'hijab', 'bawal', 'pashmina', 'satin', 'chiffon', 'dress muslimah', 'kasut', 'seluar', 'dress', 'jubah', 'kurung', 'blouse', 'beg', 'bag', 'skirt', 'jaket', 'hoodie', 't-shirt', 'tshirt', 'kemeja', 'sandal', 'selipar', 'sneakers', 'jam', 'watch', 'cermin mata', 'pakaian', 'abaya', 'inner', 'stokin', 'topi', 'cap'],
     emoji: ['👗', '👠', '✨', '💃', '🛍️', '🧕', '👜'],
     masalah: [
       'Baju dalam almari penuh tapi rasa {takde|tak ada} baju nak pakai?',
@@ -188,7 +188,7 @@ export const CATEGORIES = {
   },
   makanan: {
     label: '😋 Makanan & Minuman',
-    keywords: ['coklat', 'chocolate', 'kerepek', 'snek', 'snack', 'biskut', 'kuih', 'sambal', 'rendang', 'kopi', 'teh', 'minuman', 'makanan', 'frozen', 'mee', 'maggi', 'sos', 'perencah', 'kek', 'cookies', 'popcorn', 'jajan', 'keropok'],
+    keywords: ['coklat', 'chocolate', 'cookie', 'cookies', 'mochi', 'kunafa', 'knafeh', 'pistachio', 'dubai chocolate', 'chewy', 'brownies', 'brownie', 'cake', 'cheesecake', 'tart', 'donut', 'doughnut', 'muffin', 'croissant', 'roti', 'bread', 'bun', 'kek', 'puding', 'pudding', 'jelly', 'agar', 'dessert', 'aiskrim', 'ice cream', 'gummy', 'gummies', 'candy', 'gula-gula', 'lollipop', 'marshmallow', 'wafer', 'crackers', 'chips', 'kacang', 'nuts', 'almond', 'kurma', 'dates', 'serunding', 'nugget', 'sosej', 'sausage', 'dim sum', 'dumpling', 'mee segera', 'ramen', 'tteokbokki', 'kimchi', 'laksa', 'nasi', 'sos', 'keju', 'cheese', 'salted egg', 'telur masin', 'matcha', 'boba', 'milo', 'nescafe', 'teh tarik', 'jus', 'juice', 'air', 'drink', 'granola', 'oat', 'oats', 'cereal', 'bijirin', 'popia', 'karipap', 'rempeyek', 'dodol', 'makanan ringan', 'food', 'sedap', 'halal food', 'cocoa', 'kerepek', 'snek', 'snack', 'biskut', 'kuih', 'sambal', 'rendang', 'kopi', 'teh', 'minuman', 'makanan', 'frozen', 'mee', 'maggi', 'sos', 'perencah', 'kek', 'cookies', 'popcorn', 'jajan', 'keropok'],
     emoji: ['😋', '🍫', '🍪', '🔥', '🥤', '🌶️'],
     masalah: [
       'Lapar tengah malam tapi malas nak masak?',
@@ -204,7 +204,7 @@ export const CATEGORIES = {
   },
   kereta: {
     label: '🚗 Kereta & Motor',
-    keywords: ['kereta', 'car', 'motor', 'motorsikal', 'dashcam', 'car mount', 'car holder', 'seat cover', 'sarung kusyen', 'wiper', 'tayar', 'tire', 'helmet', 'topi keledar', 'air freshener', 'pewangi kereta', 'car charger', 'car vacuum', 'polish', 'wax'],
+    keywords: ['kereta', 'car', 'motor', 'car phone holder', 'phone holder kereta', 'car accessories', 'aksesori kereta', 'motorsikal', 'dashcam', 'car mount', 'car holder', 'seat cover', 'sarung kusyen', 'wiper', 'tayar', 'tire', 'helmet', 'topi keledar', 'air freshener', 'pewangi kereta', 'car charger', 'car vacuum', 'polish', 'wax'],
     emoji: ['🚗', '🛵', '✨', '🔧', '🛣️', '😎'],
     masalah: [
       'Dalam kereta {bersepah|bau tak best} {sampai malu nak tumpangkan orang|bila ada kawan naik}?',
@@ -613,7 +613,7 @@ Harga {{harga}} je. {Simpan|Save} tips ni 📌`,
 {Cuba|Try} {sendiri|la} — {{harga}} je.`,
       `{Apa|Apakah} {persamaan|beza} {orang yang|mereka yang} {{hasilI}}? 🤔
 
-{Kebanyakan|Selalunya} dia {orang|org} {tak|tidak} {hadap|tahan} {{masalahP}}.
+{Kebanyakan|Selalunya} dia orang dah {settle|selesaikan} {masalah|hal} ni: {{masalahP}}.
 {Sebab|Kerana} dia {guna|ada} {benda macam|} {{nama}} 👇
 
 {{senarai}}
