@@ -1,5 +1,6 @@
 import { mulberry32, newSeed, pick, shuffle, spin, applyTone, hashText } from './spintax.js';
 import { benefitsFromName, problemsFromName } from './keywords.js';
+import { ENGAGE_BY_PLATFORM, stripBait, hasQuestion, OVERLAY_HOOKS, VIDEO_SCRIPT, MY_SLOTS } from './algo.js';
 import {
   TONES, CATEGORIES, SEASONS, PLATFORMS, SOURCES, ANGLES, CTA, ENGAGE, DISCLOSURE, PLAN_SLOTS, DAYS_MS,
   HOOKS, COMMENT_POINTER, COMMENT_TEXT, VIRAL_HOOKS, VIRAL_ENGAGE, WATAK, STORY_HOOKS, STORY_ENGAGE,
@@ -298,15 +299,22 @@ function buildPost(product, rawOpts, angle, templateIndex, seed) {
   }
   if (vars.musim && rand() < 0.75) blocks.push(vars.musim);
   if (opts.viral && !platform.compact) body = punchy(body);
+  // Facebook turunkan reach post "engagement bait" → buang dari badan
+  if (opts.platform === 'facebook') body = tidy(stripBait(body));
   blocks.push(body);
 
   const cta = ctaLines(product, opts, rand, tone, vars);
   // Elak dua ajakan "Komen" berturut-turut bila CTA sendiri dah minta komen.
   const askedComment = cta.some((l) => /komen|drop/i.test(l));
-  const baseEngage = angle.story ? STORY_ENGAGE : opts.viral ? VIRAL_ENGAGE : ENGAGE;
+  let baseEngage = angle.story ? STORY_ENGAGE : opts.viral ? VIRAL_ENGAGE : ENGAGE;
+  if (opts.platform === 'facebook') baseEngage = angle.story ? ENGAGE_BY_PLATFORM.facebookStory : ENGAGE_BY_PLATFORM.facebook;
+  else if (opts.platform === 'instagram') baseEngage = ENGAGE_BY_PLATFORM.instagram;
+  else if (opts.platform === 'threads') baseEngage = ENGAGE_BY_PLATFORM.threads;
   const engageBank = askedComment ? baseEngage.filter((e) => !/^\{?(Komen|Drop)/.test(e)) : baseEngage;
   // Template dah ada ajakan sendiri (tag/komen/save)? Jangan ulang.
-  const bodyHasAsk = /\b(tag|komen|drop|save|simpan|share|kongsi)\b/i.test(body);
+  const bodyHasAsk = ['facebook', 'threads'].includes(opts.platform)
+    ? hasQuestion(body)
+    : /\b(tag|komen|drop|save|simpan|share|kongsi|hantar)\b/i.test(body);
   const engage = opts.engage && opts.platform !== 'whatsapp' && !platform.compact && !bodyHasAsk
     ? render(pick(rand, engageBank), rand, tone) : '';
   const tail = [...cta, engage].filter(Boolean);
@@ -344,10 +352,27 @@ function buildPost(product, rawOpts, angle, templateIndex, seed) {
     comment = limitEmoji(tidy(dropEmptyLines(fill(render(pick(rand, COMMENT_TEXT), rand, tone), vars))), opts.emoji);
   }
 
+  // TikTok / Reels: teks atas video untuk 3 saat pertama + struktur video
+  let overlay = null;
+  if (['tiktok', 'instagram'].includes(opts.platform)) {
+    const short3 = vars.nama.split(' ').slice(0, 3).join(' ');
+    const ovName = vars.namaPendek.length <= 22 ? vars.namaPendek : short3.length <= 24 ? short3 : 'barang ni';
+    const ovVars = { ...vars, namaPendek: ovName };
+    const hooks = shuffle(rand, OVERLAY_HOOKS)
+      .map((h) => fill(h, ovVars))
+      .filter((h) => !h.includes(EMPTY) && h.length <= 60)
+      .slice(0, 3);
+    const cta = opts.platform === 'tiktok'
+      ? (product.source === 'tiktok' ? 'tekan beg kuning 🛒' : 'link di bio 🔗')
+      : 'link di bio / komen 🔗';
+    overlay = { hooks, script: VIDEO_SCRIPT.map((s) => s.replace('{{cta}}', cta)) };
+  }
+
   const { score, tips } = scorePost(full, opts.platform, vars);
   return {
     id: `${angle.id}-${templateIndex}-${seed}`,
     comment,
+    overlay,
     score,
     tips,
     angleId: angle.id,
@@ -365,6 +390,8 @@ const SWEET = {
   facebook: [150, 700], instagram: [150, 1200], tiktok: [80, 400], threads: [100, 500], x: [80, 280], whatsapp: [100, 600],
 };
 
+const BAIT_LINE = (l) => stripBait(l).trim() === '' && l.trim() !== '';
+
 export function scorePost(text, platform, vars = {}) {
   const lines = text.split('\n');
   const first = (lines.find((l) => l.trim()) || '').trim();
@@ -379,7 +406,11 @@ export function scorePost(text, platform, vars = {}) {
     [/RM\d/.test(text), 10, vars.harga ? 'Caption ni tak sebut harga — tekan 🔀 Tukar' : 'Isi harga — orang nak tahu harga dulu'],
     [/jimat|diskaun|%|asal/i.test(text), 10, vars.hargaAsal ? 'Caption ni tak tonjol jimat — cuba angle Jimat/FOMO' : 'Isi harga asal supaya nampak jimat'],
     [/https?:|beg kuning|keranjang|bio\b|link[^\n]*komen|komen[^\n]*link/i.test(text), 15, 'Tambah ajakan beli / link'],
-    [/komen|tag |save|simpan|share|kongsi|❤️|drop/i.test(text), 15, 'Tambah ajakan komen, tag atau save'],
+    platform === 'facebook'
+      ? [hasQuestion(text) && !text.split('\n').some((l) => BAIT_LINE(l)), 15, 'Facebook: guna soalan ikhlas, elak "tag/like/share kalau" (reach diturunkan)']
+      : platform === 'instagram'
+        ? [/hantar|send|save|simpan/i.test(text), 15, 'Instagram: ajak "hantar pada kawan" atau save']
+        : [/komen|tag |save|simpan|share|kongsi|❤️|drop|\?/i.test(text), 15, 'Tambah soalan atau ajakan komen'],
     [/\n\s*\n/.test(text) && avg <= 80, 10, 'Pecahkan perenggan supaya senang dibaca'],
     [emojis >= 2 && emojis <= 14, 5, 'Guna emoji secukupnya (2–14)'],
     [n >= lo && n <= hi, 10, `Panjang ideal untuk platform ni: ${lo}–${hi} aksara`],
@@ -473,7 +504,7 @@ export function rerollPost(product, opts, angleId, seen = new Set()) {
 export function generatePlan(product, opts, platforms, startDate = new Date(), seed = newSeed()) {
   const rand = mulberry32(seed);
   const pool = shuffle(rand, anglePool({ ...opts, angles: [] }));
-  const slots = shuffle(rand, PLAN_SLOTS);
+  const slots = shuffle(rand, MY_SLOTS);
   const plats = platforms.length ? platforms : [opts.platform];
   const plan = [];
   for (let d = 0; d < 7; d++) {
@@ -539,5 +570,6 @@ export function buildAIPrompt(product, opts) {
 
 // Utiliti dikongsi dengan enjin post viral bukan-affiliate (viral.js).
 export const helpers = {
+  stripBait, hasQuestion, ENGAGE_BY_PLATFORM,
   EMPTY, EMOJI_RE, render, fixTone, fill, dropEmptyLines, tidy, limitEmoji, punchy,
 };

@@ -417,6 +417,18 @@ function commentBox(post) {
     box);
 }
 
+function overlayBox(post) {
+  if (!post.overlay?.hooks?.length) return null;
+  return el('details', { class: 'overlay-box' },
+    el('summary', {}, '🎬 Teks atas video (3 saat pertama) & struktur video'),
+    el('div', { class: 'overlay-hooks' }, ...post.overlay.hooks.map((h) => el('button', {
+      type: 'button', class: 'overlay-hook', title: 'Tekan untuk copy',
+      onClick: (e) => copyText(h, e.currentTarget),
+    }, h))),
+    el('ol', { class: 'overlay-script' }, ...post.overlay.script.map((s) => el('li', {}, s))),
+    el('p', { class: 'hint' }, 'Ramai tonton tanpa bunyi — letak hook sebagai teks besar dalam 1–3 saat pertama.'));
+}
+
 function postCard(post, index, { platform = state.opts.platform, onReroll, best = false, noPoster = false } = {}) {
   const body = el('div', { class: 'post-body', contenteditable: 'true', spellcheck: 'false' }, post.text);
   const meta = el('span', { class: 'meta' });
@@ -451,6 +463,7 @@ function postCard(post, index, { platform = state.opts.platform, onReroll, best 
       el('span', { class: 'head-right' }, scoreBadge(post, best), meta)),
     body,
     tips,
+    overlayBox(post),
     commentBox(post),
     el('div', { class: 'post-actions' }, actions));
 }

@@ -327,3 +327,15 @@ img.logo-mark { display: block; background: none; }
 
 .style-chips .chip { font-weight: 700; }
 #style-hint { margin-top: 6px; }
+
+/* ---------- Teks atas video & tips ---------- */
+.overlay-box { margin: 0 14px 12px; border: 1px solid var(--line); border-radius: 12px; padding: 8px 10px; background: var(--bg-2); }
+.overlay-box > summary { cursor: pointer; font-weight: 700; font-size: 13px; }
+.overlay-hooks { display: grid; gap: 6px; margin: 8px 0; }
+.overlay-hook { text-align: left; border: 1px dashed color-mix(in srgb, var(--brand) 45%, var(--line)); background: var(--card); border-radius: 10px; padding: 8px 10px; font-weight: 700; cursor: pointer; }
+.overlay-hook.done { background: var(--ok); color: #fff; border-color: var(--ok); }
+.overlay-script { margin: 4px 0 6px; padding-left: 18px; font-size: 13px; color: var(--muted); }
+.tips-card > summary { cursor: pointer; list-style: none; }
+.tips-card > summary::-webkit-details-marker { display: none; }
+.tips-list { margin: 10px 0 0; padding-left: 18px; display: grid; gap: 8px; font-size: 13.5px; }
+@media (max-width: 760px) { .overlay-box { margin: 0 12px 12px; } }

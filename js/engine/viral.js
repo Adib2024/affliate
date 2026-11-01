@@ -8,7 +8,7 @@ import { mulberry32, newSeed, pick, shuffle, hashText } from './spintax.js';
 import { helpers } from './generator.js';
 import { TONES, PLATFORMS } from './data.js';
 
-const { EMPTY, EMOJI_RE, render, fixTone, fill, dropEmptyLines, tidy, limitEmoji, punchy } = helpers;
+const { EMPTY, EMOJI_RE, render, fixTone, fill, dropEmptyLines, tidy, limitEmoji, punchy, stripBait, hasQuestion, ENGAGE_BY_PLATFORM } = helpers;
 
 export const NICHES = {
   duit: {
@@ -186,13 +186,12 @@ Jawab jujur. Tak boleh jawab "dua-dua" 😂`,
 {{a3}} atau {{b3}}?
 
 Jawab dalam komen (contoh: A, B, A) 😂`,
-      `Poll cepat untuk {{orang}} 🗳️
+      `Soalan cepat untuk {{orang}} 🗳️
 
-❤️ = {{a1}}
-😂 = {{b1}}
-😮 = Dua-dua pun okay
+{{a1}} atau {{b1}}?
 
-React je, tak payah komen 😉`,
+Jawab dalam komen, dan bagi satu sebab 😄
+Aku nak tengok team mana paling ramai.`,
     ],
   },
   tips: {
@@ -379,7 +378,9 @@ function score(text, platform) {
   const checks = [
     [first.length <= 80, 20, 'Baris pertama lebih pendek & padu'],
     [/[?!]|\d|😂|🥹|👀|🌶️|🙋/u.test(first), 15, 'Mulakan dengan soalan, nombor atau emosi'],
-    [/komen|tag |save|simpan|share|kongsi|react|jawab|setuju|confess|❤️/i.test(text), 25, 'Ajak orang komen, tag, save atau share'],
+    platform === 'facebook'
+      ? [hasQuestion(text) && stripBait(text) === text, 25, 'Facebook: tamat dengan soalan ikhlas, elak "tag/like/react"']
+      : [/komen|tag |save|simpan|share|kongsi|react|jawab|setuju|confess|hantar|❤️|\?/i.test(text), 25, 'Ajak orang komen, save atau hantar pada kawan'],
     [/\n\s*\n/.test(text), 15, 'Pecahkan perenggan supaya senang dibaca'],
     [emojis >= 1 && emojis <= 10, 10, 'Guna emoji secukupnya'],
     [n >= lo && n <= hi, 15, `Panjang ideal: ${lo}–${hi} aksara`],
@@ -406,6 +407,15 @@ function buildOne(input, opts, fmtId, tIndex, seed) {
   const platform = PLATFORMS[opts.platform] || PLATFORMS.facebook;
   let text = tidy(dropEmptyLines(fill(render(fmt.templates[tIndex], rand, tone), vars)));
   if (opts.viral !== false) text = punchy(text);
+  // Peraturan platform: Facebook elak "bait"; Instagram ajak hantar (sends); Threads tamat dengan soalan.
+  if (opts.platform === 'facebook') {
+    text = tidy(stripBait(text));
+    if (!hasQuestion(text)) text = `${text}\n\n${render(pick(rand, ENGAGE_BY_PLATFORM.facebookStory), rand, tone)}`;
+  } else if (opts.platform === 'threads' && !hasQuestion(text)) {
+    text = `${text}\n\n${render(pick(rand, ENGAGE_BY_PLATFORM.threads), rand, tone)}`;
+  } else if (opts.platform === 'instagram' && !/hantar|send/i.test(text)) {
+    text = `${text}\n${render(pick(rand, ENGAGE_BY_PLATFORM.instagram), rand, tone)}`;
+  }
   if (platform.compact) {
     const lines = text.split('\n');
     while (lines.length > 2 && lines.join('\n').length > platform.limit) lines.splice(lines.length - 2, 1);

@@ -199,7 +199,7 @@ export const CATEGORIES = {
       '{Craving|Mengidam} {benda manis|benda pedas|snek} tapi {malas keluar|kedai jauh}?',
       '{Tetamu|Kawan} datang {mengejut|tiba-tiba}, takde {benda nak hidang|jamuan}?',
     ],
-    hasil: ['Minum petang terus jadi lebih syok ☕', 'Lapar tengah malam? Settle 😋', 'Semua orang dalam rumah berebut nak rasa', 'Sekali rasa — {confirm|mesti} {order lagi|repeat} 😋', '{Stok|Simpan} kat rumah, {bila-bila masa|tiap kali} {craving|lapar} terus {settle|ada}'],
+    hasil: ['Minum petang terus jadi lebih syok ☕', 'Lapar tengah malam pun dah ada jawapan 😋', 'Semua orang dalam rumah berebut nak rasa', 'Sekali rasa — {confirm|mesti} {order lagi|repeat} 😋', '{Stok|Simpan} kat rumah, {bila-bila masa|tiap kali} {craving|lapar} terus {settle|ada}'],
     khas: ['Paling sedap {makan masa tengok movie|cicah dengan teh O|time hujan|masa minum petang}', '{Sesuai|Ngam} untuk {jamuan|majlis|potluck|bekal sekolah}', '{Simpan|Letak} dalam {kereta|beg|laci office} — {lapar|craving} terus {ada|settle}', '{Satu|Sebungkus} {tak cukup|takkan cukup} — {beli|ambil} {lebih|dua}'],
     hashtags: ['#MakananViral', '#SnekViral', '#FoodieMalaysia', '#SedapGila', '#JajanViral'],
     defaultK: ['Sedap & senang dimakan', 'Sesuai untuk minum petang', 'Boleh stok kat rumah'],
