@@ -44,7 +44,41 @@ const optsForEngine = () => ({ ...state.opts, customTemplates: templates });
 // =====================================================================
 //  Tab
 // =====================================================================
+// Butang utama terapung (telefon): satu tindakan utama untuk setiap tab.
+const CTA = {
+  jana: { label: '⚡ Jana Post', target: '#btn-generate' },
+  viral: { label: '🔥 Jana post viral', target: '#btn-viral' },
+  planner: { label: '📅 Jana plan 7 hari', target: '#btn-plan' },
+  poster: { label: '⬇️ Muat turun poster', target: '#p-download' },
+  pukal: { label: '⚡ Jana semua', target: '#bulk-generate', when: () => !$('#bulk-setup').hidden },
+};
+let currentView = 'jana';
+function updateMobileCta() {
+  const cfg = CTA[currentView];
+  const show = Boolean(cfg && (!cfg.when || cfg.when()));
+  $('#mobile-cta').hidden = !show;
+  document.body.classList.toggle('no-cta', !show);
+  if (!show) return;
+  let label = cfg.label;
+  if (currentView === 'jana' && state.posts.length) label = '🔀 Jana lagi';
+  $('#mobile-cta-btn').textContent = label;
+}
+document.addEventListener('cta-refresh', () => updateMobileCta());
+$('#mobile-cta-btn').addEventListener('click', () => {
+  const cfg = CTA[currentView];
+  if (cfg) $(cfg.target).click();
+  setTimeout(updateMobileCta, 50);
+});
+// Sembunyi butang terapung hanya bila papan kekunci telefon terbuka (skrin mengecil).
+if (window.visualViewport) {
+  const onVV = () => {
+    document.body.classList.toggle('typing', window.visualViewport.height < window.innerHeight * 0.72);
+  };
+  window.visualViewport.addEventListener('resize', onVV);
+}
+
 function showView(name) {
+  currentView = name;
   document.querySelectorAll('.tab').forEach((t) => t.setAttribute('aria-selected', String(t.dataset.view === name)));
   document.querySelectorAll('.view').forEach((v) => { v.hidden = v.id !== `view-${name}`; });
   if (name === 'poster') { syncFromProduct(state.product); posterVisible(); }
@@ -54,6 +88,7 @@ function showView(name) {
   if (name === 'pukal') bulkVisible();
   if (name === 'viral') viralVisible();
   store.set('tab', name);
+  updateMobileCta();
   window.scrollTo({ top: 0 });
 }
 document.querySelectorAll('.tab').forEach((t) => t.addEventListener('click', () => showView(t.dataset.view)));
@@ -257,6 +292,7 @@ function resetProduct() {
   state.posts = [];
   renderPosts();
   syncFromProduct(state.product, { force: true });
+  updateMobileCta();
   window.scrollTo({ top: 0, behavior: 'smooth' });
   f.link.focus();
   toast('🔄 Dah reset — paste link baru');
@@ -316,6 +352,7 @@ function runGenerate() {
   rememberSeen(posts);
   renderPosts();
   addHistory();
+  updateMobileCta();
 }
 
 function shareButtons(getText) {

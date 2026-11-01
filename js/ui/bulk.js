@@ -30,6 +30,7 @@ function readItems(text) {
 function renderRows() {
   const box = $('#bulk-rows');
   $('#bulk-setup').hidden = !items.length;
+  document.dispatchEvent(new CustomEvent('cta-refresh'));
   if (!items.length) { box.replaceChildren(); return; }
   box.replaceChildren(
     el('div', { class: 'results-head' },
