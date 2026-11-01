@@ -199,7 +199,21 @@
     <!-- =================== POSTER =================== -->
     <section class="view" id="view-poster" hidden>
       <div class="poster-wrap">
-        <div class="canvas-box"><canvas id="poster-canvas" width="1080" height="1080" aria-label="Pratonton poster"></canvas></div>
+        <div>
+          <div class="canvas-box"><canvas id="poster-canvas" width="1080" height="1080" aria-label="Pratonton poster"></canvas></div>
+          <div class="card" style="margin-top:16px">
+            <h2>🎠 Carousel 3 slide</h2>
+            <p class="hint" style="margin-top:0">Post carousel biasanya dapat lebih banyak masa tontonan &amp; save. Slide 1 = poster di atas, slide 2 = kelebihan, slide 3 = harga &amp; CTA.</p>
+            <div class="btn-row" style="margin-top:10px">
+              <button class="btn primary" id="p-carousel" type="button">🎠 Jana carousel</button>
+            </div>
+            <div class="carousel-strip" id="carousel-strip" hidden></div>
+            <div class="btn-row" id="carousel-actions" hidden>
+              <button class="btn" id="p-carousel-dl" type="button">⬇️ Muat turun 3 slide</button>
+              <button class="btn" id="p-carousel-share" type="button">📤 Share</button>
+            </div>
+          </div>
+        </div>
         <div>
           <div class="card">
             <h2>🖼️ Poster produk</h2>
@@ -217,6 +231,24 @@
                 <button class="btn" id="p-hook-rand" type="button" title="Hook rawak">🎲</button>
               </div>
             </div>
+            <details class="more">
+              <summary>Teks testimoni &amp; gambar "sebelum"</summary>
+              <div class="field">
+                <label for="p-quote">Teks testimoni <span class="opt">(susun atur 💬 Testimoni)</span></label>
+                <input id="p-quote" class="input" maxlength="120" placeholder="Serius best! Tak menyesal langsung beli 😍" />
+              </div>
+              <div class="field">
+                <label for="p-before">Teks "sebelum" <span class="opt">(susun atur ↔️ Sebelum/Selepas)</span></label>
+                <input id="p-before" class="input" maxlength="50" placeholder="Wayar berselirat 😩" />
+              </div>
+              <div class="field">
+                <label class="drop" style="padding:10px">
+                  <input type="file" id="f-image2" accept="image/*" class="sr" />
+                  📷 Gambar "sebelum" <small>(pilihan)</small>
+                </label>
+                <div class="status" id="img2-status"></div>
+              </div>
+            </details>
             <div class="field">
               <label for="p-nama">Nama produk</label>
               <input id="p-nama" class="input" maxlength="80" />

@@ -235,3 +235,7 @@ footer { text-align: center; color: var(--muted); font-size: 12.5px; padding: 24
 @media (max-width: 560px) { .bulk-row { grid-template-columns: 1fr 1fr auto; } .bulk-row .b-nama { grid-column: 1 / -1; } }
 .bulk-group { display: grid; gap: 12px; }
 .bulk-group > h3 { margin: 8px 0 0; font-size: 15px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+/* ---------- Carousel ---------- */
+.carousel-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 12px 0; }
+.carousel-strip canvas { width: 100%; height: auto; border-radius: 8px; box-shadow: 0 6px 18px rgba(0,0,0,.15); }

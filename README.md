@@ -8,13 +8,16 @@ Tukar **link affiliate Shopee & TikTok Shop** kepada caption dan poster yang men
 | Ciri | Penerangan |
 |---|---|
 | ⚡ **Jana Post** | Paste link, isi harga & kelebihan, kemudian dapat 3/5/8 caption dengan **angle jualan berbeza** |
-| 🔀 **Kepelbagaian** | 10 angle × 3 template × spintax × 5 nada × bank hook/CTA/emoji/hashtag = ribuan kombinasi |
+| 🔀 **Kepelbagaian** | 13 angle × 3 template × spintax × 5 nada × 11 kategori × bank hook/CTA/emoji/hashtag |
+| 📦 **Pukal** | Paste banyak link/teks share sekaligus → caption untuk semua produk, export .txt / .csv (Excel) |
+| 🔥 **Skor engagement** | Setiap caption dapat skor /100 + tip, yang terbaik di atas |
+| 💬 **Link dalam komen** | Untuk FB & Threads: caption tanpa link + komen pertama siap dengan link |
 | 🧠 **Anti-ulang** | Web ingat caption yang pernah keluar dan elak ulang yang sama |
 | 🔗 **Auto isi** | Baca nama & harga dari teks share Shopee/TikTok atau URL produk penuh |
 | 📱 **Ikut platform** | Facebook, Instagram, TikTok (beg kuning / link bio), Threads (≤500), X (≤280), WhatsApp |
 | 🎭 **5 nada** | Santai, Rojak BM-English, Formal, Lawak, Urgent/FOMO |
 | 🗓️ **Kempen** | 11.11, 12.12, Gaji masuk, Raya, Ramadan, Buka sekolah, dll. |
-| 🖼️ **Poster** | 3 susun atur × 6 warna × 3 saiz (1:1, 4:5, 9:16). Muat turun PNG / share |
+| 🖼️ **Poster** | 6 susun atur (Klasik, Bold, Minimal, Flash Sale, Testimoni, Sebelum/Selepas) × 6 warna × 3 saiz + **Carousel 3 slide** |
 | 📅 **Planner 7 hari** | 7 post berbeza angle dengan waktu cadangan, digilirkan antara platform |
 | 🗂️ **Sejarah** | Simpan semua produk & caption, boleh guna semula |
 | ✍️ **Template Saya** | Tulis gaya caption sendiri (sokong spintax & placeholder) |
@@ -51,7 +54,9 @@ index.html, styles.css       → UI
 js/engine/data.js            → BANK AYAT (edit sini untuk tambah gaya global)
 js/engine/spintax.js         → spintax {a|b} + token nada [korang]
 js/engine/generator.js       → enjin caption, planner, prompt AI
-js/ui/poster.js              → penjana poster (canvas)
+js/ui/poster.js              → penjana poster & carousel (canvas)
+js/ui/bulk.js                → mod Pukal (banyak produk)
+js/engine/keywords.js        → kelebihan & masalah ikut keyword nama produk
 js/app.js                    → logik UI
 js/engine/linkinfo.js        → baca nama & harga dari link / teks share
 sw.js, manifest.webmanifest  → PWA
