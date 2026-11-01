@@ -1,5 +1,5 @@
 // Service worker ringkas: web boleh dibuka walaupun internet lemah.
-const CACHE = 'racunpost-v9';
+const CACHE = 'racunpost-v10';
 // Path relatif supaya berfungsi di GitHub Pages (https://user.github.io/repo/).
 const SHELL = [
   './', './index.html', './styles.css', './manifest.webmanifest', './icons/icon.svg', './icons/icon-192.png',

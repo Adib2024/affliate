@@ -127,6 +127,18 @@ export function initBulk(d) {
   chips($('#c-bulk-count'), [1, 2, 3].map((n) => ({ value: n, label: `${n} caption` })), perProduct,
     { onChange: (v) => { perProduct = v; store.set('bulkCount', v); } });
   $('#bulk-generate').addEventListener('click', generateAll);
+  $('#bulk-reset').addEventListener('click', () => {
+    items = [];
+    results = [];
+    input.value = '';
+    store.set('bulkInput', '');
+    renderRows();
+    for (const id of ['bulk-copy', 'bulk-txt', 'bulk-csv']) $(`#${id}`).hidden = true;
+    $('#bulk-results').replaceChildren(el('div', { class: 'empty card' }, el('div', { class: 'big-emoji' }, '📦'),
+      el('p', {}, 'Paste beberapa link/teks share, kemudian tekan 🔍 Baca produk.')));
+    input.focus();
+    toast('🔄 Dah reset');
+  });
   $('#bulk-copy').addEventListener('click', (e) => copyText(textExport(), e.currentTarget));
   $('#bulk-txt').addEventListener('click', () => downloadText(`racunpost-${items.length}-produk.txt`, textExport()));
   $('#bulk-csv').addEventListener('click', () => {

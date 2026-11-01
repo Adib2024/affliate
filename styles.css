@@ -30,6 +30,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0; background: var(--bg); color: var(--text);
@@ -241,3 +242,6 @@ footer { text-align: center; color: var(--muted); font-size: 12.5px; padding: 24
 .carousel-strip canvas { width: 100%; height: auto; border-radius: 8px; box-shadow: 0 6px 18px rgba(0,0,0,.15); }
 
 .viral-toggle { margin-top: 10px; padding: 10px 12px; border: 1px solid color-mix(in srgb, var(--brand) 40%, var(--line)); border-radius: 12px; background: color-mix(in srgb, var(--brand) 6%, transparent); }
+
+.card h2 .h2-action { margin-left: auto; font-size: 13px; }
+.btn.danger { color: #d4441c; border-color: color-mix(in srgb, #d4441c 45%, var(--line)); }

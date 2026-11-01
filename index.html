@@ -39,7 +39,7 @@
       <div class="grid-2">
         <div class="sticky-col">
           <div class="card">
-            <h2><span class="step">1</span> Produk</h2>
+            <h2><span class="step">1</span> Produk <button class="btn small h2-action" id="btn-reset" type="button" title="Kosongkan produk &amp; caption">🔄 Reset</button></h2>
             <div class="field">
               <label for="f-link">Link affiliate</label>
               <div class="input-group">
@@ -95,7 +95,7 @@
               </div>
             </details>
             <div class="btn-row" style="margin-top:8px">
-              <button class="btn small ghost" id="btn-clear" type="button">🧹 Kosongkan</button>
+              <button class="btn small ghost" id="btn-clear" type="button">🔄 Reset produk</button>
             </div>
           </div>
 
@@ -129,6 +129,7 @@
               <label class="toggle"><span>Ajakan engagement<small>"Tag kawan", "Komen NAK", "Save"…</small></span><input type="checkbox" class="switch" id="t-engage" /></label>
               <label class="toggle"><span>Penafian affiliate<small>Telus dengan follower — bina kepercayaan</small></span><input type="checkbox" class="switch" id="t-disclosure" /></label>
               <label class="toggle"><span>Guna "Template Saya"<small>Campurkan template yang anda tulis sendiri</small></span><input type="checkbox" class="switch" id="t-custom" /></label>
+              <div class="toggle"><span>Reset semua<small>Padam semua data &amp; tetapan dalam browser ni (sejarah, template, draf)</small></span><button class="btn small danger" id="btn-reset-all" type="button">🧨 Reset semua</button></div>
             </details>
             <label class="toggle viral-toggle"><span>🚀 Mod Viral<small>Hook "open loop", ayat pendek-pendek, angle trend (POV, Unpopular opinion, Thread…) &amp; ajak debat/tag</small></span><input type="checkbox" class="switch" id="t-viral" /></label>
             <button class="btn primary big" id="btn-generate" type="button" style="margin-top:12px">⚡ Jana Post</button>
@@ -170,7 +171,7 @@
       <div class="grid-2">
         <div class="sticky-col">
           <div class="card">
-            <h2><span class="step">1</span> Paste banyak produk</h2>
+            <h2><span class="step">1</span> Paste banyak produk <button class="btn small h2-action" id="bulk-reset" type="button">🔄 Reset</button></h2>
             <p class="hint" style="margin-top:0">Paste link atau teks share dari app Shopee/TikTok — <b>satu produk satu baris</b>, atau tampal terus beberapa teks share berturut-turut.</p>
             <textarea id="bulk-input" class="input" rows="8" style="margin-top:10px" placeholder="Check out Tudung Bawal Cotton for RM19.90. Get it on Shopee now! https://s.shopee.com.my/aaa&#10;Check out Rak Wayar Bawah Meja for RM12.99. Get it on Shopee now! https://s.shopee.com.my/bbb&#10;https://vt.tiktok.com/ccc"></textarea>
             <button class="btn primary big" id="bulk-read" type="button" style="margin-top:10px">🔍 Baca produk</button>
@@ -204,7 +205,7 @@
       <div class="grid-2">
         <div class="sticky-col">
           <div class="card">
-            <h2>🔥 Post viral (bukan affiliate)</h2>
+            <h2>🔥 Post viral (bukan affiliate) <button class="btn small h2-action" id="v-reset" type="button">🔄 Reset</button></h2>
             <p class="hint" style="margin-top:0">Post relatable, debat &amp; tips untuk <b>bina follower</b>. Follower ramai = lebih ramai nampak post affiliate anda nanti. Selang-selikan: 2–3 post viral untuk setiap 1 post affiliate.</p>
             <div class="field" style="margin-top:12px">
               <span class="label">Niche</span>

@@ -227,13 +227,28 @@ $('#btn-paste').addEventListener('click', async () => {
   }
 });
 
-$('#btn-clear').addEventListener('click', () => {
+// Reset: kosongkan produk, caption & poster — tetapan gaya (platform, nada…) kekal.
+function resetProduct() {
   state.product = { ...DEFAULT_PRODUCT, kelebihan: ['', '', ''], source: state.product.source };
   f.nama.dataset.auto = '0';
   fillForm();
   saveDraft();
   setStatus('');
+  state.posts = [];
+  renderPosts();
+  syncFromProduct(state.product, { force: true });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
   f.link.focus();
+  toast('🔄 Dah reset — paste link baru');
+}
+$('#btn-clear').addEventListener('click', resetProduct);
+$('#btn-reset').addEventListener('click', resetProduct);
+$('#btn-reset-all').addEventListener('click', () => {
+  if (!confirm('Padam SEMUA data (sejarah, template, draf & tetapan) dalam browser ni?')) return;
+  try {
+    Object.keys(localStorage).filter((k) => k.startsWith('rp.')).forEach((k) => localStorage.removeItem(k));
+  } catch { /* abaikan */ }
+  location.reload();
 });
 
 // =====================================================================
@@ -374,8 +389,18 @@ function postCard(post, index, { platform = state.opts.platform, onReroll, best 
     el('div', { class: 'post-actions' }, actions));
 }
 
+const EMPTY_POSTS_HTML = postsBox.innerHTML;
+
 function renderPosts() {
   const has = state.posts.length > 0;
+  if (!has) {
+    postsBox.classList.remove('two');
+    postsBox.innerHTML = EMPTY_POSTS_HTML;
+    $('#btn-shuffle').hidden = true;
+    $('#btn-copyall').hidden = true;
+    $('#results-title').textContent = 'Caption anda';
+    return;
+  }
   $('#btn-shuffle').hidden = !has;
   $('#btn-copyall').hidden = !has;
   const plat = PLATFORMS[state.opts.platform];

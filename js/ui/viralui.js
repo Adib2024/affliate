@@ -1,5 +1,5 @@
 // Tab 🔥 Viral: post viral bukan-affiliate untuk bina follower.
-import { $, el, chips, copyText, store } from './util.js';
+import { $, el, chips, copyText, store, toast } from './util.js';
 import { NICHES, FORMATS, generateViral, rerollViral } from '../engine/viral.js';
 import { PLATFORMS, TONES } from '../engine/data.js';
 
@@ -59,8 +59,11 @@ function run() {
   render();
 }
 
+let emptyHtml = '';
+
 export function initViral(d) {
   deps = d;
+  emptyHtml = $('#v-posts').innerHTML;
   const nicheChips = chips($('#c-niche'), Object.entries(NICHES).map(([v, n]) => ({ value: v, label: n.label })), input.niche,
     { onChange: (v) => { input.niche = v; save(); } });
   const topik = $('#v-topik');
@@ -76,11 +79,26 @@ export function initViral(d) {
     inp.value = input.poin[i] || '';
     inp.addEventListener('input', () => { input.poin[i] = inp.value; save(); });
   });
-  chips($('#c-vformat'), Object.entries(FORMATS).map(([v, f]) => ({ value: v, label: f.label })), input.formats,
+  const formatChips = chips($('#c-vformat'), Object.entries(FORMATS).map(([v, f]) => ({ value: v, label: f.label })), input.formats,
     { multi: true, onChange: (v) => { input.formats = v; save(); } });
   chips($('#c-vcount'), [3, 5, 8].map((n) => ({ value: n, label: `${n} post` })), input.count,
     { onChange: (v) => { input.count = v; save(); } });
   $('#btn-viral').addEventListener('click', run);
+  $('#v-reset').addEventListener('click', () => {
+    input.topik = '';
+    input.poin = ['', '', ''];
+    input.formats = [];
+    topik.value = '';
+    ['v-p1', 'v-p2', 'v-p3'].forEach((id) => { $(`#${id}`).value = ''; });
+    formatChips.set([]);
+    if (input.niche === 'umum') { input.niche = 'duit'; nicheChips.set('duit'); }
+    save();
+    posts = [];
+    render();
+    $('#v-posts').classList.remove('two');
+    $('#v-posts').innerHTML = emptyHtml;
+    toast('🔄 Dah reset');
+  });
   $('#btn-vshuffle').addEventListener('click', run);
   $('#btn-vcopy').addEventListener('click', (e) => {
     const texts = [...$('#v-posts').querySelectorAll('.post-body')].map((b, i) => `--- Post ${i + 1} ---\n${b.innerText.trim()}`);
