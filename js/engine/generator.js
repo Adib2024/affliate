@@ -2,7 +2,7 @@ import { mulberry32, newSeed, pick, shuffle, spin, applyTone, hashText } from '.
 import { benefitsFromName, problemsFromName } from './keywords.js';
 import {
   TONES, CATEGORIES, SEASONS, PLATFORMS, SOURCES, ANGLES, CTA, ENGAGE, DISCLOSURE, PLAN_SLOTS, DAYS_MS,
-  HOOKS, COMMENT_POINTER, COMMENT_TEXT, VIRAL_HOOKS, VIRAL_ENGAGE,
+  HOOKS, COMMENT_POINTER, COMMENT_TEXT, VIRAL_HOOKS, VIRAL_ENGAGE, WATAK, STORY_HOOKS, STORY_ENGAGE,
 } from './data.js';
 
 const EMPTY = '\u0000';
@@ -187,7 +187,7 @@ function dropEmptyLines(text) {
 function tidy(text) {
   return text
     .split('\n')
-    .map((l) => l.replace(/\b(ni|ini)\s+\1\b/gi, '$1').replace(/^(?!https?:)([a-z])/, (c) => c.toUpperCase()).replace(/[ \t]{2,}/g, ' ').replace(/ +([,.!?…)])/g, '$1').replace(/\( +/g, '(').trim())
+    .map((l) => l.replace(/\b(ni|ini)\s+\1\b/gi, '$1').replace(/^(?!https?:)([a-z])/, (c) => c.toUpperCase()).replace(/[ \t]{2,}/g, ' ').replace(/ +([,.!?…)])/g, '$1').replace(/(\p{Extended_Pictographic}\uFE0F?)\./gu, '$1').replace(/\( +/g, '(').trim())
     .join('\n')
     .replace(/\n{3,}/g, '\n\n')
     .trim();
@@ -257,15 +257,26 @@ function punchy(text) {
   }).join('\n');
 }
 
-function buildPost(product, opts, angle, templateIndex, seed) {
+function buildPost(product, rawOpts, angle, templateIndex, seed) {
+  const opts = { ...rawOpts, viral: postStyle(rawOpts) !== 'jual' };
   const rand = mulberry32(seed);
   const tone = fixTone(TONES[opts.tone] || TONES.santai, rand);
   const vars = buildVars(product, opts, rand, tone);
   const platform = PLATFORMS[opts.platform] || PLATFORMS.facebook;
 
-  let body = render(angle.templates[templateIndex], rand, tone);
+  // Watak cerita (Mod Storyline)
+  const cap = (x) => (x ? x.charAt(0).toUpperCase() + x.slice(1) : x);
+  const catWatak = (CATEGORIES[product.kategori] || {}).watak || {};
+  vars.watak = pick(rand, catWatak[angle.watak] || WATAK[angle.watak] || WATAK.kawan);
+  vars.watakCap = cap(vars.watak);
+  vars.k1Cap = cap(vars.k1); vars.k2Cap = cap(vars.k2); vars.k3Cap = cap(vars.k3);
+
+  // Threads / X: guna versi cerita pendek supaya muat had aksara
+  const useShort = angle.short?.length && platform.limit && platform.limit <= 500;
+  const tpl = useShort ? angle.short[templateIndex % angle.short.length] : angle.templates[templateIndex];
+  let body = render(tpl, rand, tone);
   body = tidy(dropEmptyLines(fill(body, vars)));
-  if (platform.compact) body = compactBody(body, vars);
+  if (platform.compact && !angle.story) body = compactBody(body, vars);
   // Ayat khas kategori (contoh "Sesuai untuk rumah sewa") selepas senarai kelebihan.
   else if (vars.khas && rand() < 0.6) {
     const lastBullet = vars.senarai.split('\n').pop() || vars.senaraiNombor.split('\n').pop();
@@ -279,9 +290,9 @@ function buildPost(product, opts, angle, templateIndex, seed) {
 
   const blocks = [];
   // Hook "stop scroll" tambahan di baris pertama (bukan untuk X / angle yang ada format sendiri).
-  const hookChance = opts.viral ? 0.8 : 0.45;
-  if (opts.hooks !== false && !platform.compact && !angle.noHook && rand() < hookChance) {
-    const bank = opts.viral && rand() < 0.7 ? VIRAL_HOOKS : HOOKS;
+  const hookChance = angle.story ? 0.3 : opts.viral ? 0.8 : 0.45;
+  if (opts.hooks !== false && !platform.compact && !useShort && !angle.noHook && rand() < hookChance) {
+    const bank = angle.story ? STORY_HOOKS : opts.viral && rand() < 0.7 ? VIRAL_HOOKS : HOOKS;
     const hook = fill(render(pick(rand, bank), rand, tone), vars);
     if (!hook.includes(EMPTY)) blocks.push(hook);
   }
@@ -292,7 +303,7 @@ function buildPost(product, opts, angle, templateIndex, seed) {
   const cta = ctaLines(product, opts, rand, tone, vars);
   // Elak dua ajakan "Komen" berturut-turut bila CTA sendiri dah minta komen.
   const askedComment = cta.some((l) => /komen|drop/i.test(l));
-  const baseEngage = opts.viral ? VIRAL_ENGAGE : ENGAGE;
+  const baseEngage = angle.story ? STORY_ENGAGE : opts.viral ? VIRAL_ENGAGE : ENGAGE;
   const engageBank = askedComment ? baseEngage.filter((e) => !/^\{?(Komen|Drop)/.test(e)) : baseEngage;
   // Template dah ada ajakan sendiri (tag/komen/save)? Jangan ulang.
   const bodyHasAsk = /\b(tag|komen|drop|save|simpan|share|kongsi)\b/i.test(body);
@@ -385,14 +396,26 @@ export function scorePost(text, platform, vars = {}) {
 // Angle yang paling kerap viral (dipakai dalam Mod Viral bersama angle viral baru).
 const VIRAL_FRIENDLY = ['lawak', 'soalan', 'rahsia', 'cerita', 'banding', 'fomo', 'tips'];
 
+// Jenis post: 'story' (cerita penuh), 'viral' (pendek & punchy), 'jual' (jualan biasa).
+export function postStyle(opts) {
+  if (opts.style) return opts.style;
+  return opts.viral === false ? 'jual' : 'viral';
+}
+
 export function anglePool(opts) {
   let pool = ANGLES.filter((a) => !(opts.tone === 'formal' && a.noFormal));
   if (opts.angles?.length) {
     const chosen = pool.filter((a) => opts.angles.includes(a.id));
     if (chosen.length) return chosen;
   }
-  if (opts.viral) pool = pool.filter((a) => a.viral || VIRAL_FRIENDLY.includes(a.id));
-  return pool;
+  const style = postStyle(opts);
+  if (style === 'story') {
+    const stories = pool.filter((a) => a.story);
+    // Cerita + sedikit angle bercerita sedia ada supaya 5 caption tetap berbeza
+    return stories.length ? [...stories, ...pool.filter((a) => ['cerita', 'menyesal', 'testimoni'].includes(a.id))] : pool;
+  }
+  if (style === 'viral') return pool.filter((a) => a.viral || VIRAL_FRIENDLY.includes(a.id));
+  return pool.filter((a) => !a.story && !a.viral);
 }
 
 function customAngle(opts) {

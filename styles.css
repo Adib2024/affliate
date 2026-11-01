@@ -324,3 +324,6 @@ img.logo-mark { display: block; background: none; }
 }
 
 .status:empty { display: none; }
+
+.style-chips .chip { font-weight: 700; }
+#style-hint { margin-top: 6px; }

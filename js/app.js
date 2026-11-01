@@ -18,13 +18,13 @@ const DEFAULT_PRODUCT = {
 };
 const DEFAULT_OPTS = {
   platform: 'facebook', tone: 'santai', emoji: 'banyak', angles: [], count: 5,
-  hashtags: true, engage: true, disclosure: false, useCustom: true, hooks: true, linkComment: true, viral: true,
+  hashtags: true, engage: true, disclosure: false, useCustom: true, hooks: true, linkComment: true, viral: true, style: 'story',
 };
 
 const draft = store.get('draft', {});
 const state = {
   product: { ...DEFAULT_PRODUCT, ...(draft.product || {}) },
-  opts: { ...DEFAULT_OPTS, ...(draft.opts || {}) },
+  opts: { ...DEFAULT_OPTS, ...(draft.opts || {}), style: draft.opts?.style || 'story' },
   posts: [],
   planPlatforms: store.get('planPlatforms', ['facebook', 'tiktok']),
   plan: [],
@@ -310,6 +310,16 @@ $('#btn-reset-all').addEventListener('click', () => {
 //  Tetapan gaya
 // =====================================================================
 const setOpt = (k) => (v) => { state.opts[k] = v; saveDraft(); };
+const STYLE_HINTS = {
+  story: '📖 Cerita penuh dengan watak, dialog & twist — produk muncul secara semula jadi. Paling sesuai untuk Facebook & Threads.',
+  viral: '🚀 Pendek & punchy: POV, unpopular opinion, thread, tag kawan.',
+  jual: '🎯 Terus kepada kelebihan, harga & diskaun.',
+};
+const styleHint = () => { $('#style-hint').textContent = STYLE_HINTS[state.opts.style] || ''; };
+chips($('#c-style'), [
+  { value: 'story', label: '📖 Storyline' }, { value: 'viral', label: '🚀 Viral pendek' }, { value: 'jual', label: '🎯 Jualan terus' },
+], state.opts.style, { onChange: (v) => { setOpt('style')(v); state.opts.viral = v !== 'jual'; styleHint(); if (state.posts.length) runGenerate(); } });
+styleHint();
 chips($('#c-platform'), Object.entries(PLATFORMS).map(([v, p]) => ({ value: v, label: `${p.icon} ${p.label}` })),
   state.opts.platform, { onChange: (v) => { setOpt('platform')(v); if (state.posts.length) runGenerate(); } });
 chips($('#c-tone'), Object.entries(TONES).map(([v, t]) => ({ value: v, label: t.label })),
@@ -322,7 +332,7 @@ chips($('#c-angles'), ANGLES.map((a) => ({ value: a.id, label: a.label })), stat
 chips($('#c-count'), [3, 5, 8].map((n) => ({ value: n, label: `${n} caption` })), state.opts.count,
   { onChange: setOpt('count') });
 
-for (const [id, key] of [['t-hashtags', 'hashtags'], ['t-engage', 'engage'], ['t-disclosure', 'disclosure'], ['t-custom', 'useCustom'], ['t-hooks', 'hooks'], ['t-linkcomment', 'linkComment'], ['t-viral', 'viral']]) {
+for (const [id, key] of [['t-hashtags', 'hashtags'], ['t-engage', 'engage'], ['t-disclosure', 'disclosure'], ['t-custom', 'useCustom'], ['t-hooks', 'hooks'], ['t-linkcomment', 'linkComment']]) {
   const box = $(`#${id}`);
   box.checked = Boolean(state.opts[key]);
   box.addEventListener('change', () => { state.opts[key] = box.checked; saveDraft(); });

@@ -87,6 +87,7 @@ export const CATEGORIES = {
     ],
     hasil: ['Keluar rumah terus rasa yakin & cantik ✨', 'Orang mula tanya "beli kat mana?" 😍', 'Siap cepat pagi-pagi, tak pening fikir nak pakai apa', 'Gambar OOTD terus {naik|cantik} — tak payah edit banyak 📸', 'Satu {pieces|helai}, boleh {mix & match|gayakan} banyak cara'],
     khas: ['Padankan dengan {jeans|seluar slack|baju kurung|blazer} pun {cantik|masuk}', 'Sesuai untuk {kerja|kuliah|jalan-jalan|kenduri}', '{Gayakan|Pakai} untuk {raya|majlis|weekend} — {terus menyerlah|nampak mahal}', 'Warna {neutral|lembut} senang {padan|match} dengan {apa-apa|semua} outfit'],
+    watak: { keluarga: ['mak aku', 'kakak aku', 'adik perempuan aku', 'mak mertua aku'], pasangan: ['suami aku', 'tunang aku', 'husband aku'], kawan: ['bestie aku', 'kawan office aku', 'housemate aku'] },
     hashtags: ['#OOTDMalaysia', '#FesyenMurah', '#FesyenWanita', '#OutfitIdea', '#BajuMurah'],
     defaultK: ['Nampak kemas & bergaya', 'Sesuai untuk pakai harian', 'Harga berbaloi'],
   },
@@ -103,6 +104,7 @@ export const CATEGORIES = {
     ],
     hasil: ['Muka nampak segar walaupun tak tidur cukup ✨', 'Yakin selfie tanpa filter 🤳', 'Rutin cantik jadi ringkas & tak membazir', 'Rutin {pagi|malam} jadi {laju|simple} — {3 langkah|beberapa minit} je', 'Rasa lebih yakin {berdepan orang|nak keluar rumah} 💖'],
     khas: ['{Senang masuk|Boleh masuk} dalam rutin {pagi|malam} [korang]', 'Saiz {ngam|sesuai} untuk {bawa dalam beg|travel}', '{Tip|Tips}: {konsisten|guna setiap hari} untuk {hasil terbaik|nampak beza}', 'Buat {patch test|test sikit} dulu {kalau kulit sensitif|untuk kulit sensitif} ya'],
+    watak: { keluarga: ['mak aku', 'kakak aku', 'adik perempuan aku', 'mak mertua aku'], pasangan: ['suami aku', 'tunang aku', 'husband aku'], kawan: ['bestie aku', 'kawan office aku', 'housemate aku'] },
     hashtags: ['#SkincareMalaysia', '#BeautyFinds', '#MakeupMurah', '#GlowUp', '#RacunSkincare'],
     defaultK: ['Senang guna setiap hari', 'Sesuai untuk rutin harian', 'Harga berbaloi'],
   },
@@ -649,6 +651,222 @@ Harga {{harga}} je. {Simpan|Save} tips ni 📌`,
 {Dah|Terus} {terasa|nampak}: {{hasilI}} ✨`,
     ],
   },
+  // ================= STORYLINE (Mod Storyline) =================
+  // Cerita penuh: pembuka → situasi → konflik/dialog → produk muncul semula jadi → twist → hasil → refleksi.
+  // {{watak}} dipilih ikut jenis kisah (mak aku / suami aku / kawan office aku …).
+  {
+    id: 'kisahKeluarga',
+    label: '👨‍👩‍👧 Kisah Keluarga',
+    story: true,
+    noFormal: true,
+    watak: 'keluarga',
+    templates: [
+      `Aku tak sangka benda {{harga}} boleh buat {{watak}} {senyum lebar|happy} macam tu {🥹|😭}
+
+{Minggu lepas|Hari tu} aku balik rumah.
+Masalah biasa dalam rumah tu masih sama: {{masalahP}}.
+{{watakCap}} tak pernah {mengeluh|merungut}. Tapi aku nampak dia {penat|letih}.
+
+Malam tu aku {scroll|survey} {{kedai}} lama.
+{Sampai|Last-last} aku jumpa {{nama}}.
+Harga {{harga}} je. Aku cakap dalam hati, "{Try je la|Cuba dulu la}."
+
+Parcel sampai {dua hari lepas tu|tak lama lepas tu}.
+{{watakCap}} buka, tengok lama, lepas tu tanya:
+"{Beli kat mana ni|Berapa ringgit ni}?"
+
+Sekarang?
+{{hasil}}
+{{watakCap}} siap {cerita|promote} kat {sedara-mara|jiran} lagi 😂
+
+{Rupanya|Kadang-kadang} {benda kecil|hadiah kecil} pun boleh buat orang tersayang rasa {dihargai|disayangi} 🤍`,
+      `"{Membazir|Buat apa beli} benda {macam ni|camni}?"
+Tu {ayat pertama|reaksi pertama} {{watak}} bila nampak parcel aku 😅
+
+Aku tak salahkan dia. {Orang lama|Generasi dia} memang {berkira|jaga duit}.
+Tapi aku beli {{nama}} sebab aku dah {penat|tak sanggup} hadap masalah ni: {{masalahP}}.
+
+{Seminggu|Beberapa hari} lepas tu…
+Siapa yang paling {suka|teruja}?
+{{watakCap}} la 😂
+
+{{k1Cap}}.
+{{k2Cap}}.
+Semalam dia tanya boleh tak beli satu lagi untuk {{untuk}} 🤭
+
+{Pengajaran|Moral of the story}: kadang-kadang kena {tunjuk hasil|bagi bukti} dulu, baru orang {faham|percaya} 😌`,
+    ],
+    short: [
+      `{{watakCap}} buka parcel yang aku belikan, diam lama 🥹
+Lepas tu tanya, "{Berapa ni|Beli kat mana}?"
+
+{{namaPendek}}. {{harga}} je.
+Sekarang dia yang paling {suka|teruja} 😂
+
+{Benda kecil|Hadiah kecil}, tapi {bermakna|buat dia happy} 🤍`,
+      `"Membazir je beli benda camni," kata {{watak}} 🙄
+
+Seminggu lepas tu, siapa yang paling suka {{namaPendek}}?
+Dia la 😂
+
+{{k1Cap}}. {{harga}} je.
+Sekarang dia suruh aku beli satu lagi 🤭`,
+    ],
+  },
+  {
+    id: 'kisahPasangan',
+    label: '💞 Kisah Pasangan',
+    story: true,
+    noFormal: true,
+    watak: 'pasangan',
+    templates: [
+      `{{watakCap}} jenis {tak percaya|anti} barang online.
+Ayat {wajib|kegemaran} dia: "Gambar je cantik. Sampai nanti {lain|hampeh}." 🙄
+
+Jadi bila aku order {{nama}}, aku {senyap-senyap|diam-diam} je 🤫
+
+Parcel sampai.
+Aku guna depan dia, buat-buat biasa.
+{5 minit|10 minit} kemudian…
+"{Eh|Ehh}, apa tu? {Best pulak|Nampak okay pulak} 👀"
+
+Aku senyum je 😏
+{{k1Cap}}.
+{{k2Cap}}.
+
+Malam tu dia tanya, "Beli kat mana? Berapa?"
+{{harga}} je.
+Dia diam. Lepas tu {minta link|suruh aku order satu lagi} 😂
+
+Siapa {pasangan|partner} jenis macam ni? Tag {dia|dorang} 👇`,
+      `{Anniversary|Birthday} {{watak}} {dah dekat|minggu lepas}, tapi duit {tengah tight|hujung bulan} 🥲
+
+Aku tak nak bagi {hadiah|benda} yang cantik je, last-last {simpan dalam almari|tak guna}.
+Aku nak sesuatu yang dia {guna hari-hari|betul-betul perlukan}.
+
+Sebab aku tahu masalah dia selama ni: {{masalahP}}.
+
+{Last-last|Akhirnya} aku pilih {{nama}}.
+{{harga}} je.
+
+Masa dia buka… dia diam {lama|sekejap}.
+Lepas tu cakap, "{Macam mana awak tahu saya perlukan ni|Awak perasan rupanya}?" 🥹
+
+{Hadiah|Gift} paling bermakna bukan yang paling mahal.
+Tapi yang tunjuk kita {perasan|ambil peduli} 🤍`,
+    ],
+    short: [
+      `{{watakCap}} tak percaya barang online. "Sampai nanti lain," katanya 🙄
+
+Aku diam-diam order {{namaPendek}}.
+10 minit aku guna depan dia, dia tanya: "Beli kat mana?" 👀
+
+{{harga}} je. Sekarang dia pula minta link 😂
+Tag pasangan yang macam ni 👇`,
+      `Bajet tight, tapi nak bagi hadiah untuk {{watak}} 🥲
+Aku pilih {{namaPendek}}, sebab tahu masalah dia: {{masalahP}}.
+
+Dia buka, diam, lepas tu: "Awak perasan rupanya?" 🥹
+{{harga}} je. Tapi bermakna 🤍`,
+    ],
+  },
+  {
+    id: 'kisahKawan',
+    label: '👥 Kisah Kawan / Kena Perli',
+    story: true,
+    noFormal: true,
+    watak: 'kawan',
+    templates: [
+      `Kena {perli|gelak} dengan {{watak}} sebab beli {{namaPendek}} 😅
+"{Barang|Benda} {{harga}}? {Mesti|Confirm} {cepat rosak|tak tahan} punya."
+
+Aku diam je.
+
+{Seminggu|Dua minggu} lepas tu, {{watak}} datang {meja aku|rumah aku}.
+Nampak aku guna. Tengok lagi. Perhati lama.
+
+"Weh… {boleh share link tak|beli kat mana}?" 👀
+
+Hari ni dia dah order {dua|satu} 😂
+{{k1Cap}}.
+{{hasil}}
+
+{Siapa yang gelak tadi|Kau gelak tadi kan}? 😏`,
+      `{{watakCap}} tanya aku, "Macam mana kau boleh {{hasilI}}?"
+
+Aku cerita la.
+{Dulu|Sebelum ni} masalah aku sama: {{masalahP}}. Hari-hari.
+{Stress|Serabut} sampai {malas nak fikir|rasa nak give up}.
+
+{Sampai satu hari|Satu malam} aku {terjumpa|nampak} orang share {{nama}}.
+Aku {skeptikal|ragu-ragu} jugak. Tapi {{harga}} je, so aku cuba.
+
+Rupanya…
+{{senarai}}
+
+Sekarang {{watak}} pun dah {order|ikut beli} 😂
+Kadang-kadang {penyelesaian|solution} dia {simple je|tak mahal pun}.`,
+    ],
+    short: [
+      `{{watakCap}} gelak masa aku beli {{namaPendek}} 😅
+"{{harga}}? Confirm tak tahan."
+
+Dua minggu lepas tu dia minta link 😂
+{{k1Cap}}.
+
+Siapa menang sekarang? 😏`,
+    ],
+  },
+  {
+    id: 'kisahDiri',
+    label: '🌧️ Kisah Diri / Struggle',
+    story: true,
+    noFormal: true,
+    watak: 'kawan',
+    templates: [
+      `Jujur, {minggu|bulan} ni {berat untuk aku|aku penat sangat} 🥲
+
+Kerja {tak habis-habis|bertimbun}.
+Balik rumah, masalah sama menunggu: {{masalahP}}.
+Rasa macam tak ada masa untuk diri sendiri.
+
+Malam tu aku {decide|buat keputusan} untuk {mudahkan hidup|tolong diri sendiri} sikit.
+Aku order {{nama}}.
+
+Bukan benda besar pun.
+Tapi…
+{{k1Cap}}.
+{{k2Cap}}.
+
+Dan buat pertama kali dalam masa lama, aku rasa {{hasilI}} 🤍
+
+{Sayang diri sendiri|Rawat diri sendiri} tak perlu mahal.
+{Kau|Korang} pun layak dapat benda baik ✨`,
+      `Gaji baru masuk, tapi aku dah nekad tak nak beli benda merepek bulan ni 💸
+
+Masalahnya, dah {lama|bertahun} aku hadap benda ni: {{masalahP}}.
+Dan aku sedar… selama ni aku {lagi banyak buang duit|lagi rugi} sebab biar je benda ni.
+
+So aku buat kira-kira.
+{{nama}}: {{harga}}.
+Berbanding duit yang aku habis selama ni… berbaloi ke?
+
+{Sebulan|Dua minggu} kemudian, jawapannya: YA 😭
+{{senarai}}
+
+Belanja bijak bukan maksudnya tak beli langsung.
+Beli benda yang betul-betul {selesaikan masalah|berguna} 🙌`,
+    ],
+    short: [
+      `{Lama|Bertahun} aku hadap benda ni: {{masalahP}}.
+Ingat memang tak boleh buat apa.
+
+Sampai aku try {{namaPendek}}. {{harga}} je.
+Sekarang: {{hasilI}} 🥹
+
+Kenapa tak buat dari dulu?!`,
+    ],
+  },
   // ================= ANGLE VIRAL (Mod Viral) =================
   {
     id: 'pov',
@@ -862,6 +1080,30 @@ export const HOOKS = [
   '{Racun|RACUN} {hari ini|minggu ni} {🧪|☠️} — {jangan salahkan [aku]|tanggung sendiri} {😂|🤭}',
   '{Siapa|Sesiapa} yang {selalu|pernah} {{masalahP}}, {angkat tangan|sila baca ni} 🙋‍♀️',
   '{Ramai tak tahu|Tak ramai tahu} {barang|benda} ni {wujud|ada} — {padahal|walhal} {berguna gila|settle masalah besar} 👀',
+];
+
+// ---------- MOD STORYLINE ----------
+export const WATAK = {
+  keluarga: ['mak aku', 'ayah aku', 'kakak aku', 'adik aku', 'mak mertua aku'],
+  pasangan: ['suami aku', 'isteri aku', 'tunang aku', 'husband aku', 'wife aku'],
+  kawan: ['kawan office aku', 'housemate aku', 'bestie aku', 'jiran sebelah rumah', 'member sekolah aku'],
+};
+
+// Pembuka tambahan untuk cerita panjang (kadang-kadang sahaja).
+// Penutup cerita: ajak orang kongsi pengalaman (komen panjang = reach tinggi).
+export const STORY_ENGAGE = [
+  'Siapa pernah lalu benda sama? Cerita kat komen 👇',
+  'Kalau cerita ni relate, share dengan kawan 🔁',
+  'Like kalau [korang] pun pernah macam ni 🥹',
+  'Korang pernah kena macam ni tak? Komen 👇',
+  'Tag seseorang yang perlu baca cerita ni 🤍',
+];
+
+export const STORY_HOOKS = [
+  'Post panjang sikit. Tapi baca la sampai habis 🙏',
+  'Aku jarang share benda macam ni, tapi kali ni kena share 🥹',
+  '{Storytime|Cerita sikit} ☕ (ada kaitan dengan barang {{harga}})',
+  'Simpan dulu kalau tak sempat baca sekarang 📌',
 ];
 
 // ---------- MOD VIRAL ----------

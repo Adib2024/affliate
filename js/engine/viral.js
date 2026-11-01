@@ -216,6 +216,43 @@ Yang mana kau dah buat? 👇`,
 Share pada kawan yang perlu 🔁`,
     ],
   },
+  kisah: {
+    label: '📖 Storyline',
+    templates: [
+      `Post panjang sikit. Tapi aku rasa ramai {{orang}} akan relate 🙏
+
+{Semalam|Minggu lepas} aku {{s1}}.
+Aku ingat aku sorang je yang macam ni.
+
+Malam tu aku cerita dalam group WhatsApp.
+{Tak sampai 5 minit|Sekejap je}, group tu meletup 😂
+
+Sorang cakap dia pernah {{s2}}.
+Sorang lagi mengaku dia selalu {{s3}}.
+
+Dari situ aku sedar satu benda…
+{{motivasi}}
+
+Kita semua sebenarnya {lebih sama|tak jauh beza} dari yang kita sangka 🤍
+
+Korang pernah tak? Cerita kat komen 👇`,
+      `Aku nak cerita sikit pasal {{topik}} ☕
+
+{Dulu|Sebelum ni} aku selalu {{s1}}.
+{Orang|Kawan-kawan} tegur, aku buat tak tahu je 🙈
+
+Sampai satu hari, aku {{s2}}… dan masa tu aku rasa {malu|terpukul} sangat 😅
+
+Lepas kejadian tu aku mula ubah sikit-sikit.
+Bukan terus sempurna.
+Tapi setiap hari, lebih baik sikit dari semalam.
+
+Sekarang bila aku tengok balik, aku senyum sorang-sorang.
+{{motivasi}}
+
+Siapa pernah lalu fasa yang sama? 👇`,
+    ],
+  },
   cerita: {
     label: '☕ Storytime / Confession',
     templates: [
