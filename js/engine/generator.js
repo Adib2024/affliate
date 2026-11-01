@@ -2,6 +2,7 @@ import { mulberry32, newSeed, pick, shuffle, spin, applyTone, hashText } from '.
 import { benefitsFromName } from './keywords.js';
 import {
   TONES, CATEGORIES, SEASONS, PLATFORMS, SOURCES, ANGLES, CTA, ENGAGE, DISCLOSURE, PLAN_SLOTS, DAYS_MS,
+  HOOKS, COMMENT_POINTER, COMMENT_TEXT,
 } from './data.js';
 
 const EMPTY = '\u0000';
@@ -156,7 +157,7 @@ function dropEmptyLines(text) {
 function tidy(text) {
   return text
     .split('\n')
-    .map((l) => l.replace(/\b(ni|ini)\s+\1\b/gi, '$1').replace(/^([a-z])/, (c) => c.toUpperCase()).replace(/[ \t]{2,}/g, ' ').replace(/ +([,.!?…)])/g, '$1').replace(/\( +/g, '(').trim())
+    .map((l) => l.replace(/\b(ni|ini)\s+\1\b/gi, '$1').replace(/^(?!https?:)([a-z])/, (c) => c.toUpperCase()).replace(/[ \t]{2,}/g, ' ').replace(/ +([,.!?…)])/g, '$1').replace(/\( +/g, '(').trim())
     .join('\n')
     .replace(/\n{3,}/g, '\n\n')
     .trim();
@@ -198,6 +199,8 @@ function pickHashtags(product, opts, rand) {
   return [first, ...pool.filter((t) => t !== first)].slice(0, n);
 }
 
+const linkInComment = (opts) => Boolean(opts.linkComment) && ['facebook', 'threads'].includes(opts.platform);
+
 function ctaLines(product, opts, rand, tone, vars) {
   const toned = (t) => render(t, rand, tone);
   const lines = [];
@@ -205,6 +208,8 @@ function ctaLines(product, opts, rand, tone, vars) {
     lines.push(toned(pick(rand, CTA.tiktok[product.source === 'tiktok' ? 'tiktok' : 'shopee'])));
   } else if (opts.platform === 'instagram') {
     lines.push(toned(pick(rand, CTA.instagram)));
+  } else if (vars.link && linkInComment(opts)) {
+    lines.push(toned(pick(rand, COMMENT_POINTER)));
   } else if (vars.link) {
     const bank = CTA.link[opts.tone] || CTA.link.default;
     lines.push(fill(toned(pick(rand, bank)), vars));
@@ -225,6 +230,11 @@ function buildPost(product, opts, angle, templateIndex, seed) {
   if (platform.compact) body = compactBody(body, vars);
 
   const blocks = [];
+  // Hook "stop scroll" tambahan di baris pertama (bukan untuk X / angle yang ada format sendiri).
+  if (opts.hooks !== false && !platform.compact && !angle.noHook && rand() < 0.45) {
+    const hook = fill(render(pick(rand, HOOKS), rand, tone), vars);
+    if (!hook.includes(EMPTY)) blocks.push(hook);
+  }
   if (vars.musim && rand() < 0.75) blocks.push(vars.musim);
   blocks.push(body);
 
@@ -232,7 +242,9 @@ function buildPost(product, opts, angle, templateIndex, seed) {
   // Elak dua ajakan "Komen" berturut-turut bila CTA sendiri dah minta komen.
   const askedComment = cta.some((l) => /komen|drop/i.test(l));
   const engageBank = askedComment ? ENGAGE.filter((e) => !/^\{?(Komen|Drop)/.test(e)) : ENGAGE;
-  const engage = opts.engage && opts.platform !== 'whatsapp' && !platform.compact
+  // Template dah ada ajakan sendiri (tag/komen/save)? Jangan ulang.
+  const bodyHasAsk = /\b(tag|komen|drop|save|simpan|share|kongsi)\b/i.test(body);
+  const engage = opts.engage && opts.platform !== 'whatsapp' && !platform.compact && !bodyHasAsk
     ? render(pick(rand, engageBank), rand, tone) : '';
   const tail = [...cta, engage].filter(Boolean);
   if (tail.length) blocks.push(tail.join('\n'));
@@ -255,7 +267,7 @@ function buildPost(product, opts, angle, templateIndex, seed) {
     if (full.length > platform.limit) {
       // Buang baris badan (dari bawah) tapi kekalkan hook, CTA & penafian.
       const lines = text.split('\n');
-      const tailCount = cta.length + (opts.disclosure ? 1 : 0);
+      const tailCount = tail.length + (opts.disclosure ? 1 : 0);
       while (lines.length > tailCount + 1 && lines.join('\n').length > platform.limit) {
         lines.splice(lines.length - tailCount - 1, 1);
       }
@@ -264,8 +276,17 @@ function buildPost(product, opts, angle, templateIndex, seed) {
     }
   }
 
+  let comment = '';
+  if (vars.link && linkInComment(opts)) {
+    comment = limitEmoji(tidy(dropEmptyLines(fill(render(pick(rand, COMMENT_TEXT), rand, tone), vars))), opts.emoji);
+  }
+
+  const { score, tips } = scorePost(full, opts.platform, vars);
   return {
     id: `${angle.id}-${templateIndex}-${seed}`,
+    comment,
+    score,
+    tips,
     angleId: angle.id,
     angleLabel: angle.label,
     templateIndex,
@@ -274,6 +295,39 @@ function buildPost(product, opts, angle, templateIndex, seed) {
     hash: hashText(full),
     chars: [...full].length,
   };
+}
+
+// ---------- Skor engagement (anggaran, berdasarkan amalan copywriting) ----------
+const SWEET = {
+  facebook: [150, 700], instagram: [150, 1200], tiktok: [80, 400], threads: [100, 500], x: [80, 280], whatsapp: [100, 600],
+};
+
+export function scorePost(text, platform, vars = {}) {
+  const lines = text.split('\n');
+  const first = (lines.find((l) => l.trim()) || '').trim();
+  const body = lines.filter((l) => l.trim() && !l.trim().startsWith('#'));
+  const avg = body.reduce((s, l) => s + l.length, 0) / Math.max(1, body.length);
+  const emojis = (text.match(EMOJI_RE) || []).length;
+  const n = [...text].length;
+  const [lo, hi] = SWEET[platform] || SWEET.facebook;
+  const checks = [
+    [first.length <= 90, 15, 'Hook (baris pertama) lebih pendek & padu'],
+    [/[?!]|\d|‼️|🚨|✋|👀|🤯|😳|😭|🥲/u.test(first), 10, 'Mulakan dengan soalan, nombor atau emosi'],
+    [/RM\d/.test(text), 10, vars.harga ? 'Caption ni tak sebut harga — tekan 🔀 Tukar' : 'Isi harga — orang nak tahu harga dulu'],
+    [/jimat|diskaun|%|asal/i.test(text), 10, vars.hargaAsal ? 'Caption ni tak tonjol jimat — cuba angle Jimat/FOMO' : 'Isi harga asal supaya nampak jimat'],
+    [/https?:|beg kuning|keranjang|bio\b|link[^\n]*komen|komen[^\n]*link/i.test(text), 15, 'Tambah ajakan beli / link'],
+    [/komen|tag |save|simpan|share|kongsi|❤️|drop/i.test(text), 15, 'Tambah ajakan komen, tag atau save'],
+    [/\n\s*\n/.test(text) && avg <= 80, 10, 'Pecahkan perenggan supaya senang dibaca'],
+    [emojis >= 2 && emojis <= 14, 5, 'Guna emoji secukupnya (2–14)'],
+    [n >= lo && n <= hi, 10, `Panjang ideal untuk platform ni: ${lo}–${hi} aksara`],
+  ];
+  let score = 0;
+  const tips = [];
+  for (const [ok, pts, tip] of checks) {
+    if (ok) score += pts;
+    else tips.push(tip);
+  }
+  return { score, tips };
 }
 
 export function anglePool(opts) {

@@ -388,6 +388,7 @@ Harga {{harga}} {je|sahaja}.`,
   {
     id: 'soalan',
     label: '❓ Soalan / Engagement',
+    noHook: true,
     templates: [
       `{Soalan|Nak tanya} {jujur|sikit}… [korang] {team|kem} mana? 🤔
 
@@ -495,7 +496,7 @@ Harga {{harga}} {je|sahaja} — {tak pokai|jimat poket}!`,
 {{nama}} {{emoji}}
 {{senarai}}
 
-{Bagi|Hadiahkan} {pada|kat} {{untuk}} — {setiap kali guna|bila guna} {terus teringat|confirm ingat} [korang] 💝`,
+{Bagi|Hadiahkan} {pada|kat} {{untuk}} — {setiap kali guna|bila guna}, {terus teringat|confirm ingat} siapa yang bagi 💝`,
       `{Birthday|Hari jadi|Anniversary} {dah dekat|nak sampai}? {Jangan|Tak payah} {pening|beli last minute} 🎀
 
 {{nama}} {boleh jadi|memang} {hadiah|gift} {paling|yang} {praktikal|berguna}:
@@ -506,9 +507,99 @@ Harga {{harga}} {je|sahaja} — {tak pokai|jimat poket}!`,
     ],
   },
   {
+    id: 'tips',
+    label: '💡 Tips / Cara Guna',
+    templates: [
+      `{Tips|Tip} {mudah|simple} {untuk|kalau} [korang] nak {{hasilI}} 💡
+
+1️⃣ {Kenal pasti|Fikir} {masalah utama|apa yang paling mengganggu} — {{masalahP}}
+2️⃣ {Guna|Cuba} {barang|alat} yang {tepat|betul}. [Aku] guna {{nama}}
+3️⃣ {Konsisten|Jadikan rutin} — {hasil dia|kesan dia} {terasa|nampak} {dalam seminggu|cepat}
+
+{Kenapa|Sebab apa} {{namaPendek}}?
+{{senarai}}
+
+Harga {{harga}} je. {Simpan|Save} tips ni 📌`,
+      `{Cara|Macam mana} [aku] {settle|selesaikan} {masalah|hal} ni {dalam masa|kurang dari} {5 minit|sehari} ⏱️
+
+{Masalah|Situasi}: {{masalahP}}
+{Solution|Penyelesaian}: {{nama}} {{emoji}}
+
+{Apa yang [aku] buat|Langkah dia}:
+{{senaraiNombor}}
+
+{Hasilnya|Sekarang}: {{hasil}}`,
+      `{Life hack|Hack} {yang|} [aku] {baru tahu|tak sangka berkesan} {🤯|💡}
+
+{Selama ni|Dulu} [aku] {ingat|fikir} {{masalahP}} {memang tak boleh elak|benda biasa}.
+{Rupanya|Tapi rupanya} {cuma perlu|ada cara mudah}: {{nama}}
+
+{{senarai}}
+
+{Kos|Modal} dia? {{harga}} je. {Share|Kongsi} {pada|kat} kawan yang perlu tahu 🔁`,
+    ],
+  },
+  {
+    id: 'rahsia',
+    label: '🤫 Rahsia / Curiosity',
+    templates: [
+      `{Ramai|Kawan-kawan} {tanya|asyik tanya} {macam mana|apa rahsia} [aku] {{hasilI}} 🤫
+
+{Okay|Baiklah}, [aku] {bocorkan|share} {rahsia dia|jawapan dia}…
+{Bukan|Tak} {mahal|susah} pun. {Cuma|Hanya}: {{nama}} {{emoji}}
+
+{{senarai}}
+
+{Harga|Modal} {{harga}} je. {Jangan|Tolong jangan} {bagitahu orang lain|share ramai-ramai} {😂|🤭}`,
+      `{Benda|Barang} {kecil|murah} ni {la|lah} {sebab|punca} {{hasilI}} 👀
+
+{Tak|Tak ada} {siapa|orang} {perasan|tahu}, tapi {{nama}} {buat beza|ubah semuanya}:
+{{senarai}}
+
+{Cuba|Try} {sendiri|la} — {{harga}} je.`,
+      `{Apa|Apakah} {persamaan|beza} {orang yang|mereka yang} {{hasilI}}? 🤔
+
+{Kebanyakan|Selalunya} dia {orang|org} {tak|tidak} {hadap|tahan} {{masalahP}}.
+{Sebab|Kerana} dia {guna|ada} {benda macam|} {{nama}} 👇
+
+{{senarai}}
+
+{Sekarang|Kini} [korang] pun {tahu|dah tahu} {rahsia dia|caranya}. Harga {{harga}} je {{emoji}}`,
+    ],
+  },
+  {
+    id: 'unboxing',
+    label: '📦 Unboxing / First Impression',
+    templates: [
+      `{Unboxing|Buka kotak} {{nama}} 📦✨
+
+📦 {Penghantaran|Sampai}: {laju|cepat}, {packaging|bungkusan} {kemas|elok}
+👀 {First impression|Kesan pertama}: {lagi cantik dari gambar|nampak berkualiti|padu}!
+{{senarai}}
+
+{Untuk|Dengan} harga {{harga}}… {serius|memang} [best] {😍|🤩}`,
+      `{Barang|Parcel} {sampai|dah sampai}! 📦 {Jom|Mari} tengok {{namaPendek}} ni {{emoji}}
+
+✅ {Saiz|Kualiti} {ngam|sesuai}
+✅ {{k1}}
+✅ {{k2}}
+
+{Rating|Markah} first impression: {⭐⭐⭐⭐⭐|9/10|10/10}
+{Nanti|Lepas ni} [aku] update {lepas guna seminggu|review penuh} — {follow|stay tuned} {ye|tau}! 👀`,
+      `{Paket|Parcel} {hari ni|minggu ni}: {{nama}} 📦
+
+{Jujur|Honestly}, [aku] {expect biasa-biasa|tak letak harapan tinggi} sebab harga {{harga}} je.
+{Tapi bila buka|Bila dah buka}… {😳|🤯}
+{{senarai}}
+
+{Dah|Terus} {terasa|nampak}: {{hasilI}} ✨`,
+    ],
+  },
+  {
     id: 'lawak',
     label: '😂 Lawak / Relatable',
     noFormal: true,
+    noHook: true,
     templates: [
       `[Aku]: {Bulan ni|Minggu ni} {nak|kena} {jimat|save duit} 💪
 {Juga|Also} [aku]: {{nama}} {masuk troli|dah checkout} {😭|🤡|🙈}
@@ -533,6 +624,34 @@ Harga {{harga}} {je|sahaja} — {tak pokai|jimat poket}!`,
 {Okay|So} siapa {nak|mahu} {join|ikut} [aku] [beli]? 🙋‍♀️`,
     ],
   },
+];
+
+// ---------- HOOK "STOP SCROLL" ----------
+// Kadang-kadang diletak di atas caption sebagai baris pembuka tambahan (kepelbagaian + tarikan).
+export const HOOKS = [
+  'Jangan scroll dulu ✋ — ni untuk [korang] yang {selalu|pernah} {{masalahP}}',
+  '{Barang|Benda} {{harga}} yang {ubah|tukar} {rutin|hari-hari} [aku] {🤯|😳}',
+  '[Aku] {patut|sepatutnya} beli ni {dari dulu|tahun lepas lagi} {😭|🥲}',
+  '{Kalau|Untuk} [korang] nak {{hasilI}} — {baca ni|ni untuk [korang]} 👇',
+  '{Tak sangka|Tak expect} {barang|benda} {{harga}} {boleh buat|mampu buat} {beza|perubahan} {sebesar ni|macam ni} 😳',
+  '{Bagi|Beri} [aku] {5 saat|10 saat} — [korang] {mesti|confirm} {nak benda ni|terus nak checkout} ⏱️',
+  '{Ni|Inilah} {barang|benda} yang [aku] {paling banyak|selalu} {kena tanya|orang DM tanya} {minggu ni|bulan ni} 👇',
+  '{Racun|RACUN} {hari ini|minggu ni} {🧪|☠️} — {jangan salahkan [aku]|tanggung sendiri} {😂|🤭}',
+  '{Siapa|Sesiapa} yang {selalu|pernah} {{masalahP}}, {angkat tangan|sila baca ni} 🙋‍♀️',
+  '{Ramai tak tahu|Tak ramai tahu} {barang|benda} ni {wujud|ada} — {padahal|walhal} {berguna gila|settle masalah besar} 👀',
+];
+
+// ---------- LINK DALAM KOMEN PERTAMA ----------
+// Facebook & Threads kurang "tolak" post yang ada link luar → letak link dalam komen.
+export const COMMENT_POINTER = [
+  '🔗 Link {ada|letak} {di komen|kat komen} {pertama|bawah} {ye|tau} 👇',
+  '👇 {Link beli|Link order} {dalam|kat} komen {pertama|paling atas}!',
+  '{Nak|Berminat}? Link {ada|saya letak} {di|kat} komen 👇',
+];
+export const COMMENT_TEXT = [
+  '🛒 {Link|Order} {sini|kat sini} 👉 {{link}}',
+  '👉 {Ni link dia|Link beli}: {{link}}\n{Harga|Harga promo} {{harga}} — {cepat sebelum habis|sementara promo masih ada} ⏰',
+  '{Link|Link order} 👇\n{{link}}\n{Selamat [beli]|Happy shopping} [korang]! 🛍️',
 ];
 
 // ---------- CTA (letak link) ----------

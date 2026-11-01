@@ -16,7 +16,7 @@ const DEFAULT_PRODUCT = {
 };
 const DEFAULT_OPTS = {
   platform: 'facebook', tone: 'santai', emoji: 'banyak', angles: [], count: 5,
-  hashtags: true, engage: true, disclosure: false, useCustom: true,
+  hashtags: true, engage: true, disclosure: false, useCustom: true, hooks: true, linkComment: true,
 };
 
 const draft = store.get('draft', {});
@@ -229,7 +229,7 @@ chips($('#c-angles'), ANGLES.map((a) => ({ value: a.id, label: a.label })), stat
 chips($('#c-count'), [3, 5, 8].map((n) => ({ value: n, label: `${n} caption` })), state.opts.count,
   { onChange: setOpt('count') });
 
-for (const [id, key] of [['t-hashtags', 'hashtags'], ['t-engage', 'engage'], ['t-disclosure', 'disclosure'], ['t-custom', 'useCustom']]) {
+for (const [id, key] of [['t-hashtags', 'hashtags'], ['t-engage', 'engage'], ['t-disclosure', 'disclosure'], ['t-custom', 'useCustom'], ['t-hooks', 'hooks'], ['t-linkcomment', 'linkComment']]) {
   const box = $(`#${id}`);
   box.checked = Boolean(state.opts[key]);
   box.addEventListener('change', () => { state.opts[key] = box.checked; saveDraft(); });
@@ -254,7 +254,8 @@ function validate() {
 function runGenerate() {
   if (!validate()) return;
   const { posts } = generatePosts(state.product, optsForEngine(), undefined, seen);
-  state.posts = posts;
+  // Skor tertinggi di atas.
+  state.posts = posts.sort((x, y) => y.score - x.score);
   rememberSeen(posts);
   renderPosts();
   addHistory();
@@ -293,7 +294,26 @@ function firstHookLine(text) {
   return line.replace(/[*_~]/g, '').trim();
 }
 
-function postCard(post, index, { platform = state.opts.platform, onReroll } = {}) {
+function scoreBadge(post, best) {
+  if (typeof post.score !== 'number') return null;
+  const tier = post.score >= 80 ? 'hi' : post.score >= 60 ? 'mid' : 'lo';
+  return el('span', {
+    class: `score s-${tier}`,
+    title: post.tips?.length ? `Boleh baiki:\n• ${post.tips.join('\n• ')}` : 'Semua ciri engagement lengkap!',
+  }, `${best ? '⭐ ' : ''}🔥 ${post.score}`);
+}
+
+function commentBox(post) {
+  if (!post.comment) return null;
+  const box = el('div', { class: 'comment-text', contenteditable: 'true', spellcheck: 'false' }, post.comment);
+  return el('div', { class: 'comment-box' },
+    el('div', { class: 'comment-head' },
+      el('span', {}, '💬 Komen pertama ', el('small', {}, '(post dulu, kemudian komen link ni)')),
+      el('button', { type: 'button', class: 'btn small', onClick: (e) => copyText(box.innerText.trim(), e.currentTarget) }, '📋 Copy komen')),
+    box);
+}
+
+function postCard(post, index, { platform = state.opts.platform, onReroll, best = false } = {}) {
   const body = el('div', { class: 'post-body', contenteditable: 'true', spellcheck: 'false' }, post.text);
   const meta = el('span', { class: 'meta' });
   const updateMeta = () => {
@@ -319,9 +339,15 @@ function postCard(post, index, { platform = state.opts.platform, onReroll } = {}
     },
   }, '🖼️ Poster'));
 
-  return el('article', { class: 'post' },
-    el('div', { class: 'post-head' }, el('span', { class: 'badge' }, post.angleLabel), meta),
+  const tips = post.tips?.length && post.score < 80
+    ? el('div', { class: 'post-tips' }, `💡 ${post.tips.slice(0, 2).join(' · ')}`) : null;
+  return el('article', { class: `post${best ? ' best' : ''}` },
+    el('div', { class: 'post-head' },
+      el('span', { class: 'badge' }, post.angleLabel),
+      el('span', { class: 'head-right' }, scoreBadge(post, best), meta)),
     body,
+    tips,
+    commentBox(post),
     el('div', { class: 'post-actions' }, actions));
 }
 
@@ -337,16 +363,20 @@ function renderPosts() {
     if (!next) return;
     state.posts[i] = next;
     rememberSeen([next]);
-    postsBox.children[i].replaceWith(postCard(next, i, { onReroll: makeReroll(i) }));
+    postsBox.children[i].replaceWith(postCard(next, i, { onReroll: makeReroll(i), best: i === 0 }));
   };
-  postsBox.replaceChildren(...state.posts.map((post, i) => postCard(post, i, { onReroll: makeReroll(i) })));
+  postsBox.replaceChildren(...state.posts.map((post, i) => postCard(post, i, { onReroll: makeReroll(i), best: i === 0 })));
   if (has && window.innerWidth < 980) postsBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 $('#btn-generate').addEventListener('click', runGenerate);
 $('#btn-shuffle').addEventListener('click', runGenerate);
 $('#btn-copyall').addEventListener('click', (e) => {
-  const texts = [...postsBox.querySelectorAll('.post-body')].map((b, i) => `--- Caption ${i + 1} ---\n${b.innerText.trim()}`);
+  const texts = [...postsBox.querySelectorAll('.post')].map((card, i) => {
+    const body = card.querySelector('.post-body').innerText.trim();
+    const comment = card.querySelector('.comment-text')?.innerText.trim();
+    return `--- Caption ${i + 1} ---\n${body}${comment ? `\n\n[Komen pertama]\n${comment}` : ''}`;
+  });
   copyText(texts.join('\n\n'), e.currentTarget);
 });
 
@@ -384,7 +414,7 @@ function addHistory() {
     key,
     product: { ...p, kelebihan: [...p.kelebihan] },
     platform: state.opts.platform,
-    posts: state.posts.map((x) => ({ angleLabel: x.angleLabel, text: x.text })),
+    posts: state.posts.map((x) => ({ angleLabel: x.angleLabel, text: x.comment ? `${x.text}\n\n[Komen pertama]\n${x.comment}` : x.text })),
   };
   const rest = history.filter((h) => h.key !== key);
   store.set('history', [entry, ...rest].slice(0, 100));
@@ -450,8 +480,10 @@ function renderPlanProduct() {
 
 function planText() {
   return state.plan.map((d, i) => {
-    const body = $('#plan-list').querySelectorAll('.post-body')[i]?.innerText.trim() || d.post.text;
-    return `=== ${d.day}, ${d.date} · ${d.slot.time} · ${PLATFORMS[d.platform].label} ===\n${body}`;
+    const card = $('#plan-list').querySelectorAll('.post')[i];
+    const body = card?.querySelector('.post-body').innerText.trim() || d.post.text;
+    const comment = card?.querySelector('.comment-text')?.innerText.trim() || d.post.comment;
+    return `=== ${d.day}, ${d.date} · ${d.slot.time} · ${PLATFORMS[d.platform].label} ===\n${body}${comment ? `\n\n[Komen pertama]\n${comment}` : ''}`;
   }).join('\n\n');
 }
 
