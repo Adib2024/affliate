@@ -2,7 +2,7 @@ import { $, store, toast, copyText, el, chips, shareTo, downloadText } from './u
 import { initPoster, syncFromProduct, setHook, posterVisible } from './ui/poster.js';
 import { initBulk, bulkVisible } from './ui/bulk.js';
 import { initViral, viralVisible } from './ui/viralui.js';
-import { infoFromUrl, infoFromShareText, isShortLink } from './engine/linkinfo.js';
+import { infoFromUrl, infoFromShareText, isShortLink, resolveViaProxy } from './engine/linkinfo.js';
 import { benefitsFromName } from './engine/keywords.js';
 import {
   generatePosts, rerollPost, generatePlan, buildAIPrompt, guessCategory, detectSource, cleanProductName, smartName, parsePrice, fmtRM,
@@ -169,7 +169,25 @@ function looksLikeUrl(s) {
 }
 
 // Semua dibaca terus dalam browser — tiada server diperlukan (GitHub Pages).
-function onLinkChanged() {
+function applyFoundName(name, price) {
+  const clean = cleanProductName(name);
+  if (!f.nama.value.trim() || f.nama.dataset.auto === '1') {
+    f.nama.value = clean;
+    f.nama.dataset.auto = '1';
+  }
+  if (price && !f.harga.value.trim()) f.harga.value = price;
+  readForm();
+  if (!state.product.kategoriManual) {
+    state.product.kategori = guessCategory(clean);
+    f.kategori.value = state.product.kategori;
+    readForm();
+  }
+  saveDraft();
+  return clean;
+}
+
+let linkSeq = 0;
+async function onLinkChanged() {
   const pasted = f.link.value.trim();
   // Orang selalu paste teks share penuh dari app Shopee/TikTok — ambil URL, guna baki teks sebagai nama.
   const m = pasted.match(/https?:\/\/[^\s]+/i);
@@ -190,25 +208,27 @@ function onLinkChanged() {
   const fromUrl = infoFromUrl(url);
   const name = fromUrl.name || fromText.name;
   if (name) {
-    const clean = cleanProductName(name);
-    if (!f.nama.value.trim() || f.nama.dataset.auto === '1') {
-      f.nama.value = clean;
-      f.nama.dataset.auto = '1';
-    }
-    if (fromText.price && !f.harga.value.trim()) f.harga.value = fromText.price;
-    readForm();
-    if (!state.product.kategoriManual) {
-      state.product.kategori = guessCategory(clean);
-      f.kategori.value = state.product.kategori;
-    }
-    saveDraft();
+    const clean = applyFoundName(name, fromText.price);
     setStatus(`✓ Jumpa: ${clean}${fromText.price ? ` · ${fmtRM(fromText.price)}` : ''}. Semak & lengkapkan.`, 'ok');
-  } else if (!src) {
-    setStatus('Link bukan Shopee/TikTok — isi maklumat produk sendiri.');
-  } else if (isShortLink(url)) {
-    setStatus('Link pendek ✓. Isi nama produk sendiri — atau tip: dalam app, tekan Share → Copy, kemudian paste SEMUA teks tu di sini, nama & harga akan diisi automatik.');
+    return;
+  }
+  if (!src) { setStatus('Link bukan Shopee/TikTok — isi maklumat produk sendiri.'); return; }
+
+  // Link pendek: cuba buka melalui proksi percuma untuk dapatkan nama produk.
+  const seq = ++linkSeq;
+  setStatus('⏳ Sedang cuba baca nama produk dari link… (5–15 saat)');
+  const info = await resolveViaProxy(url);
+  if (seq !== linkSeq || f.link.value.trim() !== url) return;
+  if (info.name) {
+    if (f.nama.value.trim() && f.nama.dataset.auto !== '1') {
+      setStatus(`✓ Link dibaca: ${cleanProductName(info.name)} (nama anda dikekalkan)`, 'ok');
+      return;
+    }
+    const clean = applyFoundName(info.name, info.price);
+    setStatus(`✓ Jumpa: ${clean}. Semak & isi harga.`, 'ok');
   } else {
-    setStatus('Link ✓. Isi nama produk sendiri.');
+    setStatus('Tak dapat baca nama dari link pendek ni (Shopee/TikTok sekat). Isi nama sendiri — atau dalam app tekan Share → Copy & paste SEMUA teks, nama & harga terus terisi.', 'err');
+    if (!f.nama.value.trim()) f.nama.focus();
   }
 }
 f.nama.addEventListener('input', () => { f.nama.dataset.auto = '0'; });

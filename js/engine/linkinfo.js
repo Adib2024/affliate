@@ -111,3 +111,73 @@ export function splitBulk(text) {
   // Baris tanpa URL selepas URL terakhir → anggap nama produk untuk item terakhir? Abaikan.
   return items;
 }
+
+// ---------------------------------------------------------------------
+//  Baca link pendek melalui proksi CORS awam (percuma, tanpa server sendiri).
+//  Proksi buka link Shopee/TikTok → kita baca URL akhir (ada nama produk)
+//  atau tag <title>/og:title dalam HTML. Kalau semua gagal → pulang {}.
+// ---------------------------------------------------------------------
+const decode = (s) => s
+  .replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;|&#x27;/g, "'")
+  .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+  .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(+n));
+
+function infoFromHtml(html) {
+  const info = {};
+  const meta = (prop) => {
+    const m = html.match(new RegExp(`<meta[^>]+(?:property|name)=["']${prop}["'][^>]*content=["']([^"']*)["']`, 'i'))
+      || html.match(new RegExp(`<meta[^>]+content=["']([^"']*)["'][^>]*(?:property|name)=["']${prop}["']`, 'i'));
+    return m ? decode(m[1]).trim() : '';
+  };
+  const bad = /^(shopee|shopee malaysia|tiktok|tiktok shop|log ?in|.*verify.*|.*captcha.*|.*security check.*|just a moment.*)$/i;
+  let title = meta('og:title') || (html.match(/<title[^>]*>([^<]*)<\/title>/i)?.[1] || '');
+  title = decode(title).replace(/\s*[|\-–]\s*(Shopee|TikTok).*$/i, '').trim();
+  if (title && !bad.test(title) && title.length >= 4) info.name = title;
+  // URL penuh produk yang mungkin tertanam dalam HTML (canonical / redirect JS)
+  const canon = html.match(/https?:\/\/(?:www\.)?shopee\.[a-z.]+\/[^"'\s<>]+-i\.\d+\.\d+/i);
+  if (!info.name && canon) Object.assign(info, infoFromUrl(canon[0]));
+  const price = meta('product:price:amount') || meta('og:price:amount');
+  if (price) info.price = parseFloat(price) || undefined;
+  return info;
+}
+
+async function timed(url, ms) {
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), ms);
+  try {
+    return await fetch(url, { signal: ctrl.signal });
+  } finally {
+    clearTimeout(t);
+  }
+}
+
+const PROXIES = [
+  // allorigins: pulangkan JSON dengan kandungan + URL akhir selepas redirect
+  async (u) => {
+    const res = await timed(`https://api.allorigins.win/get?url=${encodeURIComponent(u)}`, 9000);
+    if (!res.ok) return {};
+    const j = await res.json();
+    const fromFinal = j?.status?.url ? infoFromUrl(j.status.url) : {};
+    return fromFinal.name ? fromFinal : infoFromHtml(String(j?.contents || ''));
+  },
+  async (u) => {
+    const res = await timed(`https://corsproxy.io/?url=${encodeURIComponent(u)}`, 9000);
+    if (!res.ok) return {};
+    return infoFromHtml(await res.text());
+  },
+  async (u) => {
+    const res = await timed(`https://api.codetabs.com/v1/proxy/?quest=${encodeURIComponent(u)}`, 9000);
+    if (!res.ok) return {};
+    return infoFromHtml(await res.text());
+  },
+];
+
+export async function resolveViaProxy(url) {
+  for (const proxy of PROXIES) {
+    try {
+      const info = await proxy(url);
+      if (info?.name) return info;
+    } catch { /* cuba proksi seterusnya */ }
+  }
+  return {};
+}
