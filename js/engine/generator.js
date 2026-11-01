@@ -513,3 +513,8 @@ export function buildAIPrompt(product, opts) {
   ];
   return lines.filter((l) => l !== null).join('\n');
 }
+
+// Utiliti dikongsi dengan enjin post viral bukan-affiliate (viral.js).
+export const helpers = {
+  EMPTY, EMOJI_RE, render, fixTone, fill, dropEmptyLines, tidy, limitEmoji, punchy,
+};

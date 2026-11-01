@@ -9,6 +9,7 @@ Tukar **link affiliate Shopee & TikTok Shop** kepada caption dan poster yang men
 |---|---|
 | ⚡ **Jana Post** | Paste link, isi harga & kelebihan, kemudian dapat 3/5/8 caption dengan **angle jualan berbeza** |
 | 🔀 **Kepelbagaian** | 13 angle × 3 template × spintax × 5 nada × 11 kategori × bank hook/CTA/emoji/hashtag |
+| 🔥 **Post viral (bukan affiliate)** | 10 niche + topik sendiri × 8 format (Relatable, Hot take, This or That/Poll, Tips, Storytime, Tanda-tanda, Motivasi, Nostalgia) untuk bina follower |
 | 📦 **Pukal** | Paste banyak link/teks share sekaligus → caption untuk semua produk, export .txt / .csv (Excel) |
 | 🔥 **Skor engagement** | Setiap caption dapat skor /100 + tip, yang terbaik di atas |
 | 💬 **Link dalam komen** | Untuk FB & Threads: caption tanpa link + komen pertama siap dengan link |
@@ -56,6 +57,8 @@ js/engine/spintax.js         → spintax {a|b} + token nada [korang]
 js/engine/generator.js       → enjin caption, planner, prompt AI
 js/ui/poster.js              → penjana poster & carousel (canvas)
 js/ui/bulk.js                → mod Pukal (banyak produk)
+js/engine/viral.js           → post viral bukan-affiliate (niche & format)
+js/ui/viralui.js             → tab 🔥 Viral
 js/engine/keywords.js        → kelebihan & masalah ikut keyword nama produk
 js/app.js                    → logik UI
 js/engine/linkinfo.js        → baca nama & harga dari link / teks share

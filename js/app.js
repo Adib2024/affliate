@@ -1,6 +1,7 @@
 import { $, store, toast, copyText, el, chips, shareTo, downloadText } from './ui/util.js';
 import { initPoster, syncFromProduct, setHook, posterVisible } from './ui/poster.js';
 import { initBulk, bulkVisible } from './ui/bulk.js';
+import { initViral, viralVisible } from './ui/viralui.js';
 import { infoFromUrl, infoFromShareText, isShortLink } from './engine/linkinfo.js';
 import { benefitsFromName } from './engine/keywords.js';
 import {
@@ -51,6 +52,7 @@ function showView(name) {
   if (name === 'planner') renderPlanProduct();
   if (name === 'template') renderTemplates();
   if (name === 'pukal') bulkVisible();
+  if (name === 'viral') viralVisible();
   store.set('tab', name);
   window.scrollTo({ top: 0 });
 }
@@ -334,7 +336,7 @@ function commentBox(post) {
     box);
 }
 
-function postCard(post, index, { platform = state.opts.platform, onReroll, best = false } = {}) {
+function postCard(post, index, { platform = state.opts.platform, onReroll, best = false, noPoster = false } = {}) {
   const body = el('div', { class: 'post-body', contenteditable: 'true', spellcheck: 'false' }, post.text);
   const meta = el('span', { class: 'meta' });
   const updateMeta = () => {
@@ -351,7 +353,7 @@ function postCard(post, index, { platform = state.opts.platform, onReroll, best 
     shareButtons(getText),
   ];
   if (onReroll) actions.push(el('button', { type: 'button', class: 'btn small', title: 'Tukar ayat, kekal angle', onClick: onReroll }, '🔀 Tukar'));
-  actions.push(el('button', {
+  if (!noPoster) actions.push(el('button', {
     type: 'button', class: 'btn small', title: 'Guna baris pertama sebagai hook poster',
     onClick: () => {
       const hook = firstHookLine(getText());
@@ -614,6 +616,13 @@ function renderTemplates() {
 // =====================================================================
 fillForm();
 initPoster(() => state.product);
+initViral({
+  postCard,
+  showView,
+  getOpts: optsForEngine,
+  getSeen: () => seen,
+  remember: rememberSeen,
+});
 initBulk({
   postCard,
   showView,
