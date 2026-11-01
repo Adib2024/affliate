@@ -93,3 +93,21 @@ export function infoFromShareText(text) {
 export function isShortLink(urlStr) {
   return /\/\/(s\.shopee\.|shp\.ee|shope\.ee|vt\.tiktok|vm\.tiktok|www\.tiktok\.com\/t\/)/i.test(urlStr);
 }
+
+// Pecahkan teks yang mengandungi BANYAK link/teks share kepada satu item setiap produk.
+// Setiap item = teks sebelum URL (sejak URL sebelumnya) + URL itu sendiri.
+export function splitBulk(text) {
+  const raw = String(text || '');
+  const re = /https?:\/\/[^\s]+/gi;
+  const items = [];
+  let last = 0;
+  let m;
+  while ((m = re.exec(raw))) {
+    const url = m[0].replace(/[),.;!]+$/, '');
+    const chunk = raw.slice(last, m.index + m[0].length).trim();
+    last = m.index + m[0].length;
+    items.push({ url, chunk });
+  }
+  // Baris tanpa URL selepas URL terakhir → anggap nama produk untuk item terakhir? Abaikan.
+  return items;
+}

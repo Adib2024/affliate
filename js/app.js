@@ -1,5 +1,6 @@
 import { $, store, toast, copyText, el, chips, shareTo, downloadText } from './ui/util.js';
 import { initPoster, syncFromProduct, setHook, posterVisible } from './ui/poster.js';
+import { initBulk, bulkVisible } from './ui/bulk.js';
 import { infoFromUrl, infoFromShareText, isShortLink } from './engine/linkinfo.js';
 import { benefitsFromName } from './engine/keywords.js';
 import {
@@ -49,6 +50,7 @@ function showView(name) {
   if (name === 'sejarah') renderHistory();
   if (name === 'planner') renderPlanProduct();
   if (name === 'template') renderTemplates();
+  if (name === 'pukal') bulkVisible();
   store.set('tab', name);
   window.scrollTo({ top: 0 });
 }
@@ -404,17 +406,16 @@ document.querySelectorAll('[data-ai]').forEach((btn) => btn.addEventListener('cl
 // =====================================================================
 //  Sejarah
 // =====================================================================
-function addHistory() {
+function addHistory(p = state.product, posts = state.posts, platform = state.opts.platform) {
   const history = store.get('history', []);
-  const p = state.product;
   const key = `${p.link}|${cleanProductName(p.nama)}`;
   const entry = {
-    id: Date.now().toString(36),
+    id: `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`,
     at: new Date().toISOString(),
     key,
-    product: { ...p, kelebihan: [...p.kelebihan] },
-    platform: state.opts.platform,
-    posts: state.posts.map((x) => ({ angleLabel: x.angleLabel, text: x.comment ? `${x.text}\n\n[Komen pertama]\n${x.comment}` : x.text })),
+    product: { ...p, kelebihan: [...(p.kelebihan || ['', '', ''])] },
+    platform,
+    posts: posts.map((x) => ({ angleLabel: x.angleLabel, text: x.comment ? `${x.text}\n\n[Komen pertama]\n${x.comment}` : x.text })),
   };
   const rest = history.filter((h) => h.key !== key);
   store.set('history', [entry, ...rest].slice(0, 100));
@@ -594,6 +595,15 @@ function renderTemplates() {
 // =====================================================================
 fillForm();
 initPoster(() => state.product);
+initBulk({
+  postCard,
+  showView,
+  getOpts: optsForEngine,
+  getSeen: () => seen,
+  remember: rememberSeen,
+  addHistory,
+  defaultProduct: () => ({ ...DEFAULT_PRODUCT, kelebihan: ['', '', ''] }),
+});
 showView(store.get('tab', 'jana'));
 
 // Kongsi terus dari app Shopee/TikTok ke web ni (PWA share target).

@@ -4,12 +4,12 @@
 
 export const KEYWORD_BENEFITS = [
   // ---- Susun atur / meja / rumah ----
-  { re: /cable (management|organi[sz]er|tray)|wire (organi[sz]er|management)|pengurus wayar|rak wayar/i, k: ['Wayar tersusun kemas, tak berselirat lagi', 'Bawah meja nampak bersih & teratur'] },
+  { re: /cable (management|organi[sz]er|tray)|wire (organi[sz]er|management)|pengurus wayar|rak wayar/i, k: ['Wayar tersusun kemas, tak berselirat lagi', 'Bawah meja nampak bersih & teratur'], m: ['Bawah meja {berselirat|bersepah} dengan wayar & extension?', 'Kaki {asyik|selalu} {tersepak|tersangkut} wayar bawah meja?'] },
   { re: /under ?desk|bawah meja/i, k: ['Pasang bawah meja — tak makan ruang langsung'] },
   { re: /socket|extension|plug|power strip|palam/i, k: ['Extension & plug tersorok, tak bersepah atas lantai'] },
   { re: /extendable|adjustable|retractable|boleh laras|telescopic/i, k: ['Boleh laras ikut saiz yang anda nak'] },
   { re: /foldable|folding|lipat|collapsible/i, k: ['Boleh lipat — jimat ruang bila simpan'] },
-  { re: /organi[sz]er|storage|rak|rack|shelf|penyimpanan|drawer|laci/i, k: ['Barang tersusun, senang cari bila perlu'] },
+  { re: /organi[sz]er|storage|rak|rack|shelf|penyimpanan|drawer|laci/i, k: ['Barang tersusun, senang cari bila perlu'], m: ['Barang {bersepah|merata} sampai {susah nak cari|buang masa cari} {bila perlu|setiap hari}?'] },
   { re: /no ?drill|tanpa (tebuk|skru)|adhesive|self.?adhesive|tampal/i, k: ['Pasang tanpa tebuk dinding — sesuai rumah sewa'] },
   { re: /magnet/i, k: ['Ada magnet — lekat kukuh, senang pasang & tanggal'] },
   { re: /stainless|keluli/i, k: ['Stainless steel — tahan lama & tak berkarat'] },
@@ -20,14 +20,14 @@ export const KEYWORD_BENEFITS = [
   { re: /waterproof|kalis air|water resistant/i, k: ['Kalis air — tak risau kena hujan atau tumpah'] },
   { re: /ergonomic|ergonomik/i, k: ['Reka bentuk ergonomik — selesa guna lama'] },
   { re: /desk|meja|table|workstation/i, k: ['Meja kerja nampak kemas, mood kerja pun naik'] },
-  { re: /vacuum|penyedut|mop|penyapu/i, k: ['Kemas rumah jadi lebih cepat & kurang penat'] },
-  { re: /air fryer|airfryer/i, k: ['Masak rangup tanpa banyak minyak'] },
+  { re: /vacuum|penyedut|mop|penyapu/i, k: ['Kemas rumah jadi lebih cepat & kurang penat'], m: ['{Habuk|Rambut} {kat lantai|merata} tak habis-habis {walaupun|padahal} dah sapu?'] },
+  { re: /air fryer|airfryer/i, k: ['Masak rangup tanpa banyak minyak'], m: ['Nak makan {goreng|rangup} tapi {risau minyak banyak|malas cuci kuali}?'] },
   { re: /blender|pengisar|juicer/i, k: ['Kisar laju — siap dalam beberapa saat'] },
 
   // ---- Gajet ----
-  { re: /wireless|bluetooth|tanpa wayar/i, k: ['Wireless — bebas bergerak tanpa wayar berselirat'] },
-  { re: /fast charg|quick charg|pd ?\d+w|\d+w\b|cas laju/i, k: ['Cas laju — tak perlu tunggu lama'] },
-  { re: /power ?bank/i, k: ['Bateri simpanan — phone tak mati masa penting'] },
+  { re: /wireless|bluetooth|tanpa wayar/i, k: ['Wireless — bebas bergerak tanpa wayar berselirat'], m: ['Wayar earphone {bersimpul|asyik kusut} {dalam beg|dalam poket}?'] },
+  { re: /fast charg|quick charg|pd ?\d+w|\d+w\b|cas laju/i, k: ['Cas laju — tak perlu tunggu lama'], m: ['{Penat|Bosan} tunggu phone cas {berjam-jam|lama sangat}?'] },
+  { re: /power ?bank/i, k: ['Bateri simpanan — phone tak mati masa penting'], m: ['Phone {selalu|asyik} mati {time penting|masa paling perlu}? 🪫'] },
   { re: /rechargeable|boleh cas|usb.?c|type.?c/i, k: ['Boleh cas semula — tak perlu beli bateri'] },
   { re: /portable|mudah alih|mini|compact|kompak/i, k: ['Saiz kompak, senang bawa ke mana-mana'] },
   { re: /noise cancel|anc\b/i, k: ['Noise cancelling — fokus tanpa gangguan bunyi luar'] },
@@ -42,25 +42,40 @@ export const KEYWORD_BENEFITS = [
   { re: /quick dry|cepat kering/i, k: ['Cepat kering lepas basuh'] },
   { re: /stretch|elastic|anjal|getah/i, k: ['Kain anjal — selesa untuk semua bentuk badan'] },
   { re: /plus size|saiz besar|big size/i, k: ['Ada saiz besar — muat & tetap cantik'] },
-  { re: /tudung|shawl|bawal|hijab/i, k: ['Senang dibentuk, terletak cantik sepanjang hari'] },
+  { re: /tudung|shawl|bawal|hijab/i, k: ['Senang dibentuk, terletak cantik sepanjang hari'], m: ['Tudung {senget|tak menjadi} {walaupun|padahal} dah {lama|berkali-kali} {bentuk|betulkan}? 😩'] },
   { re: /lightweight|ringan/i, k: ['Ringan — tak rasa berat langsung'] },
   { re: /sneaker|kasut|shoe|sandal/i, k: ['Selesa dipakai jalan jauh'] },
 
   // ---- Kecantikan ----
-  { re: /vitamin c|brightening|mencerahkan|glow/i, k: ['Bantu kulit nampak lebih cerah & berseri'] },
+  { re: /vitamin c|brightening|mencerahkan|glow/i, k: ['Bantu kulit nampak lebih cerah & berseri'], m: ['Muka {kusam|gelap} & {tak berseri|nampak penat} walaupun dah {tidur cukup|jaga}?'] },
   { re: /hyaluronic|hydrat|moistur|pelembap/i, k: ['Kulit terasa lembap & tak kering'] },
   { re: /niacinamide|pore|liang/i, k: ['Bantu liang pori nampak lebih halus'] },
-  { re: /spf|sunscreen|sunblock|uv/i, k: ['Lindungi kulit dari cahaya matahari'] },
+  { re: /spf|sunscreen|sunblock|uv/i, k: ['Lindungi kulit dari cahaya matahari'], m: ['Muka {cepat gelap|terbakar} lepas {keluar|kena} panas sekejap?'] },
   { re: /long ?lasting|tahan lama|waterproof|transfer.?proof|smudge/i, k: ['Tahan lama — tak perlu touch-up selalu'] },
   { re: /matte/i, k: ['Finishing matte — tak berminyak'] },
   { re: /halal/i, k: ['Halal — guna dengan tenang'] },
   { re: /perfume|minyak wangi|eau de/i, k: ['Wangi tahan lama — orang sekeliling perasan'] },
 
+  // ---- Kereta ----
+  { re: /dashcam|dash cam/i, k: ['Rakam setiap perjalanan — ada bukti kalau jadi apa-apa'], m: ['{Takut|Risau} {jadi apa-apa|accident} atas jalan & {takde bukti|susah nak claim}?'] },
+  { re: /car (mount|holder)|phone holder kereta|pemegang phone/i, k: ['Phone stabil masa memandu — GPS senang tengok'], m: ['Phone {tergolek|jatuh} masa tengok {Waze|GPS} {sambil drive|memandu}? 😬'] },
+  { re: /seat cover|sarung (kusyen|seat)/i, k: ['Kusyen kereta terjaga & nampak baru'] },
+  { re: /air freshener|pewangi kereta|car perfume/i, k: ['Kereta wangi sepanjang hari'] },
+  { re: /car vacuum|vacuum kereta/i, k: ['Sedut habuk & sampah dalam kereta dengan mudah'] },
+  { re: /helmet|topi keledar/i, k: ['Selesa dipakai & lebih yakin di jalan raya'] },
+
+  // ---- Haiwan peliharaan ----
+  { re: /cat litter|pasir kucing|litter/i, k: ['Kurang bau, senang dibersihkan'], m: ['{Bau|Pasir} {tandas kucing|litter} {menusuk|bersepah} {satu rumah|sampai ruang tamu}? 😩'] },
+  { re: /cat food|makanan kucing|dry food|wet food/i, k: ['Anabul makan berselera'] },
+  { re: /scratch|pencakar/i, k: ['Kucing cakar benda ni, bukan sofa lagi 😅'], m: ['Kucing {asyik|suka} cakar {sofa|langsir|perabot} sampai {koyak|rosak}? 😩'] },
+  { re: /cat toy|mainan kucing|teaser|feather/i, k: ['Kucing aktif & tak bosan'], m: ['Kucing {bosan|asyik tidur} & {gemuk|tak aktif}?'] },
+  { re: /pet bed|tilam kucing|cat bed|katil kucing/i, k: ['Anabul tidur lena & selesa'] },
+
   // ---- Bayi / kesihatan / makanan ----
   { re: /bpa.?free|food grade|gred makanan/i, k: ['Bahan food grade, bebas BPA — selamat untuk keluarga'] },
   { re: /baby|bayi|newborn/i, k: ['Lembut & selamat untuk si kecil'] },
   { re: /collagen|kolagen/i, k: ['Mudah diambil setiap hari'] },
-  { re: /massage|urut/i, k: ['Lega lenguh badan tanpa perlu ke spa'] },
+  { re: /massage|urut/i, k: ['Lega lenguh badan tanpa perlu ke spa'], m: ['{Badan|Bahu|Belakang} {lenguh|sakit} lepas {kerja|seharian}, tapi {takde masa|mahal} nak pergi urut?'] },
   { re: /snack|kerepek|keropok|biskut|coklat|chocolate/i, k: ['Sedap — sekali makan memang tak cukup'] },
 ];
 
@@ -74,4 +89,12 @@ export function benefitsFromName(name, max = 3) {
     if (out.length >= max) break;
   }
   return out.slice(0, max);
+}
+
+// Ayat masalah khusus ikut keyword (lebih tepat dari ayat kategori).
+export function problemsFromName(name) {
+  const str = String(name || '');
+  const out = [];
+  for (const { re, m } of KEYWORD_BENEFITS) if (m && re.test(str)) out.push(...m);
+  return out;
 }

@@ -23,6 +23,7 @@
       </div>
       <nav class="tabs" role="tablist" aria-label="Menu utama">
         <button class="tab" role="tab" data-view="jana" aria-selected="true"><span class="ico">⚡</span>Jana</button>
+        <button class="tab" role="tab" data-view="pukal" aria-selected="false"><span class="ico">📦</span>Pukal</button>
         <button class="tab" role="tab" data-view="poster" aria-selected="false"><span class="ico">🖼️</span>Poster</button>
         <button class="tab" role="tab" data-view="planner" aria-selected="false"><span class="ico">📅</span>Planner</button>
         <button class="tab" role="tab" data-view="sejarah" aria-selected="false"><span class="ico">🗂️</span>Sejarah</button>
@@ -156,6 +157,40 @@
               <button class="btn" data-ai="claude" type="button">Buka Claude ↗</button>
               <button class="btn" data-ai="gemini" type="button">Buka Gemini ↗</button>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================== PUKAL =================== -->
+    <section class="view" id="view-pukal" hidden>
+      <div class="grid-2">
+        <div class="sticky-col">
+          <div class="card">
+            <h2><span class="step">1</span> Paste banyak produk</h2>
+            <p class="hint" style="margin-top:0">Paste link atau teks share dari app Shopee/TikTok — <b>satu produk satu baris</b>, atau tampal terus beberapa teks share berturut-turut.</p>
+            <textarea id="bulk-input" class="input" rows="8" style="margin-top:10px" placeholder="Check out Tudung Bawal Cotton for RM19.90. Get it on Shopee now! https://s.shopee.com.my/aaa&#10;Check out Rak Wayar Bawah Meja for RM12.99. Get it on Shopee now! https://s.shopee.com.my/bbb&#10;https://vt.tiktok.com/ccc"></textarea>
+            <button class="btn primary big" id="bulk-read" type="button" style="margin-top:10px">🔍 Baca produk</button>
+          </div>
+          <div class="card" id="bulk-setup" hidden>
+            <h2><span class="step">2</span> Semak &amp; jana</h2>
+            <div class="stat" id="bulk-style"></div>
+            <div class="field" style="margin-top:10px">
+              <span class="label">Caption setiap produk</span>
+              <div class="chips" id="c-bulk-count"></div>
+            </div>
+            <button class="btn primary big" id="bulk-generate" type="button">⚡ Jana semua</button>
+            <div class="btn-row" style="margin-top:10px">
+              <button class="btn small" id="bulk-copy" type="button" hidden>📋 Copy semua</button>
+              <button class="btn small" id="bulk-txt" type="button" hidden>⬇️ .txt</button>
+              <button class="btn small" id="bulk-csv" type="button" hidden>⬇️ .csv (Excel)</button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div id="bulk-rows" class="list"></div>
+          <div id="bulk-results" class="posts" style="margin-top:16px">
+            <div class="empty card"><div class="big-emoji">📦</div><p>Paste beberapa link/teks share, tekan <b>🔍 Baca produk</b>, semak nama &amp; harga, kemudian <b>⚡ Jana semua</b>.</p><p class="hint">Gaya (platform, nada, emoji) ikut tetapan di tab ⚡ Jana.</p></div>
           </div>
         </div>
       </div>

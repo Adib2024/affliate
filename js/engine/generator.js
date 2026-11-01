@@ -1,5 +1,5 @@
 import { mulberry32, newSeed, pick, shuffle, spin, applyTone, hashText } from './spintax.js';
-import { benefitsFromName } from './keywords.js';
+import { benefitsFromName, problemsFromName } from './keywords.js';
 import {
   TONES, CATEGORIES, SEASONS, PLATFORMS, SOURCES, ANGLES, CTA, ENGAGE, DISCLOSURE, PLAN_SLOTS, DAYS_MS,
   HOOKS, COMMENT_POINTER, COMMENT_TEXT,
@@ -135,8 +135,12 @@ function buildVars(product, opts, rand, tone) {
     untuk: product.untuk?.trim() || toned('{orang tersayang|keluarga|kawan baik|bestie}'),
     kedai: src.kedai,
     emoji: shuffle(rand, cat.emoji).slice(0, 1 + Math.floor(rand() * 2)).join(''),
-    masalah: toned(pick(rand, cat.masalah)),
+    masalah: (() => {
+      const own = problemsFromName(product.nama);
+      return toned(pick(rand, own.length && rand() < 0.85 ? own : cat.masalah));
+    })(),
     hasil: toned(pick(rand, cat.hasil || CATEGORIES.lain.hasil)),
+    khas: toned(pick(rand, cat.khas || CATEGORIES.lain.khas)),
     musim: SEASONS[product.musim]?.lines.length ? toned(pick(rand, SEASONS[product.musim].lines)) : '',
     link: String(product.link || '').trim(),
   };
@@ -228,6 +232,16 @@ function buildPost(product, opts, angle, templateIndex, seed) {
   let body = render(angle.templates[templateIndex], rand, tone);
   body = tidy(dropEmptyLines(fill(body, vars)));
   if (platform.compact) body = compactBody(body, vars);
+  // Ayat khas kategori (contoh "Sesuai untuk rumah sewa") selepas senarai kelebihan.
+  else if (vars.khas && rand() < 0.6) {
+    const lastBullet = vars.senarai.split('\n').pop() || vars.senaraiNombor.split('\n').pop();
+    const lines = body.split('\n');
+    const idx = lines.findIndex((l) => l === lastBullet || l === vars.senaraiNombor.split('\n').pop());
+    if (idx >= 0 && !body.includes(vars.khas)) {
+      lines.splice(idx + 1, 0, `${vars.senarai.startsWith('-') ? '-' : '👉'} ${vars.khas}`);
+      body = lines.join('\n');
+    }
+  }
 
   const blocks = [];
   // Hook "stop scroll" tambahan di baris pertama (bukan untuk X / angle yang ada format sendiri).
