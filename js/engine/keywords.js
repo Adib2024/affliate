@@ -25,6 +25,8 @@ export const KEYWORD_BENEFITS = [
   { re: /blender|pengisar|juicer/i, k: ['Kisar laju — siap dalam beberapa saat'] },
 
   // ---- Gajet ----
+  { re: /\bmouse\b|tetikus|mx master|mx anywhere|gaming mouse/i, k: ['Selesa di tangan walaupun guna seharian', 'Scroll laju & tepat — kerja siap lebih cepat'], m: ['Pergelangan tangan {lenguh|sakit} lepas seharian guna mouse biasa?', 'Mouse lama asyik {double click|tersangkut} masa kerja penting?'] },
+  { re: /keyboard|papan kekunci|mechanical/i, k: ['Taip lebih selesa & laju'], m: ['Jari {penat|lenguh} lepas menaip seharian?'] },
   { re: /wireless|bluetooth|tanpa wayar/i, k: ['Wireless — bebas bergerak tanpa wayar berselirat'], m: ['Wayar earphone {bersimpul|asyik kusut} {dalam beg|dalam poket}?'] },
   { re: /fast charg|quick charg|pd ?\d+w|\d+w\b|cas laju/i, k: ['Cas laju — tak perlu tunggu lama'], m: ['{Penat|Bosan} tunggu phone cas {berjam-jam|lama sangat}?'] },
   { re: /power ?bank/i, k: ['Bateri simpanan — phone tak mati masa penting'], m: ['Phone {selalu|asyik} mati {time penting|masa paling perlu}? 🪫'] },

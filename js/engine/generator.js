@@ -224,7 +224,8 @@ function pickHashtags(product, opts, rand) {
   if (!n) return [];
   const cat = CATEGORIES[product.kategori] || CATEGORIES.lain;
   const src = SOURCES[product.source] || SOURCES.lain;
-  const pool = shuffle(rand, [...src.tags, ...cat.hashtags]);
+  let pool = shuffle(rand, [...src.tags, ...cat.hashtags]);
+  if (isPricey(product)) pool = pool.filter((h) => !/murah/i.test(h));
   // Pastikan sekurang-kurangnya satu tag sumber (Shopee / TikTok).
   const first = pick(rand, src.tags);
   return [first, ...pool.filter((t) => t !== first)].slice(0, n);
@@ -254,9 +255,14 @@ function ctaLines(product, opts, rand, tone, vars) {
 function punchy(text) {
   return text.split('\n').map((line) => {
     if (line.length < 60 || /^\s*(#|https?:)/.test(line)) return line;
-    return line.split(/(?<=[.!?…])\s+(?=[A-Z0-9"“(])/).join('\n');
+    return line.split(/(?<=[^\d\s][.!?…])\s+(?=[A-Z0-9"“(])/).join('\n');
   }).join('\n');
 }
+
+// Barang mahal (≥ RM150): elak angle & ayat "murah/jimat/lebih best dari yang mahal".
+const PRICEY = 150;
+export const isPricey = (product) => (parsePrice(product.harga) || 0) >= PRICEY;
+const CHEAP_RE = /benda kecil|hadiah kecil|kualiti teruk|tak letak harapan|expect biasa|yang mahal|brand mahal|lebih murah|\bmurah\b|mesra poket|tak pokai|jimat poket|sekali makan luar|cawan kopi|bajet (tight|ketat)|duit (tight|ketat)|RM100\+\+|ratus-ratus|semurah|serendah/i;
 
 function buildPost(product, rawOpts, angle, templateIndex, seed) {
   const opts = { ...rawOpts, viral: postStyle(rawOpts) !== 'jual' };
@@ -271,6 +277,15 @@ function buildPost(product, rawOpts, angle, templateIndex, seed) {
   vars.watak = pick(rand, catWatak[angle.watak] || WATAK[angle.watak] || WATAK.kawan);
   vars.watakCap = cap(vars.watak);
   vars.k1Cap = cap(vars.k1); vars.k2Cap = cap(vars.k2); vars.k3Cap = cap(vars.k3);
+
+  // Threads: satu idea, nada berbual — senarai pendek (maks 2), tiada ayat khas / hook tambahan
+  const isThreads = opts.platform === 'threads';
+  if (isThreads) {
+    vars.senarai = vars.senarai.split('\n').slice(0, 2).join('\n');
+    vars.senaraiNombor = vars.senaraiNombor.split('\n').slice(0, 2).join('\n');
+    vars.k3 = ''; vars.k3i = ''; vars.k3Cap = '';
+    vars.khas = '';
+  }
 
   // Threads / X: guna versi cerita pendek supaya muat had aksara
   const useShort = angle.short?.length && platform.limit && platform.limit <= 500;
@@ -292,7 +307,7 @@ function buildPost(product, rawOpts, angle, templateIndex, seed) {
   const blocks = [];
   // Hook "stop scroll" tambahan di baris pertama (bukan untuk X / angle yang ada format sendiri).
   const hookChance = angle.story ? 0.3 : opts.viral ? 0.8 : 0.45;
-  if (opts.hooks !== false && !platform.compact && !useShort && !angle.noHook && rand() < hookChance) {
+  if (opts.hooks !== false && !platform.compact && !useShort && !isThreads && !angle.noHook && rand() < hookChance) {
     const bank = angle.story ? STORY_HOOKS : opts.viral && rand() < 0.7 ? VIRAL_HOOKS : HOOKS;
     const hook = fill(render(pick(rand, bank), rand, tone), vars);
     if (!hook.includes(EMPTY)) blocks.push(hook);
@@ -328,6 +343,8 @@ function buildPost(product, rawOpts, angle, templateIndex, seed) {
     text = [`*${first.replace(/\*/g, '')}*`, ...rest].join('\n');
   }
   text = limitEmoji(text, opts.emoji);
+  // Barang mahal: jangan cakap "RM499 je" — bunyi tak jujur
+  if (isPricey(product)) text = text.replace(/(RM[\d.,]*\d)\s*(je|sahaja|JE|SAHAJA)(?![A-Za-z])/g, '$1');
 
   const withTags = (t) => (tags.length ? `${t}\n\n${tags.join(' ')}` : t);
   let full = withTags(text);
@@ -462,6 +479,10 @@ export function generatePosts(product, opts, seed = newSeed(), seen = new Set())
   const rand = mulberry32(seed);
   const count = opts.count || 5;
   let pool = shuffle(rand, anglePool(opts));
+  if (isPricey(product)) {
+    const fair = pool.filter((a) => !['harga', 'hottake'].includes(a.id));
+    if (fair.length) pool = fair;
+  }
   const mine = opts.useCustom !== false ? customAngle(opts) : null;
   if (mine) pool = [mine, ...pool];
 
@@ -478,7 +499,7 @@ export function generatePosts(product, opts, seed = newSeed(), seen = new Set())
     usedCombos.add(combo);
     let post = buildPost(product, opts, angle, tIndex, Math.floor(rand() * 2 ** 32));
     // Anti-ulang: cuba lagi kalau teks sama pernah keluar sebelum ni.
-    for (let r = 0; r < 8 && seen.has(post.hash); r++) {
+    for (let r = 0; r < 8 && (seen.has(post.hash) || (isPricey(product) && CHEAP_RE.test(post.text))); r++) {
       post = buildPost(product, opts, angle, Math.floor(rand() * angle.templates.length), Math.floor(rand() * 2 ** 32));
     }
     posts.push(post);

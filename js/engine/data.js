@@ -142,7 +142,7 @@ export const CATEGORIES = {
   },
   gajet: {
     label: '📱 Gajet',
-    keywords: ['phone', 'telefon', 'charger', 'cable', 'kabel', 'earphone', 'earbuds', 'headphone', 'powerbank', 'power bank', 'speaker', 'smartwatch', 'casing', 'case', 'tripod', 'ring light', 'mouse', 'keyboard', 'laptop', 'tablet', 'ipad', 'usb', 'bluetooth', 'wireless', 'kamera', 'camera', 'mic', 'router', 'led'],
+    keywords: ['logitech', 'razer', 'anker', 'baseus', 'ugreen', 'xiaomi', 'samsung', 'apple', 'iphone', 'airpods', 'jbl', 'sony', 'huawei', 'oppo', 'vivo', 'realme', 'mx master', 'phone', 'telefon', 'charger', 'cable', 'kabel', 'earphone', 'earbuds', 'headphone', 'powerbank', 'power bank', 'speaker', 'smartwatch', 'casing', 'case', 'tripod', 'ring light', 'mouse', 'keyboard', 'laptop', 'tablet', 'ipad', 'usb', 'bluetooth', 'wireless', 'kamera', 'camera', 'mic', 'router', 'led'],
     emoji: ['📱', '🎧', '🔌', '⚡', '💻', '🔋', '🎮'],
     masalah: [
       'Bateri phone selalu habis {time penting|masa paling perlu}?',
@@ -654,6 +654,60 @@ Harga {{harga}} je. {Simpan|Save} tips ni 📌`,
   // ================= STORYLINE (Mod Storyline) =================
   // Cerita penuh: pembuka → situasi → konflik/dialog → produk muncul semula jadi → twist → hasil → refleksi.
   // {{watak}} dipilih ikut jenis kisah (mak aku / suami aku / kawan office aku …).
+  {
+    id: 'lesson',
+    label: '🌷 Life Lesson',
+    story: true,
+    watak: 'kawan',
+    templates: [
+      `Life lesson {tahun ni|minggu ni} 🌷
+
+Jangan berkira dengan benda yang kau guna setiap hari.
+
+Dulu aku selalu pilih ikut harga, bukan ikut keperluan.
+Rosak, beli lagi. Tak selesa, tahan je.
+Dan masalah yang sama tak pernah selesai: {{masalahP}}.
+
+Sampai satu hari aku decide: cukup.
+Aku pilih {{nama}}.
+
+{{k1Cap}}.
+{{k2Cap}}.
+
+Sekarang baru aku faham…
+Barang yang betul bukan membazir. Ia hadiah untuk diri sendiri yang kau jumpa setiap hari 🤍
+
+Korang pernah belajar benda ni dengan cara yang susah? 👇`,
+      `Benda yang aku belajar lepas {masuk alam kerja|umur makin meningkat} 🌷
+
+1. Tidur cukup bukan malas.
+2. Kawan sikit tak apa, asal ikhlas.
+3. Benda yang kau guna hari-hari, pilih yang betul-betul membantu.
+
+Nombor 3 tu aku belajar bila tukar ke {{nama}}.
+{{k1Cap}}.
+Baru sedar selama ni aku hadap benda ni tanpa sebab: {{masalahP}}.
+
+Korang nak tambah nombor 4? 👇`,
+    ],
+    short: [
+      `Life lesson 🌷
+Benda yang kau guna setiap hari, jangan berkira sangat.
+
+Aku baru tukar ke {{namaPendek}}.
+{{k1Cap}}.
+Rasa macam hadiah untuk diri sendiri 🤍
+
+Korang setuju tak?`,
+      `3 benda yang aku belajar tahun ni:
+1. Tidur cukup bukan malas
+2. Kawan sikit tak apa, asal ikhlas
+3. Barang harian, pilih yang betul-betul membantu
+
+No. 3 aku belajar lepas tukar ke {{namaPendek}} 🌷
+Korang nak tambah no. 4? 👇`,
+    ],
+  },
   {
     id: 'kisahKeluarga',
     label: '👨‍👩‍👧 Kisah Keluarga',
