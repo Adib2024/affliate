@@ -1,5 +1,5 @@
 // Service worker ringkas: web boleh dibuka walaupun internet lemah.
-const CACHE = 'racunpost-v12';
+const CACHE = 'racunpost-v13';
 // Path relatif supaya berfungsi di GitHub Pages (https://user.github.io/repo/).
 const SHELL = [
   './', './index.html', './styles.css', './manifest.webmanifest', './icons/icon.svg', './icons/icon-192.png',
@@ -22,7 +22,8 @@ self.addEventListener('fetch', (e) => {
   if (e.request.method !== 'GET' || url.origin !== location.origin) return;
   // Rangkaian dahulu (supaya sentiasa versi terbaru), cache bila offline.
   e.respondWith(
-    fetch(e.request)
+    // cache: 'no-cache' → sentiasa semak dengan server (elak versi lama dari cache HTTP)
+    fetch(e.request, { cache: 'no-cache' })
       .then((res) => {
         if (res.ok) {
           const copy = res.clone();

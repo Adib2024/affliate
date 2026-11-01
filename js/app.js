@@ -261,7 +261,6 @@ function resetProduct() {
   f.link.focus();
   toast('🔄 Dah reset — paste link baru');
 }
-$('#btn-clear').addEventListener('click', resetProduct);
 $('#btn-reset').addEventListener('click', resetProduct);
 $('#btn-reset-all').addEventListener('click', () => {
   if (!confirm('Padam SEMUA data (sejarah, template, draf & tetapan) dalam browser ni?')) return;
