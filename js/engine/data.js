@@ -83,6 +83,7 @@ export const CATEGORIES = {
       'Susah cari {pakaian|outfit} yang selesa tapi tetap nampak kemas?',
       'Penat cari outfit yang {muat bajet|ngam dengan bajet}?',
     ],
+    hasil: ['Keluar rumah terus rasa yakin & cantik ✨', 'Orang mula tanya "beli kat mana?" 😍', 'Siap cepat pagi-pagi, tak pening fikir nak pakai apa'],
     hashtags: ['#OOTDMalaysia', '#FesyenMurah', '#FesyenWanita', '#OutfitIdea', '#BajuMurah'],
     defaultK: ['Nampak kemas & bergaya', 'Sesuai untuk pakai harian', 'Harga berbaloi'],
   },
@@ -95,6 +96,7 @@ export const CATEGORIES = {
       'Makeup cepat cair bila {panas|cuaca panas}?',
       'Kulit kering tak kira berapa banyak pakai pelembap?',
     ],
+    hasil: ['Muka nampak segar walaupun tak tidur cukup ✨', 'Yakin selfie tanpa filter 🤳', 'Rutin cantik jadi ringkas & tak membazir'],
     hashtags: ['#SkincareMalaysia', '#BeautyFinds', '#MakeupMurah', '#GlowUp', '#RacunSkincare'],
     defaultK: ['Senang guna setiap hari', 'Sesuai untuk rutin harian', 'Harga berbaloi'],
   },
@@ -107,8 +109,22 @@ export const CATEGORIES = {
       'Penat buat kerja rumah yang tak habis-habis?',
       'Ruang rumah {sempit|kecil} dan barang {bersepah|merata}?',
     ],
+    hasil: ['Rumah nampak kemas, hati pun tenang 🏡', 'Kerja rumah siap cepat, ada masa rehat ☕', 'Tetamu datang pun tak malu'],
     hashtags: ['#RumahKemas', '#BarangDapur', '#HomeDecorMalaysia', '#IdeaRumah', '#DapurCantik'],
     defaultK: ['Jimat masa & tenaga', 'Senang dibersihkan', 'Rumah nampak lebih kemas'],
+  },
+  kerja: {
+    label: '💼 Meja & Pejabat',
+    keywords: ['desk', 'meja', 'cable management', 'cable tray', 'under desk', 'office', 'pejabat', 'monitor stand', 'laptop stand', 'kerusi', 'chair', 'stationery', 'alat tulis', 'workstation', 'wfh', 'organizer meja'],
+    emoji: ['💼', '🖥️', '✨', '🧹', '📐', '🗂️'],
+    masalah: [
+      'Bawah meja {berselirat|bersepah} dengan wayar & extension? 😩',
+      'Meja kerja {bersepah|serabut} sampai {mood kerja hilang|tak fokus nak buat kerja}?',
+      'Kaki {asyik tersepak|selalu tersangkut} wayar bawah meja?',
+    ],
+    hasil: ['Meja kerja kemas — mood & fokus terus naik 🧠', 'Setup meja nampak macam {Pinterest|setup influencer} ✨', 'Tak malu lagi bila video call atau kawan datang'],
+    hashtags: ['#DeskSetup', '#WFHMalaysia', '#MejaKemas', '#SetupMeja', '#WorkspaceGoals'],
+    defaultK: ['Meja nampak lebih kemas & teratur', 'Senang dipasang', 'Sesuai untuk rumah & pejabat'],
   },
   gajet: {
     label: '📱 Gajet',
@@ -119,6 +135,7 @@ export const CATEGORIES = {
       'Wayar {berselirat|bersimpul} dan selalu rosak?',
       'Gajet lama dah lembap dan buat stress?',
     ],
+    hasil: ['Hidup harian jadi lebih mudah & lancar ⚡', 'Tak stress lagi bila gajet buat hal', 'Kerja & hiburan jadi lebih syok 🎧'],
     hashtags: ['#GajetMurah', '#TechMalaysia', '#GadgetFinds', '#TechTips', '#GajetBerguna'],
     defaultK: ['Senang guna', 'Kemas & praktikal', 'Sesuai untuk kegunaan harian'],
   },
@@ -131,6 +148,7 @@ export const CATEGORIES = {
       'Mak-mak penat urus barang {baby|anak} yang bersepah?',
       'Susah cari barang {baby|anak-anak} yang selamat dan berbaloi?',
     ],
+    hasil: ['Anak selesa, mak ayah pun lega 🥹', 'Urusan anak jadi lebih cepat & teratur', 'Lebih banyak masa berkualiti dengan si kecil 💕'],
     hashtags: ['#MakMakShopee', '#BarangBaby', '#ParentingMalaysia', '#IbuBapa', '#AnakAnak'],
     defaultK: ['Memudahkan urusan mak ayah', 'Sesuai untuk kegunaan harian', 'Harga berbaloi'],
   },
@@ -143,6 +161,7 @@ export const CATEGORIES = {
       'Susah nak konsisten jaga kesihatan?',
       'Sakit badan lepas seharian {kerja|bekerja}?',
     ],
+    hasil: ['Badan rasa lebih bertenaga setiap hari 💪', 'Konsisten jaga diri tanpa rasa terbeban', 'Lega lepas penat seharian'],
     hashtags: ['#GayaHidupSihat', '#FitnessMalaysia', '#SihatSelalu', '#HealthyLifestyle', '#JagaKesihatan'],
     defaultK: ['Senang masuk dalam rutin harian', 'Sesuai untuk semua peringkat', 'Praktikal & mudah guna'],
   },
@@ -155,6 +174,7 @@ export const CATEGORIES = {
       'Cari {snek|makanan ringan} sedap untuk minum petang?',
       'Bosan makan benda sama hari-hari?',
     ],
+    hasil: ['Minum petang terus jadi lebih syok ☕', 'Lapar tengah malam? Settle 😋', 'Semua orang dalam rumah berebut nak rasa'],
     hashtags: ['#MakananViral', '#SnekViral', '#FoodieMalaysia', '#SedapGila', '#JajanViral'],
     defaultK: ['Sedap & senang dimakan', 'Sesuai untuk minum petang', 'Boleh stok kat rumah'],
   },
@@ -166,6 +186,7 @@ export const CATEGORIES = {
       'Selalu {rasa nak|cari} barang yang betul-betul berbaloi?',
       'Penat beli barang yang cepat rosak?',
     ],
+    hasil: ['Hidup harian jadi lebih mudah', 'Tak menyesal langsung beli', 'Duit berbaloi, guna pun puas hati'],
     hashtags: ['#BarangViral', '#RacunMurah', '#BarangBerguna', '#MustHave'],
     defaultK: ['Senang guna', 'Harga berbaloi', 'Sesuai untuk harian'],
   },
@@ -190,7 +211,7 @@ export const PLATFORMS = {
   facebook: { label: 'Facebook', icon: '📘', tags: [3, 5], limit: 0 },
   instagram: { label: 'Instagram', icon: '📸', tags: [6, 10], limit: 2200 },
   tiktok: { label: 'TikTok', icon: '🎵', tags: [4, 6], limit: 2200 },
-  threads: { label: 'Threads', icon: '🧵', tags: [0, 1], limit: 500, compact: true },
+  threads: { label: 'Threads', icon: '🧵', tags: [0, 1], limit: 500 },
   x: { label: 'X (Twitter)', icon: '✖️', tags: [1, 2], limit: 280, compact: true },
   whatsapp: { label: 'WhatsApp / Telegram', icon: '💬', tags: [0, 0], limit: 0 },
 };
@@ -203,78 +224,111 @@ export const SOURCES = {
 };
 
 // ---------- ANGLE / GAYA JUALAN ----------
-// Setiap angle ada beberapa template; setiap template penuh dengan spintax.
+// Struktur setiap template: HOOK → rasa sakit / situasi → penyelesaian → hasil → bukti/desakan → harga.
+// {{masalah}} & {{hasil}} datang dari kategori; {{senarai}} dari kelebihan (atau keyword nama produk).
 export const ANGLES = [
   {
     id: 'masalah',
     label: '🩹 Masalah → Penyelesaian',
     templates: [
-      `{{masalah}} {😩|😮‍💨|🥲}
+      `{{masalah}}
 
-{Dulu|Sebelum ni} [aku] pun {sama|macam tu jugak}… sampai [aku] {jumpa|try} {{nama}} ni.
+[Aku] {pun pernah lalu benda yang sama|faham sangat perasaan tu}. {Dah cuba macam-macam cara|Dah try banyak benda}, {tapi tak jalan|last-last balik macam asal} {🥲|😮‍💨}
 
+{Sampailah|Sehinggalah} [aku] {jumpa|try} {{nama}} ni 👇
 {{senarai}}
 
-{Sekarang|Lepas guna} {memang|terus} {tak pening dah|lega|settle}. {{emoji}}
-{Harga|Price} {cuma|hanya|baru} {{harga}} je!`,
-      `[Korang] pernah {rasa|alami} {ni|benda ni} tak? 👇
+{Hasilnya|Sekarang}? {{hasil}}
+
+Harga {cuma|hanya} {{harga}} — {lagi murah dari|tak sampai harga} {sekali makan luar|dua cawan kopi ais} {😅|☕}`,
+      `{Jujur|Serius} [aku] {tanya|nak tanya} — [korang] {masih|still} {tahan|hadap} benda ni? 👇
 {{masalah}}
 
-{Ni|Inilah} {jawapan dia|solution dia|penyelesaian dia}: {{nama}} {{emoji}}
+{Tak payah|Jangan} {stress|pening} lagi. {Ada cara mudah|Solution dia simple je}: {{nama}} {{emoji}}
+
+✨ {Kenapa|Sebab apa} [aku] {suka|recommend}:
 {{senarai}}
 
-{Sesuai|Paling sesuai|Memang sesuai} untuk {{untuk}}.`,
-      `{Stop|Berhenti} {buang duit|pening kepala|stress} {sebab|pasal} {benda ni|hal ni} 🙅‍♀️
+{{hasil}}
+{Semua ni|Semua} dengan {{harga}} {je|sahaja}. {Diskaun|Turun} {{diskaun}} dari harga asal!`,
+      `{STOP|Berhenti} {hadap|tahan} masalah ni {🙅‍♀️|✋}
 {{masalah}}
 
-{{nama}} {settlekan semua|selesaikan masalah ni|jadi penyelamat}. [Serius] [best]. {{emoji}}
-{{senarai}}`,
+{Benda kecil|Masalah kecil} {macam ni|camni} {lama-lama|kalau dibiar} {buat hilang mood|makan masa & tenaga} [korang] {hari-hari|setiap hari}.
+
+{{nama}} {settlekan semua|selesaikan semua ni|jadi penyelamat [aku]} 👇
+{{senarai}}
+
+{Bayangkan|Cuba bayangkan}: {{hasil}}
+{Harga|Price}: {{harga}} {je|sahaja} {{emoji}}`,
     ],
   },
   {
     id: 'testimoni',
     label: '⭐ Testimoni / Review',
     templates: [
-      `{Okay|Jujur|Honest review} — [aku] dah guna {{nama}} {hampir seminggu|dua minggu|sebulan}, {dan ni|so ni} pendapat [aku] 👇
+      `{Review jujur|Honest review} {lepas|selepas} {seminggu|dua minggu|sebulan} guna {{nama}} {👇|📝}
 
+{Mula-mula|Awalnya} [aku] {ragu-ragu|tak yakin} {sebab|sebab tengok} harga {{harga}} je… {takut|risau} {kualiti teruk|tak berbaloi}.
+
+{Rupanya|Tapi rupanya}:
 {{senarai}}
 
-{Rating|Markah} [aku]: {⭐⭐⭐⭐⭐ 5/5|10/10|5/5 tanpa ragu}
-{Confirm|Memang} {akan|nak} repeat order! {{emoji}}`,
-      `{Tak sangka|Tak expect|Langsung tak sangka} {barang|produk} {{harga}} {boleh|mampu} jadi [best] macam ni {😭|🥹|🤯}
+{{hasil}}
 
-{{nama}} — {{k1i}}. {Yang paling|Paling} [aku] suka: {{k2i}}.
+{Rating|Markah} [aku]: {⭐⭐⭐⭐⭐|10/10|5/5}
+{Confirm|Memang} {akan|nak} {repeat order|beli lagi} {untuk family|untuk hadiah}! {{emoji}}`,
+      `{Ni antara|Ni la} {barang|benda} {paling berbaloi|terbaik} [aku] beli {tahun ni|bulan ni} {😭|🥹|🤯}
 
-{Dah ramai|Ramai} {tanya|DM tanya} [aku] beli kat mana, so [aku] share {sini|kat sini} {ye|tau}. {{emoji}}`,
-      `{Review|Update} {jujur|ikhlas} lepas {beli|guna} {{nama}} {{emoji}}
+{{nama}} — {{k1i}}.
+{Yang paling [aku] suka|Paling best}: {{k2i}}.
+
+{Sebelum ni|Dulu}: {{masalahP}}
+{Sekarang|Lepas guna}: {{hasil}}
+
+{Dah ramai|Ramai} {tanya|DM tanya} [aku] beli {kat mana|dekat mana}, so [aku] share {kat sini|sini} {ye|tau} {👇|💕}`,
+      `{Update|Review} {jujur|ikhlas}: {{nama}} {{emoji}}
 
 👍 {{k1}}
 👍 {{k2}}
 👍 {{k3}}
-👎 Satu je — [aku] {menyesal|rasa rugi} tak beli {awal-awal|dari dulu}! 😂
+👍 Harga {cuma|hanya} {{harga}}
+👎 Satu je — [aku] {menyesal|rasa rugi} tak beli {awal-awal|dari dulu} 😂
 
-{Berbaloi|Worth} {setiap sen|every ringgit}. [Korang] {kena|wajib} try.`,
+{Kalau|Untuk} [korang] yang {tengah survey|masih fikir-fikir}: {{hasil}}
+{Berbaloi|Worth} {setiap sen|every ringgit}. [Serius].`,
     ],
   },
   {
     id: 'fomo',
     label: '🔥 FOMO / Stok Terhad',
     templates: [
-      `{🚨|⚠️|‼️} {STOK TERHAD|Stok tinggal sikit|Stok nak habis}!
-{{nama}} {tengah|sedang} {viral|laku keras|jadi rebutan} {sekarang|minggu ni} 🔥
+      `{🚨|⚠️|‼️} {HARGA PROMO|Harga jatuh|Promo} — {tak tahu sampai bila|boleh tamat bila-bila masa}!
 
-💸 {Harga promo|Harga sekarang}: {{harga}}
-❌ {Harga asal|Sebelum ni}: {{hargaAsalCoret}}
-
-{Bila|Kalau} {promo|stok} habis, harga {naik balik|kembali asal}. {Jangan|Tak payah} tunggu {esok|lain kali} [korang]! ⏰`,
-      `{Last call|Peluang terakhir|Jangan tidur lagi} {⏰|🔔|🕛}
-{{nama}} {diskaun|turun} {{diskaun}} {untuk masa terhad|selagi promo masih ada}!
-
-{Tadi|Semalam} [aku] {tengok|check} stok {masih banyak|ok lagi}, {sekarang|tadi} dah {tinggal sikit|nak habis} {😱|🥲}
-{{senarai}}`,
-      `{Siapa|Sesiapa} yang {dah lama|tengah} {usha|survey} {{namaPendek}} — {ni masa dia|now or never|jangan lepaskan}! 🔥
+{{nama}} {tengah|sedang} {laku keras|jadi rebutan|viral} {sekarang|minggu ni} 🔥
 {{senarai}}
-{Harga|Price} {{harga}} {je|sahaja} — {tak selalu|jarang} {dapat|jumpa} harga macam ni.`,
+
+💸 {Harga promo|Sekarang}: {{harga}}
+❌ {Harga asal|Biasa}: {{hargaAsalCoret}}
+💰 {Jimat|Save} {{jimat}} ({{diskaun}})
+
+{Bila|Kalau} promo habis, harga {naik balik|kembali asal}. {Jangan|Tak payah} tunggu {esok|lain kali} [korang]! ⏰`,
+      `{Last call|Peluang terakhir|Jangan scroll dulu} {⏰|🔔}
+{{nama}} {diskaun|turun} {{diskaun}} — {masa terhad je|selagi promo masih ada}!
+
+{Tadi|Semalam} [aku] {tengok|check} stok {masih banyak|ok lagi}, {sekarang|tadi} dah {makin kurang|nak habis} {😱|🥲}
+
+{Kenapa|Sebab apa} {orang berebut|ramai beli}:
+{{senarai}}
+
+{{hasil}}
+{Harga|Sekarang} {{harga}} je. {Jangan|Tak payah} {menyesal kemudian|tunggu harga naik} 🙏`,
+      `{Siapa|Sesiapa} yang {dah lama|tengah} {usha|survey|simpan dalam cart} {{namaPendek}} — {ni masa dia|now or never|jangan lepaskan}! 🔥
+
+{{senarai}}
+
+{Harga|Price} {{harga}} {je|sahaja} — {tak selalu|jarang} {dapat|jumpa} harga {macam ni|serendah ni}.
+{Checkout|Grab} {sekarang|harini}, {esok-esok|nanti} [korang] {terima kasih kat diri sendiri|bersyukur} 😉`,
     ],
   },
   {
@@ -282,17 +336,28 @@ export const ANGLES = [
     label: '💸 Fokus Harga / Jimat',
     templates: [
       `{{harga}} {JE|SAHAJA|je ni}?! {🤯|😱|💸}
-{Dapat|Boleh dapat} {{nama}} — {{k1i}}.
 
-{Harga asal|Biasa} {{hargaAsal}}, {sekarang|kat sini} [korang] jimat {{jimat}}! {{emoji}}`,
-      `{Bajet|Duit} {tight|ketat|tengah sesak} tapi nak {barang|benda} [best]? 🤏
-{{nama}} {cuma|hanya} {{harga}} {{emoji}}
-{Diskaun|Potongan} {{diskaun}} — {jimat|save} {{jimat}}!
-{Murah|Mampu milik} tapi {kualiti|quality} {tak main-main|tetap padu|memang power}.`,
-      `{Duit|Duit} {{harga}} {boleh buat apa|korang guna untuk apa} {je|}? 🤔
-{Mungkin|Biasanya} {dua cawan kopi|sekali makan luar|sekali isi minyak} {je|}…
-{ATAU|Atau} [korang] {boleh dapat|bawa balik} {{nama}} ni! {{emoji}}
-{{senarai}}`,
+{Untuk|Dapat} {{nama}} yang:
+{{senarai}}
+
+{Harga asal|Biasa} {{hargaAsal}} — {sekarang|kat sini} [korang] {jimat|save} {{jimat}}! {{emoji}}
+{Murah|Mampu milik}, tapi {kualiti|quality} {tak main-main|tetap padu}.`,
+      `{Bajet|Duit} {tight|ketat|tengah sesak} tapi nak {{hasilI}}? 🤏
+
+{Jawapannya|Ni jawapannya}: {{nama}} {{emoji}}
+{Cuma|Hanya} {{harga}}!
+{Diskaun|Potongan} {{diskaun}} {dari harga asal|— jimat {{jimat}}} 🔥
+
+{{senarai}}
+
+{Tak perlu|Tak payah} {keluar duit banyak|beli yang mahal-mahal} untuk {dapat hasil|rasa beza}. {Ni la|Inilah} {barang|benda} {paling berbaloi|best value} {bulan ni|minggu ni}.`,
+      `{Duit|RM} {{hargaNombor}} {biasanya|selalunya} [korang] {guna untuk apa|habis kat mana}? 🤔
+{Dua cawan kopi|Sekali makan luar|Sekali isi minyak} {je|} kan…
+
+{ATAU|Atau} [korang] {boleh dapat|bawa balik} {{nama}}:
+{{senarai}}
+
+{Kesan dia|Hasilnya} {lama|berpanjangan}: {{hasilI}} {{emoji}}`,
     ],
   },
   {
@@ -303,15 +368,21 @@ export const ANGLES = [
 
 {{senaraiNombor}}
 
-{Bonus|Bonus point}: harga {cuma|baru} {{harga}}! {{emoji}}`,
-      `{Barang|Benda} yang [aku] {tak sangka|tak expect} [aku] perlukan, {sampai|sehingga} [aku] {beli|cuba}: {{nama}} {{emoji}}
+{Bonus|Plus}: harga {cuma|baru} {{harga}}! {{emoji}}
+{Simpan|Save} post ni {sebelum|takut} {lupa|hilang} 📌`,
+      `{Barang|Benda} yang [aku] {tak sangka|tak expect} [aku] {perlukan|perlu sangat}, {sampai|sehinggalah} [aku] {beli|cuba}: {{nama}} {{emoji}}
 
+{Apa yang [aku] dapat|Apa yang berubah}:
 {{senaraiNombor}}
 
-{Simpan|Save} post ni {kalau|kalau-kalau} nak beli nanti 📌`,
-      `{{namaPendek}} {dalam|in} {{bilKelebihan}} {perkara|point} ⏱️
+{Paling best|Yang paling terasa}: {{hasil}}
+Harga {{harga}} {je|sahaja}.`,
+      `{Checklist|Senarai semak} {sebelum|kalau nak} beli {{namaPendek}} ✅
+
 {{senaraiNombor}}
-{Harga|Harga dia}: {{harga}} ✅`,
+✔️ Harga {mampu milik|berpatutan}: {{harga}}
+
+{Semua|Kesemua} {tick|cukup}? {Jom|So} [beli] {sebelum harga naik|sementara promo} {😉|🛒}`,
     ],
   },
   {
@@ -319,72 +390,119 @@ export const ANGLES = [
     label: '❓ Soalan / Engagement',
     templates: [
       `{Soalan|Nak tanya} {jujur|sikit}… [korang] {team|kem} mana? 🤔
-A) {Beli murah, cepat rosak|Tahan je masalah tu}
-B) {Beli sekali, guna lama|Terus settle dengan {{namaPendek}}}
 
-[Aku] {confirm|memang} B! {{emoji}} {Komen|Drop} jawapan [korang] {kat bawah|👇}`,
-      `{Ada tak|Siapa} yang {belum|tak} {tahu|jumpa} {{namaPendek}} ni? 🙋‍♀️
-{{k1}} — [serius] [best]!
+A) {Tahan je masalah tu, malas nak ubah|Biar je, nanti-nanti la settle}
+B) {Settle sekali, terus selesa|Terus settle dengan {{namaPendek}}}
+
+[Aku] {confirm|memang} B! {Sebab|Kerana}:
 {{senarai}}
+
+{Komen|Drop} {A atau B|jawapan [korang]} {kat bawah|👇}`,
+      `{Ada tak|Siapa} {lagi|} yang {belum|tak} {tahu|jumpa} {{namaPendek}} ni? 🙋‍♀️
+
+{Kalau|Kalau [korang]} {selalu rasa|pernah rasa}: {{masalahP}}
+{Benda ni|Ni} {memang|confirm} untuk [korang].
+
+{{senarai}}
+
 {Tag|Tag} {kawan|member|bestie} yang {perlu|patut} tahu {benda ni|pasal ni} 👇`,
-      `{Kalau|Andai} [korang] ada RM{{hargaNombor}} {sekarang|harini}, {nak beli apa|nak spend apa}? 💭
+      `{Kalau|Andai} [korang] ada {{harga}} {sekarang|harini}, {nak beli apa|nak spend apa}? 💭
+
 {Untuk|Kalau} [aku], {{nama}} {dah confirm|memang} {masuk troli|dalam cart} 🛒
-{{senarai}}`,
+{Sebab|Kerana} {{hasilI}} {{emoji}}
+
+{{senarai}}
+
+{Korang|[Korang]} {pula|pulak}? {Komen|Drop} kat bawah 👇`,
     ],
   },
   {
     id: 'cerita',
     label: '📖 Cerita / Storytelling',
     templates: [
-      `{Semalam|Minggu lepas|Hari tu} {kawan|adik|mak|housemate} [aku] {tanya|tegur}, "{Eh|Weh}, {apa tu|benda apa tu}? {Nampak|Macam} [best]!" {👀|😳}
+      `{Semalam|Minggu lepas|Hari tu} {kawan|adik|mak|housemate} [aku] {datang rumah|singgah}, terus {tegur|tanya}: "{Eh|Weh}, {sejak bila kemas macam ni|apa yang lain ni}? {Nampak|Macam} [best]!" {👀|😳}
 
-[Aku] {tunjuk|kenalkan} {{nama}} — {terus|lepas tu terus} dia {order|checkout} {satu|sebiji} {jugak|} 😂
+[Aku] {tunjuk|kenalkan} {{nama}}.
+{Lepas tu|Terus} dia {order|checkout} {satu|sebiji} {jugak|} 😂
 
-{{senarai}}`,
+{Apa yang buat dia terus beli|Kenapa dia terus beli}:
+{{senarai}}
+
+Harga {{harga}} je. {Patutlah|Memang patut la}.`,
       `{Cerita|Story} {sikit|pendek} {☕|📖}
-{Dulu|Sebelum ni} [aku] {skeptikal|ragu-ragu|tak percaya} {dengan|pasal} {{namaPendek}} ni. {Tapi|But} {sebab|bila} harga {{harga}} je, [aku] {try lah|cuba lah}.
 
-{Sekarang|Hasilnya}? {{k1}}. {{emoji}}
+{Dulu|Sebelum ni}: {{masalahP}}
+[Aku] {skeptikal|ragu-ragu} {dengan|pasal} {{namaPendek}} ni. {Tapi|But} {sebab|bila tengok} harga {{harga}} je, [aku] {try lah|cuba lah}.
+
+{Sekarang|Hasilnya}? {{hasil}} {{emoji}}
+{{senarai}}
+
 {Memang|Confirm} {tak menyesal|berbaloi|worth it}.`,
-      `{POV|Situasi}: [korang] {baru|akhirnya} {beli|dapat} {{nama}} {dan|lepas tu} {terus guna hari-hari|tak boleh hidup tanpa dia|jatuh cinta} {😂|🥹|💯}
-{{senarai}}`,
+      `{POV|Situasi}: [korang] {akhirnya|finally} {beli|dapat} {{nama}} {😂|🥹}
+
+Hari 1: "{Hmm|Okay}, {boleh la|nampak ok}"
+Hari 3: "{Eh|Wah}, {{k1i}}"
+Hari 7: "{Macam mana la|Kenapa la} [aku] {hidup tanpa ni dulu|tak beli awal}?!" {💯|🤯}
+
+{{hasil}}
+{Harga|Semua dengan} {{harga}} je.`,
     ],
   },
   {
     id: 'banding',
     label: '⚖️ Perbandingan / Before-After',
     templates: [
-      `{Sebelum vs Selepas|Before vs After} 👇
-❌ {Sebelum|Before}: {leceh & buang masa|stress, serabut|membazir duit}
-✅ {Selepas|After}: {{k1}}
-✅ {Bonus|Plus}: {{k2}}
+      `{Sebelum vs Selepas|Before vs After} {{namaPendek}} 👇
 
-Semua {sebab|kerana} {{nama}} {{emoji}}`,
+❌ {Sebelum|Before}: {{masalahP}}
+✅ {Selepas|After}: {{hasil}}
+
+{Apa yang buat beza|Rahsia dia}:
+{{senarai}}
+
+{Semua dengan|Harga} {{harga}} {je|sahaja} {{emoji}}`,
       `{Beli|Ambil} {yang mahal|brand mahal} {ratus-ratus|RM100++}? 🤔
 {ATAU|Atau} {{nama}} {cuma|hanya} {{harga}}, {yang dah cukup|yang memang} [best] untuk {kegunaan harian|pakai hari-hari}?
+
 {{senarai}}
-[Aku] {pilih|choose} {yang kedua|option kedua} {la|lah} {😎|💅}`,
+
+[Aku] {pilih|choose} {yang kedua|option kedua} {la|lah} {😎|💅}
+{Duit lebih|Baki duit} {simpan|buat belanja benda lain} 💰`,
       `{Harga asal|Biasa} vs {Harga promo|Sekarang} {💸|🛍️}
 🏷️ {Harga asal|Sebelum}: {{hargaAsalCoret}}
 🔥 {{kedai}}: {{harga}} — jimat {{jimat}}!
-{{nama}} {{emoji}}
-{{senarai}}`,
+
+{Untuk|Dapat} {{nama}}:
+{{senarai}}
+
+{{hasil}} {{emoji}}`,
     ],
   },
   {
     id: 'hadiah',
     label: '🎁 Idea Hadiah',
     templates: [
-      `{Idea|Cadangan} {hadiah|gift} {untuk|buat} {{untuk}}? 🎁
-{{nama}} — {{k1i}}. {Confirm|Mesti} dia {suka|happy|terharu} {🥹|💕}
+      `{Pening|Buntu} {cari|fikir} hadiah {untuk|buat} {{untuk}}? 🎁
+
+{Cuba|Bagi} {{nama}} — {hadiah|gift} yang {betul-betul|memang} {dipakai|berguna}, bukan {simpan dalam almari|jadi perhiasan}.
+
+{{senarai}}
+
+{Confirm|Mesti} dia {suka|happy|terharu} {🥹|💕}
 Harga {{harga}} {je|sahaja} — {tak pokai|jimat poket}!`,
-      `{Hadiah|Gift} {bawah|under} {{hargaBulat}}? ✅
-{Nampak|Rasa} {mahal|exclusive}, {tapi|but} {bajet|harga} {mesra poket|friendly} 💝
-{{nama}}
-{{senarai}}`,
-      `{Birthday|Anniversary|Hari jadi} {dah dekat|nak sampai}? {Jangan|Tak payah} {pening|fikir lama} 🎀
-{{nama}} {boleh jadi|memang} {hadiah|gift} {paling|yang} {praktikal|berguna|disayangi}. {{emoji}}
-{{senarai}}`,
+      `{Hadiah|Gift} {bawah|under} {{hargaBulat}} {yang nampak mahal|yang orang betul-betul guna}? ✅
+
+{{nama}} {{emoji}}
+{{senarai}}
+
+{Bagi|Hadiahkan} {pada|kat} {{untuk}} — {setiap kali guna|bila guna} {terus teringat|confirm ingat} [korang] 💝`,
+      `{Birthday|Hari jadi|Anniversary} {dah dekat|nak sampai}? {Jangan|Tak payah} {pening|beli last minute} 🎀
+
+{{nama}} {boleh jadi|memang} {hadiah|gift} {paling|yang} {praktikal|berguna}:
+{{senarai}}
+
+{{hasil}}
+{Harga|Semua} {{harga}} je {{emoji}}`,
     ],
   },
   {
@@ -396,13 +514,23 @@ Harga {{harga}} {je|sahaja} — {tak pokai|jimat poket}!`,
 {Juga|Also} [aku]: {{nama}} {masuk troli|dah checkout} {😭|🤡|🙈}
 
 {Tapi|Dah la} harga {{harga}} je… {siapa boleh tahan|tak dapat tahan} {😂|🤣}
-{{senarai}}`,
+{Dan|Plus} {lepas guna|bila dah sampai}: {{hasil}}
+
+{Okay|So} {bukan membazir|ni dikira pelaburan} {kan|ye tak}? 😌`,
       `{Duit|Dompet}: {tolonglah|please} {berhenti|stop} 🥲
-{{kedai}}: {Nah|Ini} {{nama}} {{emoji}}
-[Aku]: {Okay|Baiklah} {fine|lah} 🛒`,
+{{kedai}}: {Nah|Ini} {{nama}}, {{harga}} je {{emoji}}
+[Aku]: {Okay|Baiklah} {fine|lah} 🛒
+
+{Dan sekarang|Hasilnya}:
+{{senarai}}
+
+{Dompet|Duit} [aku] {menangis|merajuk}, tapi [aku] {happy|puas hati} 😂`,
       `{Plot twist|Fakta}: {{nama}} ni {lagi|lebih} {setia|reliable} dari {ex|crush} [aku] {😂|💀}
-{{k1}}. {{k2}}.
-{Dan|Plus} harga {{harga}} je. {Okay|So} siapa {nak|mahu} {join|ikut} [aku] [beli]? 🙋‍♀️`,
+
+{{senarai}}
+
+{Tak pernah|Tak reti} {buat hal|kecewakan}. {Dan|Plus} harga {{harga}} je.
+{Okay|So} siapa {nak|mahu} {join|ikut} [aku] [beli]? 🙋‍♀️`,
     ],
   },
 ];
@@ -433,7 +561,7 @@ export const CTA = {
 
 // ---------- AJAKAN ENGAGEMENT ----------
 export const ENGAGE = [
-  '{Komen|Drop} "{NAK|🙋‍♀️|MAHU}" kalau {berminat|nak link|nak juga}!',
+  '{Komen|Drop} "{NAK|🙋‍♀️|MAHU}" kalau {berminat|nak juga|setuju}!',
   '{Tag|Tag} {kawan|bestie|member} yang {perlu|patut} {tengok|tahu} ni 👇',
   '{Save|Simpan} {dulu|post ni} {nanti|takut} {lupa|hilang} 📌',
   '{Share|Kongsi} {kalau rasa berguna|untuk kawan-kawan} 🔁',

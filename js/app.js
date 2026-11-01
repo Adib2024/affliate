@@ -1,6 +1,7 @@
 import { $, store, toast, copyText, el, chips, shareTo, downloadText } from './ui/util.js';
 import { initPoster, syncFromProduct, setHook, posterVisible } from './ui/poster.js';
 import { infoFromUrl, infoFromShareText, isShortLink } from './engine/linkinfo.js';
+import { benefitsFromName } from './engine/keywords.js';
 import {
   generatePosts, rerollPost, generatePlan, buildAIPrompt, guessCategory, detectSource, cleanProductName, smartName, parsePrice, fmtRM,
 } from './engine/generator.js';
@@ -80,6 +81,22 @@ function fillForm() {
   f.untuk.value = p.untuk;
   f.musim.value = p.musim;
   sourceChips.set(p.source);
+  updateBenefitHints();
+}
+
+// Tunjuk kelebihan yang web akan guna secara automatik bila ruang kosong.
+const K_PLACEHOLDERS = ['1. Contoh: Kain lembut & tak panas', '2. Contoh: Tak perlu gosok', '3. Contoh: Banyak pilihan warna'];
+function updateBenefitHints() {
+  const p = state.product;
+  const filled = [f.k1, f.k2, f.k3].map((i) => i.value.trim()).filter(Boolean);
+  const cat = CATEGORIES[p.kategori] || CATEGORIES.lain;
+  const auto = p.nama.trim() && filled.length < 2
+    ? [...new Set([...benefitsFromName(p.nama), ...cat.defaultK])].filter((k) => !filled.includes(k))
+    : [];
+  let n = 0;
+  [f.k1, f.k2, f.k3].forEach((inp, i) => {
+    inp.placeholder = !inp.value.trim() && auto[n] ? `💡 Auto: ${auto[n++]}` : K_PLACEHOLDERS[i];
+  });
 }
 
 function readForm() {
@@ -97,6 +114,7 @@ function readForm() {
   p.musim = f.musim.value;
   p.kategori = f.kategori.value;
   saveDraft();
+  updateBenefitHints();
 }
 
 for (const key of ['nama', 'harga', 'hargaAsal', 'k1', 'k2', 'k3', 'untuk']) {

@@ -1,4 +1,5 @@
 import { mulberry32, newSeed, pick, shuffle, spin, applyTone, hashText } from './spintax.js';
+import { benefitsFromName } from './keywords.js';
 import {
   TONES, CATEGORIES, SEASONS, PLATFORMS, SOURCES, ANGLES, CTA, ENGAGE, DISCLOSURE, PLAN_SLOTS, DAYS_MS,
 } from './data.js';
@@ -103,7 +104,8 @@ function buildVars(product, opts, rand, tone) {
   if (hargaAsal && harga && hargaAsal <= harga) hargaAsal = null;
 
   let ks = (product.kelebihan || []).map((k) => String(k || '').trim()).filter(Boolean);
-  if (!ks.length) ks = cat.defaultK.slice();
+  // Kelebihan kurang → tambah dari keyword nama produk → kalau masih kurang, ayat kategori.
+  if (ks.length < 2) ks = [...new Set([...ks, ...benefitsFromName(product.nama), ...cat.defaultK])].slice(0, 3);
 
   const noEmoji = opts.emoji === 'tiada';
   const bullet = noEmoji ? '-' : pick(rand, ['✅', '✔️', '👉', '🔹', '✨', '💯', '▪️']);
@@ -133,9 +135,13 @@ function buildVars(product, opts, rand, tone) {
     kedai: src.kedai,
     emoji: shuffle(rand, cat.emoji).slice(0, 1 + Math.floor(rand() * 2)).join(''),
     masalah: toned(pick(rand, cat.masalah)),
+    hasil: toned(pick(rand, cat.hasil || CATEGORIES.lain.hasil)),
     musim: SEASONS[product.musim]?.lines.length ? toned(pick(rand, SEASONS[product.musim].lines)) : '',
     link: String(product.link || '').trim(),
   };
+  // Versi pernyataan (tanpa tanda soal & emoji) untuk baris "Sebelum: ..."
+  vars.masalahP = lowerFirst(vars.masalah.replace(EMOJI_RE, '').replace(/[?？]+/g, '').trim());
+  vars.hasilI = lowerFirst(vars.hasil.replace(EMOJI_RE, '').replace(/[.!]+$/g, '').trim());
   return vars;
 }
 
@@ -167,15 +173,14 @@ function limitEmoji(text, level) {
   return text;
 }
 
+// Untuk X (280 aksara): hook + nama produk + kelebihan utama + harga.
 function compactBody(body, vars) {
   const lines = body.split('\n').map((l) => l.trim()).filter(Boolean);
   if (lines.length <= 2) return lines.join('\n');
   const out = [lines[0]];
-  const priceLine = lines.slice(1).find((l) => vars.harga && l.includes(vars.harga));
-  const nameLine = lines.slice(1).find((l) => !/^([A-Z]\)|❌|✅|👍|👎)/u.test(l)
-    && (l.includes(vars.nama) || l.includes(vars.namaPendek)));
-  if (nameLine && nameLine !== priceLine) out.push(nameLine);
-  if (priceLine) out.push(priceLine);
+  if (!lines[0].includes(vars.nama) && !lines[0].includes(vars.namaPendek)) out.push(`👉 ${vars.nama}`);
+  if (vars.k1 && !out.join(' ').includes(vars.k1)) out.push(`✅ ${vars.k1}`);
+  if (vars.hargaAsal) out.push(`${vars.harga} (asal ${vars.hargaAsal}) 🔥`);
   else if (vars.harga) out.push(`${vars.harga} je!`);
   return out.join('\n');
 }
