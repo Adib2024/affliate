@@ -1,9 +1,10 @@
 // Service worker ringkas: web boleh dibuka walaupun internet lemah.
-const CACHE = 'racunpost-v1';
+const CACHE = 'racunpost-v2';
+// Path relatif supaya berfungsi di GitHub Pages (https://user.github.io/repo/).
 const SHELL = [
-  '/', '/index.html', '/styles.css', '/manifest.webmanifest', '/icons/icon.svg', '/icons/icon-192.png',
-  '/js/app.js', '/js/ui/util.js', '/js/ui/poster.js',
-  '/js/engine/data.js', '/js/engine/generator.js', '/js/engine/spintax.js',
+  './', './index.html', './styles.css', './manifest.webmanifest', './icons/icon.svg', './icons/icon-192.png',
+  './js/app.js', './js/ui/util.js', './js/ui/poster.js',
+  './js/engine/data.js', './js/engine/generator.js', './js/engine/spintax.js', './js/engine/linkinfo.js',
 ];
 
 self.addEventListener('install', (e) => {
@@ -18,7 +19,7 @@ self.addEventListener('activate', (e) => {
 
 self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
-  if (e.request.method !== 'GET' || url.origin !== location.origin || url.pathname.startsWith('/api/')) return;
+  if (e.request.method !== 'GET' || url.origin !== location.origin) return;
   // Rangkaian dahulu (supaya sentiasa versi terbaru), cache bila offline.
   e.respondWith(
     fetch(e.request)
@@ -29,6 +30,6 @@ self.addEventListener('fetch', (e) => {
         }
         return res;
       })
-      .catch(() => caches.match(e.request, { ignoreSearch: true }).then((r) => r || caches.match('/'))),
+      .catch(() => caches.match(e.request, { ignoreSearch: true }).then((r) => r || caches.match('./'))),
   );
 });

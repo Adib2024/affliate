@@ -10,7 +10,7 @@ Tukar **link affiliate Shopee & TikTok Shop** kepada caption dan poster yang men
 | ⚡ **Jana Post** | Paste link, isi harga & kelebihan, kemudian dapat 3/5/8 caption dengan **angle jualan berbeza** |
 | 🔀 **Kepelbagaian** | 10 angle × 3 template × spintax × 5 nada × bank hook/CTA/emoji/hashtag = ribuan kombinasi |
 | 🧠 **Anti-ulang** | Web ingat caption yang pernah keluar dan elak ulang yang sama |
-| 🔗 **Auto tarik nama** | Baca nama (dan gambar jika ada) produk dari link Shopee/TikTok |
+| 🔗 **Auto isi** | Baca nama & harga dari teks share Shopee/TikTok atau URL produk penuh |
 | 📱 **Ikut platform** | Facebook, Instagram, TikTok (beg kuning / link bio), Threads (≤500), X (≤280), WhatsApp |
 | 🎭 **5 nada** | Santai, Rojak BM-English, Formal, Lawak, Urgent/FOMO |
 | 🗓️ **Kempen** | 11.11, 12.12, Gaji masuk, Raya, Ramadan, Buka sekolah, dll. |
@@ -21,16 +21,20 @@ Tukar **link affiliate Shopee & TikTok Shop** kepada caption dan poster yang men
 | 🤖 **Prompt AI percuma** | Copy prompt lengkap, kemudian paste dalam ChatGPT/Claude/Gemini (akaun percuma) |
 | 📲 **PWA** | Boleh "Install" di telefon & terima link terus melalui menu Share |
 
-## Deploy percuma ke Vercel (5 minit)
+## Deploy percuma ke GitHub Pages (2 minit)
 
-1. Login [vercel.com](https://vercel.com) guna akaun GitHub.
-2. **Add New → Project**, kemudian pilih repo `affliate`.
-3. Framework Preset: **Other**. Biarkan Build Command kosong.
-4. Tekan **Deploy**. Siap! Web anda di `https://nama-projek.vercel.app`.
+1. Buka repo ini di GitHub, kemudian **Settings → Pages**.
+2. Di **Build and deployment → Source**, pilih **Deploy from a branch**.
+3. Branch: **main**, folder: **/ (root)**, kemudian tekan **Save**.
+4. Tunggu 1–2 minit. Web anda di **https://adib2024.github.io/affliate/**
 
-Folder `api/` automatik jadi fungsi server percuma (untuk tarik nama & gambar produk).
+Setiap kali push ke `main`, web dikemas kini secara automatik.
 
-> Boleh juga host di GitHub Pages / Netlify, tetapi auto tarik nama produk dari link hanya berfungsi di Vercel (atau `node dev-server.js`). Ciri lain tetap berfungsi.
+### Cara isi produk paling laju
+
+Dalam app Shopee/TikTok, tekan **Share → Copy link** dan paste **semua teks** yang dicopy ke kotak link.
+Teks share biasanya mengandungi nama & harga produk, jadi web akan isi automatik.
+(Link pendek seperti `s.shopee.com.my/xxx` sahaja tak boleh dibaca tanpa server, jadi isi nama sendiri.)
 
 ## Jalankan di komputer sendiri
 
@@ -38,7 +42,7 @@ Folder `api/` automatik jadi fungsi server percuma (untuk tarik nama & gambar pr
 node dev-server.js
 ```
 
-Buka http://localhost:5173. Tiada `npm install` diperlukan (Node 18+).
+Buka http://localhost:5173. Tiada `npm install` diperlukan (Node 18+). Web ni 100% statik, jadi tiada server diperlukan bila online.
 
 ## Struktur
 
@@ -49,7 +53,7 @@ js/engine/spintax.js         → spintax {a|b} + token nada [korang]
 js/engine/generator.js       → enjin caption, planner, prompt AI
 js/ui/poster.js              → penjana poster (canvas)
 js/app.js                    → logik UI
-api/resolve.js, api/image.js → fungsi Vercel: baca link & proksi gambar
+js/engine/linkinfo.js        → baca nama & harga dari link / teks share
 sw.js, manifest.webmanifest  → PWA
 ```
 
@@ -63,5 +67,5 @@ sw.js, manifest.webmanifest  → PWA
 
 ## Nota
 
-- Shopee & TikTok kadang-kadang block bacaan automatik. Kalau nama tak keluar, isi sendiri. Caption tetap dijana.
+- Gambar poster: upload gambar / screenshot produk dari telefon.
 - Waktu cadangan dalam Planner ialah anggaran umum untuk audiens Malaysia. Semak Insights akaun anda untuk waktu terbaik sebenar.

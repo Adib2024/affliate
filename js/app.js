@@ -1,5 +1,6 @@
 import { $, store, toast, copyText, el, chips, shareTo, downloadText } from './ui/util.js';
-import { initPoster, syncFromProduct, setHook, useRemoteImage, posterVisible } from './ui/poster.js';
+import { initPoster, syncFromProduct, setHook, posterVisible } from './ui/poster.js';
+import { infoFromUrl, infoFromShareText, isShortLink } from './engine/linkinfo.js';
 import {
   generatePosts, rerollPost, generatePlan, buildAIPrompt, guessCategory, detectSource, cleanProductName, parsePrice, fmtRM,
 } from './engine/generator.js';
@@ -108,17 +109,17 @@ f.musim.addEventListener('change', readForm);
 // ---------- Link: kesan platform & tarik nama ----------
 const linkStatus = $('#link-status');
 const setStatus = (msg, cls = '') => { linkStatus.textContent = msg; linkStatus.className = `status ${cls}`; };
-let resolveSeq = 0;
 
 function looksLikeUrl(s) {
   return /^https?:\/\/\S+\.\S+/i.test(s);
 }
 
-async function onLinkChanged() {
-  const link = f.link.value.trim();
-  // Kadang-kadang orang paste satu perenggan (teks share Shopee/TikTok) — ambil URL sahaja.
-  const m = link.match(/https?:\/\/[^\s]+/i);
-  if (m && m[0] !== link) f.link.value = m[0];
+// Semua dibaca terus dalam browser — tiada server diperlukan (GitHub Pages).
+function onLinkChanged() {
+  const pasted = f.link.value.trim();
+  // Orang selalu paste teks share penuh dari app Shopee/TikTok — ambil URL, guna baki teks sebagai nama.
+  const m = pasted.match(/https?:\/\/[^\s]+/i);
+  if (m && m[0] !== pasted) f.link.value = m[0];
   readForm();
   const url = state.product.link;
   if (!url) { setStatus(''); return; }
@@ -130,36 +131,30 @@ async function onLinkChanged() {
     sourceChips.set(src);
     saveDraft();
   }
-  if (!src) { setStatus('Link bukan Shopee/TikTok — isi maklumat produk sendiri.', ''); return; }
 
-  const seq = ++resolveSeq;
-  setStatus('⏳ Sedang baca maklumat produk dari link…');
-  try {
-    const res = await fetch(`/api/resolve?url=${encodeURIComponent(url)}`);
-    const data = await res.json();
-    if (seq !== resolveSeq) return;
-    if (data.name) {
-      const clean = cleanProductName(data.name);
-      if (!f.nama.value.trim() || f.nama.dataset.auto === '1') {
-        f.nama.value = clean;
-        f.nama.dataset.auto = '1';
-      }
-      if (data.price && !f.harga.value.trim()) f.harga.value = parsePrice(data.price) ?? '';
-      readForm();
-      if (!state.product.kategoriManual) {
-        state.product.kategori = guessCategory(clean);
-        f.kategori.value = state.product.kategori;
-      }
-      state.product.image = data.image || '';
-      saveDraft();
-      setStatus(`✓ Jumpa: ${clean}${data.image ? ' (gambar pun ada untuk poster)' : ''}. Semak & isi harga.`, 'ok');
-      if (data.image) useRemoteImage(data.image);
-    } else {
-      state.product.image = data.image || '';
-      setStatus(data.error || 'Tak dapat baca nama produk — sila isi sendiri.', 'err');
+  const fromText = infoFromShareText(pasted);
+  const fromUrl = infoFromUrl(url);
+  const name = fromUrl.name || fromText.name;
+  if (name) {
+    const clean = cleanProductName(name);
+    if (!f.nama.value.trim() || f.nama.dataset.auto === '1') {
+      f.nama.value = clean;
+      f.nama.dataset.auto = '1';
     }
-  } catch {
-    if (seq === resolveSeq) setStatus('Tak dapat sambung ke pelayan — sila isi nama produk sendiri.', 'err');
+    if (fromText.price && !f.harga.value.trim()) f.harga.value = fromText.price;
+    readForm();
+    if (!state.product.kategoriManual) {
+      state.product.kategori = guessCategory(clean);
+      f.kategori.value = state.product.kategori;
+    }
+    saveDraft();
+    setStatus(`✓ Jumpa: ${clean}${fromText.price ? ` · ${fmtRM(fromText.price)}` : ''}. Semak & lengkapkan.`, 'ok');
+  } else if (!src) {
+    setStatus('Link bukan Shopee/TikTok — isi maklumat produk sendiri.');
+  } else if (isShortLink(url)) {
+    setStatus('Link pendek ✓. Isi nama produk sendiri — atau tip: dalam app, tekan Share → Copy, kemudian paste SEMUA teks tu di sini, nama & harga akan diisi automatik.');
+  } else {
+    setStatus('Link ✓. Isi nama produk sendiri.');
   }
 }
 f.nama.addEventListener('input', () => { f.nama.dataset.auto = '0'; });
@@ -536,7 +531,6 @@ function renderTemplates() {
 // =====================================================================
 fillForm();
 initPoster(() => state.product);
-if (state.product.image) useRemoteImage(state.product.image);
 showView(store.get('tab', 'jana'));
 
 // Kongsi terus dari app Shopee/TikTok ke web ni (PWA share target).
@@ -553,5 +547,5 @@ if (shared) {
 }
 
 if ('serviceWorker' in navigator && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
-  navigator.serviceWorker.register('/sw.js').catch(() => {});
+  navigator.serviceWorker.register('./sw.js').catch(() => {});
 }

@@ -344,21 +344,6 @@ async function setFile(file) {
   }
 }
 
-export async function useRemoteImage(url) {
-  if (!url) return false;
-  try {
-    img = await loadImage(`/api/image?url=${encodeURIComponent(url)}`, { crossOrigin: true });
-    if (ui.imgStatus) {
-      ui.imgStatus.textContent = '✓ Gambar diambil dari link';
-      ui.imgStatus.className = 'status ok';
-    }
-    redraw();
-    return true;
-  } catch {
-    return false;
-  }
-}
-
 // ---------- Sync dengan produk ----------
 export function syncFromProduct(product, { force = false } = {}) {
   if (!state) return;
