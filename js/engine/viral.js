@@ -7,6 +7,7 @@
 import { mulberry32, newSeed, pick, shuffle, hashText } from './spintax.js';
 import { helpers } from './generator.js';
 import { TONES, PLATFORMS } from './data.js';
+import { applyVoice } from './persona.js';
 
 const { EMPTY, EMOJI_RE, render, fixTone, fill, dropEmptyLines, tidy, limitEmoji, punchy, stripBait, hasQuestion, ENGAGE_BY_PLATFORM } = helpers;
 
@@ -425,7 +426,7 @@ function buildOne(input, opts, fmtId, tIndex, seed) {
     const [first, ...rest] = text.split('\n');
     text = [`*${first.replace(/\*/g, '')}*`, ...rest].join('\n');
   }
-  text = limitEmoji(text, opts.emoji);
+  text = applyVoice(limitEmoji(text, opts.emoji), opts.persona);
   const tagSource = fmt.hashtags ? { hashtags: fmt.hashtags } : (NICHES[input.niche] || NICHES.umum);
   const tags = opts.hashtags ? pickTags(tagSource, opts.platform, rand) : [];
   let full = tags.length ? `${text}\n\n${tags.join(' ')}` : text;

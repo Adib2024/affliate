@@ -38,6 +38,27 @@
     <section class="view" id="view-jana">
       <div class="grid-2">
         <div class="sticky-col">
+          <div class="card persona-card" id="persona-card">
+            <div class="persona-summary" id="persona-summary">
+              <span class="persona-ico">👤</span>
+              <div class="persona-text"><b>Akaun saya</b><small id="persona-line"></small></div>
+              <button class="btn small" id="persona-edit" type="button">✏️ Tukar</button>
+            </div>
+            <div class="persona-form" id="persona-form">
+              <p class="hint" style="margin-top:0">Tetapkan <b>sekali sahaja</b>. Semua caption akan ikut gaya &amp; suara akaun anda — post yang sepadan dengan akaun lebih mudah naik.</p>
+              <div class="field"><span class="label">Akaun saya kongsi pasal…</span><div class="chips" id="c-p-niche"></div></div>
+              <div class="row">
+                <div class="field"><span class="label">Saya</span><div class="chips" id="c-p-gender"></div></div>
+                <div class="field"><span class="label">Emoji</span><div class="chips" id="c-p-emoji"></div></div>
+              </div>
+              <div class="row">
+                <div class="field"><span class="label">Panggil diri</span><div class="chips" id="c-p-aku"></div></div>
+                <div class="field"><span class="label">Panggil follower</span><div class="chips" id="c-p-korang"></div></div>
+              </div>
+              <button class="btn primary" id="persona-save" type="button">✓ Simpan gaya akaun</button>
+            </div>
+          </div>
+
           <div class="card">
             <h2><span class="step">1</span> Produk <button class="btn small h2-action" id="btn-reset" type="button" title="Kosongkan produk &amp; caption">🔄 Reset</button></h2>
             <div class="field">
@@ -49,31 +70,32 @@
               <div class="status" id="link-status"></div>
             </div>
             <div class="field">
-              <span class="label">Platform affiliate</span>
-              <div class="chips" id="c-source"></div>
-            </div>
-            <div class="field">
               <label for="f-nama">Nama produk</label>
               <input id="f-nama" class="input" placeholder="Contoh: Tudung Bawal Cotton Premium" />
             </div>
             <div class="field">
-              <label for="f-ringkas">Nama dalam caption <span class="opt">(auto ringkas — boleh tukar)</span></label>
-              <input id="f-ringkas" class="input" placeholder="Contoh: rak wayar bawah meja" />
+              <label for="f-harga">Harga</label>
+              <div class="prefix"><span>RM</span><input id="f-harga" class="input" inputmode="decimal" placeholder="19.90" /></div>
             </div>
-            <div class="row">
-              <div class="field">
-                <label for="f-harga">Harga promo</label>
-                <div class="prefix"><span>RM</span><input id="f-harga" class="input" inputmode="decimal" placeholder="19.90" /></div>
-              </div>
-              <div class="field">
-                <label for="f-hargaAsal">Harga asal <span class="opt">(pilihan)</span></label>
-                <div class="prefix"><span>RM</span><input id="f-hargaAsal" class="input" inputmode="decimal" placeholder="35" /></div>
-              </div>
-            </div>
-            <div class="field">
+            <div class="field" id="kategori-field">
               <label for="f-kategori">Kategori <span class="opt">(auto teka dari nama — semak!)</span></label>
               <select id="f-kategori" class="input"></select>
               <div class="status" id="kategori-hint"></div>
+            </div>
+            <details class="more" id="more-product">
+              <summary>Lagi pilihan (harga asal, kelebihan, kategori, kempen)</summary>
+            <button class="btn small" id="btn-show-kategori" type="button" style="margin:4px 0 10px">🏷️ Tukar kategori</button>
+            <div class="field">
+              <label for="f-hargaAsal">Harga asal <span class="opt">(pilihan)</span></label>
+              <div class="prefix"><span>RM</span><input id="f-hargaAsal" class="input" inputmode="decimal" placeholder="35" /></div>
+            </div>
+            <div class="field">
+              <span class="label">Platform affiliate</span>
+              <div class="chips" id="c-source"></div>
+            </div>
+            <div class="field">
+              <label for="f-ringkas">Nama dalam caption <span class="opt">(auto ringkas — boleh tukar)</span></label>
+              <input id="f-ringkas" class="input" placeholder="Contoh: rak wayar bawah meja" />
             </div>
             <div class="field">
               <span class="label">Kelebihan produk <span class="opt">(pilihan — kosong = web guna 💡 cadangan auto)</span></span>
@@ -83,8 +105,7 @@
                 <input id="f-k3" class="input" placeholder="3. Contoh: Banyak pilihan warna" />
               </div>
             </div>
-            <details class="more" id="more-product">
-              <summary>Lagi maklumat (sasaran, kempen)</summary>
+
               <div class="field">
                 <label for="f-untuk">Sesuai untuk <span class="opt">(pilihan)</span></label>
                 <input id="f-untuk" class="input" placeholder="Contoh: mak-mak bekerja, pelajar, isteri" />
@@ -97,15 +118,16 @@
           </div>
 
           <div class="card">
-            <h2><span class="step">2</span> Gaya post</h2>
+            <h2><span class="step">2</span> Post kat mana?</h2>
+            <div class="field">
+              <div class="chips" id="c-platform"></div>
+            </div>
+            <details class="more">
+              <summary>Tetapan lanjut</summary>
             <div class="field">
               <span class="label">Jenis post</span>
               <div class="chips style-chips" id="c-style"></div>
               <div class="hint" id="style-hint"></div>
-            </div>
-            <div class="field">
-              <span class="label">Nak post kat mana?</span>
-              <div class="chips" id="c-platform"></div>
             </div>
             <div class="field">
               <span class="label">Nada</span>
@@ -115,8 +137,6 @@
               <span class="label">Emoji</span>
               <div class="chips" id="c-emoji"></div>
             </div>
-            <details class="more">
-              <summary>Tetapan lanjut</summary>
               <div class="field">
                 <span class="label">Angle jualan <span class="opt">(kosong = semua, dirawakkan)</span></span>
                 <div class="chips" id="c-angles"></div>

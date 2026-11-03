@@ -477,7 +477,7 @@ B) {Settle sekali, terus selesa|Terus settle dengan {{namaPendek}}}
     id: 'cerita',
     label: '📖 Cerita / Storytelling',
     templates: [
-      `{Semalam|Minggu lepas|Hari tu} {kawan|adik|mak|housemate} [aku] {datang rumah|singgah}, terus {tegur|tanya}: "{Eh|Weh}, {sejak bila kemas macam ni|apa yang lain ni}? {Nampak|Macam} [best]!" {👀|😳}
+      `{Semalam|Minggu lepas|Hari tu} {kawan|adik|mak|housemate} [aku] {datang rumah|singgah}, terus {tegur|tanya}: "{Eh|Weh}, {apa yang lain ni|kau nampak lain la}? {Nampak|Macam} [best]!" {👀|😳}
 
 [Aku] {tunjuk|kenalkan} {{nama}}.
 {Lepas tu|Terus} dia {order|checkout} {satu|sebiji} {jugak|} 😂

@@ -8,6 +8,7 @@ import {
   generatePosts, rerollPost, generatePlan, buildAIPrompt, guessCategory, detectSource, cleanProductName, smartName, parsePrice, fmtRM,
 } from './engine/generator.js';
 import { TONES, CATEGORIES, SEASONS, PLATFORMS, ANGLES, POSTER_HOOKS } from './engine/data.js';
+import { PERSONA_NICHES, DEFAULT_PERSONA, personaSummary } from './engine/persona.js';
 
 // =====================================================================
 //  Keadaan aplikasi
@@ -17,7 +18,7 @@ const DEFAULT_PRODUCT = {
   kategori: 'lain', kategoriManual: false, untuk: '', musim: 'tiada', image: '',
 };
 const DEFAULT_OPTS = {
-  platform: 'facebook', tone: 'santai', emoji: 'banyak', angles: [], count: 5,
+  platform: 'facebook', tone: 'santai', emoji: 'natural', angles: [], count: 3, natural: true,
   hashtags: true, engage: true, disclosure: false, useCustom: true, hooks: true, linkComment: true, viral: true, style: 'story',
 };
 
@@ -39,7 +40,22 @@ const rememberSeen = (posts) => {
   seen = new Set(arr);
   store.set('seen', arr);
 };
-const optsForEngine = () => ({ ...state.opts, customTemplates: templates });
+// Gaya akaun (persona) — tetapkan sekali, semua caption ikut suara akaun.
+state.persona = { ...DEFAULT_PERSONA, ...store.get('persona', {}) };
+
+const optsForEngine = () => {
+  const p = state.persona;
+  const o = { ...state.opts, customTemplates: templates, natural: state.opts.natural !== false };
+  if (p.set) {
+    o.persona = p;
+    if (!state.opts.emojiOverride) o.emoji = p.emoji;
+    if (!state.opts.styleOverride) {
+      o.style = PERSONA_NICHES[p.niche]?.style || 'story';
+      o.viral = o.style !== 'jual';
+    }
+  }
+  return o;
+};
 
 // =====================================================================
 //  Tab
@@ -140,10 +156,14 @@ function updateBenefitHints() {
 }
 
 // Bila web tak pasti kategori, minta pengguna pilih (ayat caption bergantung pada kategori).
+let showKategori = false;
 function updateCategoryHint() {
   const p = state.product;
   const hint = $('#kategori-hint');
   if (!hint) return;
+  // Mod mudah: kategori hanya muncul bila web tak pasti (atau pengguna minta)
+  const unsure = Boolean(p.nama.trim()) && p.kategori === 'lain' && !p.kategoriManual;
+  $('#kategori-field').hidden = !(unsure || showKategori);
   if (!p.nama.trim()) { hint.textContent = ''; hint.className = 'status'; return; }
   if (p.kategori === 'lain' && !p.kategoriManual) {
     hint.textContent = '⚠️ Web tak pasti kategori produk ni — pilih yang paling dekat supaya ayat caption tepat.';
@@ -315,18 +335,26 @@ const STYLE_HINTS = {
   viral: '🚀 Pendek & punchy: POV, unpopular opinion, thread, tag kawan.',
   jual: '🎯 Terus kepada kelebihan, harga & diskaun.',
 };
-const styleHint = () => { $('#style-hint').textContent = STYLE_HINTS[state.opts.style] || ''; };
+const styleHint = () => {
+  $('#style-hint').textContent = state.opts.styleOverride ? (STYLE_HINTS[state.opts.style] || '') : '👤 Jenis post & angle dipilih ikut gaya akaun anda.';
+};
 chips($('#c-style'), [
+  { value: 'auto', label: '👤 Ikut akaun' },
   { value: 'story', label: '📖 Storyline' }, { value: 'viral', label: '🚀 Viral pendek' }, { value: 'jual', label: '🎯 Jualan terus' },
-], state.opts.style, { onChange: (v) => { setOpt('style')(v); state.opts.viral = v !== 'jual'; styleHint(); if (state.posts.length) runGenerate(); } });
+], state.opts.styleOverride ? state.opts.style : 'auto', {
+  onChange: (v) => {
+    if (v === 'auto') { state.opts.styleOverride = false; } else { state.opts.style = v; state.opts.viral = v !== 'jual'; state.opts.styleOverride = true; }
+    saveDraft(); styleHint(); if (state.posts.length) runGenerate();
+  },
+});
 styleHint();
 chips($('#c-platform'), Object.entries(PLATFORMS).map(([v, p]) => ({ value: v, label: `${p.icon} ${p.label}` })),
   state.opts.platform, { onChange: (v) => { setOpt('platform')(v); if (state.posts.length) runGenerate(); } });
 chips($('#c-tone'), Object.entries(TONES).map(([v, t]) => ({ value: v, label: t.label })),
   state.opts.tone, { onChange: (v) => { setOpt('tone')(v); if (state.posts.length) runGenerate(); } });
 chips($('#c-emoji'), [
-  { value: 'banyak', label: '🤩 Banyak' }, { value: 'sikit', label: '🙂 Sikit' }, { value: 'tiada', label: '🚫 Tiada' },
-], state.opts.emoji, { onChange: (v) => { setOpt('emoji')(v); if (state.posts.length) runGenerate(); } });
+  { value: 'natural', label: '🙂 Natural (maks 3)' }, { value: 'banyak', label: '🤩 Banyak' }, { value: 'sikit', label: '1 sebaris' }, { value: 'tiada', label: '🚫 Tiada' },
+], state.opts.emoji, { onChange: (v) => { state.opts.emojiOverride = true; setOpt('emoji')(v); if (state.posts.length) runGenerate(); } });
 chips($('#c-angles'), ANGLES.map((a) => ({ value: a.id, label: a.label })), state.opts.angles,
   { multi: true, onChange: setOpt('angles') });
 chips($('#c-count'), [3, 5, 8].map((n) => ({ value: n, label: `${n} caption` })), state.opts.count,
@@ -718,6 +746,42 @@ function renderTemplates() {
 // =====================================================================
 //  Mula
 // =====================================================================
+// ---------- Kad "Akaun saya" ----------
+function renderPersona() {
+  const p = state.persona;
+  $('#persona-line').textContent = p.set ? personaSummary(p) : 'Belum ditetapkan — tetapkan supaya caption ikut gaya akaun anda';
+  $('#persona-form').hidden = p.set && !renderPersona.editing;
+  $('#persona-edit').hidden = !p.set || renderPersona.editing;
+  $('#persona-card').classList.toggle('unset', !p.set);
+}
+const pDraft = { ...state.persona };
+chips($('#c-p-niche'), Object.entries(PERSONA_NICHES).map(([v, n]) => ({ value: v, label: n.label })), pDraft.niche,
+  { onChange: (v) => { pDraft.niche = v; } });
+chips($('#c-p-gender'), [{ value: 'f', label: '👩 Perempuan' }, { value: 'm', label: '👨 Lelaki' }], pDraft.gender,
+  { onChange: (v) => { pDraft.gender = v; } });
+chips($('#c-p-emoji'), [{ value: 'natural', label: 'Sikit' }, { value: 'banyak', label: 'Banyak' }, { value: 'tiada', label: 'Tiada' }], pDraft.emoji,
+  { onChange: (v) => { pDraft.emoji = v; } });
+chips($('#c-p-aku'), ['aku', 'saya', 'I'].map((v) => ({ value: v, label: v })), pDraft.aku,
+  { onChange: (v) => { pDraft.aku = v; } });
+chips($('#c-p-korang'), ['korang', 'awak semua', 'you guys'].map((v) => ({ value: v, label: v })), pDraft.korang,
+  { onChange: (v) => { pDraft.korang = v; } });
+$('#persona-edit').addEventListener('click', () => { renderPersona.editing = true; renderPersona(); });
+$('#persona-save').addEventListener('click', () => {
+  state.persona = { ...pDraft, set: true };
+  store.set('persona', state.persona);
+  // Gaya akaun ambil alih semula (buang pilihan manual lama)
+  state.opts.styleOverride = false;
+  state.opts.emojiOverride = false;
+  saveDraft();
+  renderPersona.editing = false;
+  renderPersona();
+  styleHint();
+  toast('✓ Gaya akaun disimpan');
+  if (state.posts.length) runGenerate();
+});
+renderPersona();
+$('#btn-show-kategori')?.addEventListener('click', () => { showKategori = true; updateCategoryHint(); $('#f-kategori').focus(); });
+
 fillForm();
 initPoster(() => state.product);
 initViral({

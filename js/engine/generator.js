@@ -1,5 +1,6 @@
 import { mulberry32, newSeed, pick, shuffle, spin, applyTone, hashText } from './spintax.js';
 import { benefitsFromName, problemsFromName } from './keywords.js';
+import { PERSONA_NICHES, PARTNER_BY_GENDER, applyVoice } from './persona.js';
 import { ENGAGE_BY_PLATFORM, stripBait, hasQuestion, OVERLAY_HOOKS, VIDEO_SCRIPT, MY_SLOTS } from './algo.js';
 import {
   TONES, CATEGORIES, SEASONS, PLATFORMS, SOURCES, ANGLES, CTA, ENGAGE, DISCLOSURE, PLAN_SLOTS, DAYS_MS,
@@ -196,6 +197,12 @@ function tidy(text) {
 
 function limitEmoji(text, level) {
   if (level === 'tiada') return tidy(text.replace(EMOJI_RE, ''));
+  if (level === 'natural') {
+    // Maks 3 emoji dalam keseluruhan post (abaikan baris hashtag) — nampak macam orang biasa menulis
+    let seen = 0;
+    return tidy(text.split('\n').map((line) => (line.trim().startsWith('#') ? line
+      : line.replace(EMOJI_RE, (m) => (seen++ < 3 ? m : '')))).join('\n'));
+  }
   if (level === 'sikit') {
     return tidy(text.split('\n').map((line) => {
       let seen = 0;
@@ -220,7 +227,8 @@ function compactBody(body, vars) {
 function pickHashtags(product, opts, rand) {
   const [min, max] = PLATFORMS[opts.platform].tags;
   if (!opts.hashtags || max === 0) return [];
-  const n = min + Math.floor(rand() * (max - min + 1));
+  let n = min + Math.floor(rand() * (max - min + 1));
+  if (opts.natural) n = Math.min(n, opts.platform === 'instagram' ? 5 : opts.platform === 'tiktok' ? 4 : 2);
   if (!n) return [];
   const cat = CATEGORIES[product.kategori] || CATEGORIES.lain;
   const src = SOURCES[product.source] || SOURCES.lain;
@@ -268,15 +276,33 @@ function buildPost(product, rawOpts, angle, templateIndex, seed) {
   const opts = { ...rawOpts, viral: postStyle(rawOpts) !== 'jual' };
   const rand = mulberry32(seed);
   const tone = fixTone(TONES[opts.tone] || TONES.santai, rand);
+  if (opts.persona?.aku) tone.aku = [opts.persona.aku];
+  if (opts.persona?.korang) tone.korang = [opts.persona.korang];
   const vars = buildVars(product, opts, rand, tone);
   const platform = PLATFORMS[opts.platform] || PLATFORMS.facebook;
 
   // Watak cerita (Mod Storyline)
   const cap = (x) => (x ? x.charAt(0).toUpperCase() + x.slice(1) : x);
   const catWatak = (CATEGORIES[product.kategori] || {}).watak || {};
-  vars.watak = pick(rand, catWatak[angle.watak] || WATAK[angle.watak] || WATAK.kawan);
+  const personaWatak = angle.watak === 'pasangan' && opts.persona?.gender ? PARTNER_BY_GENDER[opts.persona.gender] : null;
+  vars.watak = pick(rand, personaWatak || catWatak[angle.watak] || WATAK[angle.watak] || WATAK.kawan);
   vars.watakCap = cap(vars.watak);
   vars.k1Cap = cap(vars.k1); vars.k2Cap = cap(vars.k2); vars.k3Cap = cap(vars.k3);
+
+  // Mod natural: senarai berbullet → ayat biasa (kurang rasa "iklan template")
+  if (opts.natural && vars.k1) {
+    const two = vars.k2 ? [vars.k1i, vars.k2i] : [vars.k1i];
+    const prose = two.length === 2
+      ? render(pick(rand, [
+        'Yang paling [aku] suka: {{a}}, dan {{b}}.',
+        '{{A}}.\n{{B}}.',
+        'Paling terasa? {{a}}. Lepas tu, {{b}}.',
+        'Dua benda yang buat [aku] {suka|terus jatuh hati}: {{a}}, dan {{b}}.',
+      ]), rand, tone)
+      : render(pick(rand, ['Yang paling [aku] suka: {{a}}.', '{{A}}.']), rand, tone);
+    vars.senarai = prose.replace('{{a}}', two[0]).replace('{{b}}', two[1] || '')
+      .replace('{{A}}', cap(two[0])).replace('{{B}}', cap(two[1] || ''));
+  }
 
   // Threads: satu idea, nada berbual — senarai pendek (maks 2), tiada ayat khas / hook tambahan
   const isThreads = opts.platform === 'threads';
@@ -299,14 +325,14 @@ function buildPost(product, rawOpts, angle, templateIndex, seed) {
     const lines = body.split('\n');
     const idx = lines.findIndex((l) => l === lastBullet || l === vars.senaraiNombor.split('\n').pop());
     if (idx >= 0 && !body.includes(vars.khas)) {
-      lines.splice(idx + 1, 0, `${vars.senarai.startsWith('-') ? '-' : '👉'} ${vars.khas}`);
+      lines.splice(idx + 1, 0, opts.natural ? `${cap(vars.khas)}.` : `${vars.senarai.startsWith('-') ? '-' : '👉'} ${vars.khas}`);
       body = lines.join('\n');
     }
   }
 
   const blocks = [];
   // Hook "stop scroll" tambahan di baris pertama (bukan untuk X / angle yang ada format sendiri).
-  const hookChance = angle.story ? 0.3 : opts.viral ? 0.8 : 0.45;
+  const hookChance = opts.natural ? (angle.story ? 0.12 : 0.3) : angle.story ? 0.3 : opts.viral ? 0.8 : 0.45;
   if (opts.hooks !== false && !platform.compact && !useShort && !isThreads && !angle.noHook && rand() < hookChance) {
     const bank = angle.story ? STORY_HOOKS : opts.viral && rand() < 0.7 ? VIRAL_HOOKS : HOOKS;
     const hook = fill(render(pick(rand, bank), rand, tone), vars);
@@ -343,6 +369,7 @@ function buildPost(product, rawOpts, angle, templateIndex, seed) {
     text = [`*${first.replace(/\*/g, '')}*`, ...rest].join('\n');
   }
   text = limitEmoji(text, opts.emoji);
+  text = applyVoice(text, opts.persona);
   // Barang mahal: jangan cakap "RM499 je" — bunyi tak jujur
   if (isPricey(product)) text = text.replace(/(RM[\d.,]*\d)\s*(je|sahaja|JE|SAHAJA)(?![A-Za-z])/g, '$1');
 
@@ -366,7 +393,7 @@ function buildPost(product, rawOpts, angle, templateIndex, seed) {
 
   let comment = '';
   if (vars.link && linkInComment(opts)) {
-    comment = limitEmoji(tidy(dropEmptyLines(fill(render(pick(rand, COMMENT_TEXT), rand, tone), vars))), opts.emoji);
+    comment = applyVoice(limitEmoji(tidy(dropEmptyLines(fill(render(pick(rand, COMMENT_TEXT), rand, tone), vars))), opts.emoji), opts.persona);
   }
 
   // TikTok / Reels: teks atas video untuk 3 saat pertama + struktur video
@@ -455,6 +482,11 @@ export function anglePool(opts) {
   if (opts.angles?.length) {
     const chosen = pool.filter((a) => opts.angles.includes(a.id));
     if (chosen.length) return chosen;
+  }
+  const pAngles = opts.persona?.set ? PERSONA_NICHES[opts.persona.niche]?.angles : null;
+  if (pAngles?.length && !opts.styleOverride) {
+    const chosen = pool.filter((a) => pAngles.includes(a.id));
+    if (chosen.length >= 2) return chosen;
   }
   const style = postStyle(opts);
   if (style === 'story') {

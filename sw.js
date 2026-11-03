@@ -1,10 +1,10 @@
 // Service worker ringkas: web boleh dibuka walaupun internet lemah.
-const CACHE = 'racunpost-v17';
+const CACHE = 'racunpost-v18';
 // Path relatif supaya berfungsi di GitHub Pages (https://user.github.io/repo/).
 const SHELL = [
   './', './index.html', './styles.css', './manifest.webmanifest', './icons/icon.svg', './icons/icon-192.png',
   './js/app.js', './js/ui/util.js', './js/ui/poster.js', './js/ui/bulk.js', './js/ui/viralui.js',
-  './js/engine/data.js', './js/engine/generator.js', './js/engine/spintax.js', './js/engine/linkinfo.js', './js/engine/keywords.js', './js/engine/viral.js', './js/engine/algo.js',
+  './js/engine/data.js', './js/engine/generator.js', './js/engine/spintax.js', './js/engine/linkinfo.js', './js/engine/keywords.js', './js/engine/viral.js', './js/engine/algo.js', './js/engine/persona.js',
 ];
 
 self.addEventListener('install', (e) => {

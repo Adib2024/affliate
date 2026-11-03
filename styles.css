@@ -339,3 +339,12 @@ img.logo-mark { display: block; background: none; }
 .tips-card > summary::-webkit-details-marker { display: none; }
 .tips-list { margin: 10px 0 0; padding-left: 18px; display: grid; gap: 8px; font-size: 13.5px; }
 @media (max-width: 760px) { .overlay-box { margin: 0 12px 12px; } }
+
+/* ---------- Akaun saya (persona) ---------- */
+.persona-summary { display: flex; align-items: center; gap: 10px; }
+.persona-ico { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--brand-soft); font-size: 18px; flex: none; }
+.persona-text { flex: 1; min-width: 0; display: grid; }
+.persona-text small { color: var(--muted); font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.persona-form { margin-top: 12px; }
+.persona-card.unset { border-color: color-mix(in srgb, var(--brand) 55%, var(--line)); }
+.persona-card.unset .persona-text small { white-space: normal; }
