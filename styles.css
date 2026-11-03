@@ -60,7 +60,7 @@ a { color: var(--brand); }
 }
 .tab[aria-selected="true"] { background: var(--brand-soft); color: var(--brand); }
 .tab .ico { font-size: 16px; }
-@media (max-width: 760px) {
+@media (max-width: 1000px) {
   /* backdrop-filter jadikan header 'containing block' untuk elemen fixed — matikan di telefon */
   .top { backdrop-filter: none; background: var(--bg); }
   .tabs {
@@ -70,7 +70,7 @@ a { color: var(--brand); }
   .tab { flex-direction: column; gap: 0; font-size: 11px; padding: 6px 4px; flex: 1; }
   .tab .ico { font-size: 20px; }
 }
-@media (min-width: 761px) { body { padding-bottom: 24px; } }
+@media (min-width: 1001px) { body { padding-bottom: 24px; } }
 
 main { max-width: 1180px; margin: 0 auto; padding: 16px; }
 .view[hidden] { display: none !important; }
@@ -208,7 +208,7 @@ details.more[open] > summary::before { content: "－ "; }
   opacity: 0; pointer-events: none; transition: all .2s; z-index: 100; max-width: calc(100vw - 32px); text-align: center;
 }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-@media (min-width: 761px) { .toast { bottom: 24px; } }
+@media (min-width: 1001px) { .toast { bottom: 24px; } }
 
 .stat { font-size: 12.5px; color: var(--muted); }
 .stat b { color: var(--brand); }
@@ -253,7 +253,7 @@ footer { text-align: center; color: var(--muted); font-size: 12.5px; padding: 24
 img.logo-mark { display: block; background: none; }
 .mobile-cta { display: none; }
 
-@media (max-width: 760px) {
+@media (max-width: 1000px) {
   body { font-size: 15px; padding-bottom: calc(150px + env(safe-area-inset-bottom)); }
   body.no-cta { padding-bottom: calc(84px + env(safe-area-inset-bottom)); }
 
@@ -338,7 +338,7 @@ img.logo-mark { display: block; background: none; }
 .tips-card > summary { cursor: pointer; list-style: none; }
 .tips-card > summary::-webkit-details-marker { display: none; }
 .tips-list { margin: 10px 0 0; padding-left: 18px; display: grid; gap: 8px; font-size: 13.5px; }
-@media (max-width: 760px) { .overlay-box { margin: 0 12px 12px; } }
+@media (max-width: 1000px) { .overlay-box { margin: 0 12px 12px; } }
 
 /* ---------- Akaun saya (persona) ---------- */
 .persona-summary { display: flex; align-items: center; gap: 10px; }
@@ -348,3 +348,10 @@ img.logo-mark { display: block; background: none; }
 .persona-form { margin-top: 12px; }
 .persona-card.unset { border-color: color-mix(in srgb, var(--brand) 55%, var(--line)); }
 .persona-card.unset .persona-text small { white-space: normal; }
+
+/* Tablet: butang terapung & menu bawah tak terlalu lebar */
+@media (min-width: 640px) and (max-width: 1000px) {
+  .mobile-cta { left: 50%; right: auto; width: min(560px, calc(100vw - 24px)); transform: translateX(-50%); }
+  .tabs { justify-content: center; gap: 4px; }
+  .tab { flex: 0 1 96px; }
+}
